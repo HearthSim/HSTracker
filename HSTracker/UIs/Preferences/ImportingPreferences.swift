@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class ImportingPreferences: PreferencePaneController, NSControlTextEditingDelegate, PreferencePane {
-    let preferencePaneIdentifier = Preferences.PaneIdentifier.importing
+    let preferencePaneIdentifier = PreferencePaneIdentifier.importing
     
     let preferencePaneTitle = String.localizedString("Importing", comment: "")
     
-    let toolbarItemIcon = NSImage(named: "settings-importing")!
+    let preferencePaneIcon = NSImage(named: "settings-importing")!
 
     @IBOutlet var dungeonIncludePassives: NSButton!
     @IBOutlet var dungeonAdventure: NSComboBox!
@@ -110,6 +109,6 @@ class ImportingPreferences: PreferencePaneController, NSControlTextEditingDelega
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let importing = Self("importing")
 }

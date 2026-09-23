@@ -7,17 +7,16 @@
 //
 
 import Foundation
-import Preferences
 
 /// Ports HDT's FlyoutControls/Options/Overlay/OverlayTheOutfinder.xaml{,.cs} - the dedicated
 /// settings section for The OutFinder, with the same five checkboxes in the same order, and the
 /// same nesting: the four detail options are disabled while the master switch is off.
 class TheOutfinderPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.the_outfinder
+    var preferencePaneIdentifier = PreferencePaneIdentifier.the_outfinder
 
     var preferencePaneTitle = String.localizedString("The OutFinder", comment: "")
 
-    var toolbarItemIcon = NSImage(named: "settings-outfinder")!
+    var preferencePaneIcon = NSImage(named: "settings-outfinder")!
 
     @IBOutlet var outfinderEnabled: NSButton!
     @IBOutlet var outfinderInDeck: NSButton!
@@ -67,6 +66,6 @@ class TheOutfinderPreferences: PreferencePaneController, PreferencePane {
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let the_outfinder = Self("the_outfinder")
 }

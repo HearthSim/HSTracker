@@ -559,6 +559,8 @@
 		7B728A751C3E1EB6C05C02C0 /* SuspiciousPeddler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1758DC225CCE31EECE72F7C1 /* SuspiciousPeddler.swift */; };
 		7B7D01BB3A13AF96BBD07F58 /* ServantOfYoggSaronOG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CFA4B3FB13D1408C3CEF02 /* ServantOfYoggSaronOG.swift */; };
 		7BA4A8162FF3EA91000B3784 /* PreferencePaneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */; };
+		7BA4A81A2FF3EA91000B3784 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8192FF3EA91000B3784 /* PreferencesWindowController.swift */; };
+		7BA4A8182FF3EA91000B3784 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4A8172FF3EA91000B3784 /* PreferencePane.swift */; };
 		7C59D30539522F2389E30CC7 /* FrostStrikeCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240FA18672CA52E67621556 /* FrostStrikeCore.swift */; };
 		7CB5639F5373468CDEE7FAB2 /* AzureExplorer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99931A7DDF30051A1400D40D /* AzureExplorer.swift */; };
 		7CEA5DD217F20B69CE40506B /* RelatedCardsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E576F3EC8EA75CED83D3BE0 /* RelatedCardsPreferences.swift */; };
@@ -1494,8 +1496,6 @@
 		B8D22EAD301BC61600E44909 /* AutoAssemblerEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D22EAC301BC61600E44909 /* AutoAssemblerEnchantment.swift */; };
 		B8D34D35294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D34294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift */; };
 		B8D34D37294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */; };
-		B8D75B9625B4799200446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75B9525B4799200446923 /* Preferences */; };
-		B8D75BA425BA21C900446923 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BA325BA21C900446923 /* Preferences */; };
 		B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BAE25BCE68900446923 /* SwiftyBeaver */; };
 		B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BBC25BCEACB00446923 /* TextAttributes */; };
 		B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC225BD10B600446923 /* OAuthSwift */; };
@@ -2488,6 +2488,8 @@
 		7B42AA839ED64B929A59B2B4 /* Flashback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashback.swift; sourceTree = "<group>"; };
 		7B788246498AF79E63081B07 /* GrandCrusader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrandCrusader.swift; sourceTree = "<group>"; };
 		7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePaneController.swift; sourceTree = "<group>"; };
+		7BA4A8192FF3EA91000B3784 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		7BA4A8172FF3EA91000B3784 /* PreferencePane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencePane.swift; sourceTree = "<group>"; };
 		7BD76584F29E2099B9E53465 /* GuardDog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardDog.swift; sourceTree = "<group>"; };
 		7C679C0AAE9E03F33A871668 /* BloodDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodDraw.swift; sourceTree = "<group>"; };
 		7D094BD98A4373D7763B276D /* FalseDisciple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FalseDisciple.swift; sourceTree = "<group>"; };
@@ -3803,7 +3805,6 @@
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
-				B8D75B9625B4799200446923 /* Preferences in Frameworks */,
 				B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */,
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
@@ -3823,7 +3824,6 @@
 				B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				B887656A26C304FA003D3629 /* BigInt in Frameworks */,
-				B8D75BA425BA21C900446923 /* Preferences in Frameworks */,
 				B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
@@ -4007,6 +4007,8 @@
 			isa = PBXGroup;
 			children = (
 				7BA4A8152FF3EA91000B3784 /* PreferencePaneController.swift */,
+				7BA4A8192FF3EA91000B3784 /* PreferencesWindowController.swift */,
+				7BA4A8172FF3EA91000B3784 /* PreferencePane.swift */,
 				B8AA20012FC2000100AA2001 /* ArenaPreferences.swift */,
 				B8AA20062FC2000100AA2006 /* ArenaPreferences.xib */,
 				B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */,
@@ -6652,7 +6654,6 @@
 			);
 			name = HSTracker;
 			packageProductDependencies = (
-				B8D75B9525B4799200446923 /* Preferences */,
 				B8D75BAE25BCE68900446923 /* SwiftyBeaver */,
 				B8D75BBC25BCEACB00446923 /* TextAttributes */,
 				B8D75BC225BD10B600446923 /* OAuthSwift */,
@@ -6688,7 +6689,6 @@
 			);
 			name = HSTrackerTests;
 			packageProductDependencies = (
-				B8D75BA325BA21C900446923 /* Preferences */,
 				B8D75BC425BDAF1300446923 /* SwiftyBeaver */,
 				B8D75BCE25BDAF1300446923 /* TextAttributes */,
 				B8D75BD025BDAF1300446923 /* OAuthSwift */,
@@ -6752,7 +6752,6 @@
 			);
 			mainGroup = 439C7E3F1C7772C000D29859;
 			packageReferences = (
-				B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */,
 				B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 				B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */,
 				B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
@@ -7448,6 +7447,8 @@
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
 				B8AEB60D2FB2731E00CDA2C0 /* LeylineCostReductionCounter.swift in Sources */,
 				7BA4A8162FF3EA91000B3784 /* PreferencePaneController.swift in Sources */,
+				7BA4A81A2FF3EA91000B3784 /* PreferencesWindowController.swift in Sources */,
+				7BA4A8182FF3EA91000B3784 /* PreferencePane.swift in Sources */,
 				B89865AF2D91D6D300BA5649 /* InterstellarResearcher.swift in Sources */,
 				B83336012F620CFC00923513 /* CommanderGeddonEnchantment.swift in Sources */,
 				B83335F92F62095500923513 /* WarlocEnchantment.swift in Sources */,
@@ -9412,14 +9413,6 @@
 				minimumVersion = 1.2.0;
 			};
 		};
-		B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/Preferences";
-			requirement = {
-				kind = exactVersion;
-				version = 2.5.0;
-			};
-		};
 		B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver";
@@ -9524,16 +9517,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */;
 			productName = Atomics;
-		};
-		B8D75B9525B4799200446923 /* Preferences */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;
-			productName = Preferences;
-		};
-		B8D75BA325BA21C900446923 /* Preferences */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75B9425B4799100446923 /* XCRemoteSwiftPackageReference "Preferences" */;
-			productName = Preferences;
 		};
 		B8D75BAE25BCE68900446923 /* SwiftyBeaver */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,7 +7,6 @@
 //
 
 import AppKit
-import Preferences
 import SwiftUI
 
 /// Per-counter, per-side control over which counters are shown - HDT's Overlay > Counters
@@ -16,11 +15,20 @@ import SwiftUI
 /// Built in code rather than from a nib: the page is one row per counter type, generated
 /// from the catalog, so a new counter shows up here without anything being touched.
 class CountersPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.counters
+    var preferencePaneIdentifier = PreferencePaneIdentifier.counters
 
     var preferencePaneTitle = String.localizedString("Options_Overlay_Counters_Header", comment: "")
 
-    var toolbarItemIcon = NSImage(named: "settings-counters")!
+    var preferencePaneIcon = NSImage(named: "settings-counters")!
+
+    var preferencePaneSearchText: [String] {
+        let labels = ["OptionsCounters_Description", "OptionsCounters_Filter_Placeholder", "OptionsCounters_ResetAll",
+                      "OptionsCounters_Column_Player", "OptionsCounters_Column_Opponent",
+                      "OptionsCounters_Group_Traditional", "OptionsCounters_Group_Battlegrounds"]
+            .map { String.localizedString($0, comment: "") }
+        guard let game = AppDelegate.instance().coreManager?.game else { return labels }
+        return labels + CounterCatalog.descriptors(game: game).map(\.displayName)
+    }
 
     override func makeContentView() -> NSView? {
         let hosting = NSHostingView(rootView: CountersPreferencesView())
@@ -29,7 +37,7 @@ class CountersPreferences: PreferencePaneController, PreferencePane {
     }
 }
 
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let counters = Self("counters")
 }
 
@@ -125,7 +133,8 @@ struct CountersPreferencesView: View {
                 .padding(.top, 4)
             }
         }
-        .frame(width: PreferencePaneController.fixedWidth,
+        // The padding goes around this frame, so it comes out of the pane's width.
+        .frame(width: PreferencePaneController.fixedWidth - 40,
                height: Self.listHeight + 120,
                alignment: .leading)
         .padding(20)

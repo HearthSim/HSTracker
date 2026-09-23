@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class GamePreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.game
+    var preferencePaneIdentifier = PreferencePaneIdentifier.game
     
     var preferencePaneTitle = String.localizedString("Game", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-game")!
+    var preferencePaneIcon = NSImage(named: "settings-game")!
 
     @IBOutlet var hearthstonePath: NSTextField!
     @IBOutlet var chooseHearthstonePath: NSButton!
@@ -43,13 +42,12 @@ class GamePreferences: PreferencePaneController, PreferencePane {
             alert.alertStyle = .critical
             alert.messageText = String.localizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
             alert.addButton(withTitle: String.localizedString("OK", comment: ""))
-            // The Preferences package animates the tab transition inside an
-            // NSAnimationContext group, and sends viewWillAppear from within it,
-            // so we are inside a CoreAnimation transaction here. -[NSAlert runModal]
-            // raises NSGenericException in that state and the exception is not
-            // caught, which killed the app for anyone opening this pane without a
-            // valid Hearthstone path (Sentry HSTRACKER-309). Run it once the
-            // transaction has committed instead.
+            // viewWillAppear is sent while the settings window is still putting
+            // this pane on screen. -[NSAlert runModal] from inside the old
+            // settings window's animated tab switch raised NSGenericException,
+            // uncaught, which killed the app for anyone opening this pane without
+            // a valid Hearthstone path (Sentry HSTRACKER-309). Run it once the
+            // pane is up instead.
             DispatchQueue.main.async {
                 alert.runModal()
             }
@@ -157,6 +155,6 @@ extension GamePreferences: NSOpenSavePanelDelegate {
 }
 
 // MARK: - MASPreferencesViewController
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let game = Self("game")
 }

@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class TrackersPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.trackers
+    var preferencePaneIdentifier = PreferencePaneIdentifier.trackers
     
     var preferencePaneTitle = String.localizedString("Trackers", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-trackers")!
+    var preferencePaneIcon = NSImage(named: "settings-trackers")!
 
     @IBOutlet var highlightCardsInHand: NSButton!
     @IBOutlet var highlightLastDrawn: NSButton!
@@ -181,6 +180,6 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let trackers = Self("trackers")
 }

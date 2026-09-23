@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class HSReplayPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.hsreplay
+    var preferencePaneIdentifier = PreferencePaneIdentifier.hsreplay
     
     var preferencePaneTitle = "HSReplay"
     
-    var toolbarItemIcon = NSImage(named: "settings-hsreplay")!
+    var preferencePaneIcon = NSImage(named: "settings-hsreplay")!
     
     @IBOutlet var synchronizeMatches: NSButton!
     @IBOutlet var gameTypeSelector: NSView!
@@ -219,6 +218,6 @@ enum SubscriptionStatus {
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let hsreplay = Self("hsreplay")
 }

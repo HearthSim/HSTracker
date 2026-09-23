@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.battlegrounds
+    var preferencePaneIdentifier = PreferencePaneIdentifier.battlegrounds
     
     var preferencePaneTitle = String.localizedString("Battlegrounds", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-battlegrounds")!
+    var preferencePaneIcon = NSImage(named: "settings-battlegrounds")!
 
     @IBOutlet var enableTier7Overlay: NSButton!
     @IBOutlet var showTier7PreLobby: NSButton!
@@ -306,6 +305,6 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
 
 // MARK: - Preferences
 
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let battlegrounds = Self("battlegrounds")
 }

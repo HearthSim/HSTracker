@@ -9,7 +9,6 @@
 import AppKit
 import SwiftyBeaver
 let logger = SwiftyBeaver.self
-import Preferences
 import Sparkle
 import Sentry
 import AppMover
@@ -43,30 +42,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     var triggers: [NSObjectProtocol] = []
     
     lazy var preferences: PreferencesWindowController = {
-        var panes: [PreferencePane] = [
-            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
-            GamePreferences(nibName: "GamePreferences", bundle: nil),
-            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
-            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil),
-            PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
-            OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
-            TheOutfinderPreferences(nibName: "TheOutfinderPreferences", bundle: nil),
-            BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
-            ArenaPreferences(nibName: "ArenaPreferences", bundle: nil),
-            MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil),
-            ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
-        ]
-        // Built in code, so they have no nib to name - see OverlayLayoutPreferences,
-        // RelatedCardsPreferences and CountersPreferences.
-        panes.insert(OverlayLayoutPreferences(), at: 3)
-        // Next to the Opponent pane, whose "Show related cards" checkbox gates the list
-        // this one configures.
-        panes.insert(RelatedCardsPreferences(), at: 7)
-        // After The OutFinder, where HDT lists its Counters page among the overlay options.
-        panes.insert(CountersPreferences(), at: 9)
-        // Each pane fixes its own width (see PreferencePaneController), so the window keeps a
-        // constant width across panes and only its height adapts.
-        return PreferencesWindowController(preferencePanes: panes, style: .toolbarItems, animated: true)
+        // The two sections follow HDT's options menu, which also files the game modes' panes
+        // under its overlay options.
+        PreferencesWindowController(groups: [
+            PreferencePaneGroup(title: String.localizedString("Options_Tracker_Header", comment: ""), panes: [
+                GeneralPreferences(nibName: "GeneralPreferences", bundle: nil),
+                GamePreferences(nibName: "GamePreferences", bundle: nil),
+                HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil),
+                ImportingPreferences(nibName: "ImportingPreferences", bundle: nil)
+            ]),
+            PreferencePaneGroup(title: String.localizedString("Options_Overlay_Header", comment: ""), panes: [
+                TrackersPreferences(nibName: "TrackersPreferences", bundle: nil),
+                // Built in code, so they have no nib to name - see OverlayLayoutPreferences,
+                // RelatedCardsPreferences and CountersPreferences.
+                OverlayLayoutPreferences(),
+                PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil),
+                OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil),
+                // Next to the Opponent pane, whose "Show related cards" checkbox gates the list
+                // this one configures.
+                RelatedCardsPreferences(),
+                TheOutfinderPreferences(nibName: "TheOutfinderPreferences", bundle: nil),
+                // After The OutFinder, where HDT lists its Counters page among the overlay options.
+                CountersPreferences(),
+                BattlegroundsPreferences(nibName: "BattlegroundsPreferences", bundle: nil),
+                ArenaPreferences(nibName: "ArenaPreferences", bundle: nil),
+                MercenariesPreferences(nibName: "MercenariesPreferences", bundle: nil)
+            ])
+        ])
     }()
     
     func applicationWillFinishLaunching(_ notification: Notification) {
@@ -780,7 +782,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         preferences.show()
     }
     
-    func openPreferences(pane: Preferences.PaneIdentifier) {
+    func openPreferences(pane: PreferencePaneIdentifier) {
         preferences.show(preferencePane: pane)
     }
     

@@ -7,7 +7,6 @@
 //
 
 import AppKit
-import Preferences
 import SwiftUI
 
 /// Per-card control over the opponent's "Related Cards" list - HDT's Overlay > Related
@@ -16,11 +15,18 @@ import SwiftUI
 /// Built in code rather than from a nib: the page is one row per registered related card,
 /// and there are hundreds of them, so the rows have to be generated from the catalog.
 class RelatedCardsPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.related_cards
+    var preferencePaneIdentifier = PreferencePaneIdentifier.related_cards
 
     var preferencePaneTitle = String.localizedString("Options_Overlay_RelatedCards_Header", comment: "")
 
-    var toolbarItemIcon = NSImage(named: "settings-related-cards")!
+    var preferencePaneIcon = NSImage(named: "settings-related-cards")!
+
+    var preferencePaneSearchText: [String] {
+        ["OptionsRelatedCards_Description", "OptionsRelatedCards_Filter_Placeholder",
+         "OptionsRelatedCards_CustomizedOnly", "OptionsCounters_ResetAll", "OptionsCounters_Column_Opponent"]
+            .map { String.localizedString($0, comment: "") }
+            + RelatedCardCatalog.descriptors.map(\.displayName)
+    }
 
     override func makeContentView() -> NSView? {
         let hosting = NSHostingView(rootView: RelatedCardsPreferencesView())
@@ -29,7 +35,7 @@ class RelatedCardsPreferences: PreferencePaneController, PreferencePane {
     }
 }
 
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let related_cards = Self("related_cards")
 }
 
@@ -102,7 +108,8 @@ struct RelatedCardsPreferencesView: View {
                 .padding(.top, 4)
             }
         }
-        .frame(width: PreferencePaneController.fixedWidth,
+        // The padding goes around this frame, so it comes out of the pane's width.
+        .frame(width: PreferencePaneController.fixedWidth - 40,
                height: Self.listHeight + 120,
                alignment: .leading)
         .padding(20)
