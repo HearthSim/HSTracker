@@ -317,6 +317,7 @@ extension CardIds.Collectible {
         static let ForbiddenShrine = "EDR_520"
         static let ScrappyScavenger = "TLC_461"
         static let ArrivalOfTheTitans = "BE_EVENT_101"
+        static let DragoncallerAlanna = "LOOT_535"
     }
 }
 
