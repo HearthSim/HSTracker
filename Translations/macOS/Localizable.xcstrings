@@ -333,6 +333,12 @@
             "state" : "translated",
             "value" : "Aberration"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abscheulichkeit"
+          }
         }
       }
     },
@@ -1966,6 +1972,12 @@
             "value" : "%@ Group"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gruppe %@"
+          }
+        },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2078,6 +2090,12 @@
             "value" : "Quest: This card helps to complete your %@ quest"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quest: Diese Karte hilft dir, deine Quest „%@“ abzuschließen"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2159,6 +2177,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Duplicate: Will disable %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplikat: Deaktiviert %@"
           }
         },
         "es" : {
@@ -2244,6 +2268,12 @@
             "value" : "Frequently offered card: Increases chance of finding a duplicate later"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Häufig angebotene Karte: Erhöht die Chance, später ein Duplikat zu finden"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2325,6 +2355,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Low Synergy: Low chance to obtain enough synergy with %d picks remaining"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geringe Synergie: Mit %d verbleibenden Picks ist es unwahrscheinlich, genügend Synergien zu erreichen"
           }
         },
         "es" : {
@@ -2410,6 +2446,12 @@
             "value" : "Duplicate: Lowers chance of battlecry for %@"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplikat: Senkt die Chance auf den Kampfschrei von %@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2491,6 +2533,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Super Rare: This card appears in %@%% of drafts"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sehr selten: Diese Karte erscheint in %@%% der Deckbauten"
           }
         },
         "es" : {
@@ -4353,7 +4401,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Danke, dass du ein Premium-Abonnent bis!"
+            "value" : "Danke, dass du ein Premium-Abonnent bist!"
           }
         },
         "en" : {
@@ -5108,6 +5156,12 @@
             "value" : "These panels show the middle 80th percentile of possible damage outcomes."
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Felder zeigen die mittleren 80 Prozent der möglichen Schadensergebnisse."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5312,6 +5366,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Battlegrounds"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schlachtfeld"
           }
         },
         "fr" : {
@@ -5988,6 +6048,12 @@
             "value" : "Failed to load compositions"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comps konnten nicht geladen werden"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6020,7 +6086,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⌀-Plazierung"
+            "value" : "Ø-Platzierung"
           }
         },
         "en" : {
@@ -6068,6 +6134,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Composition"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comp"
           }
         },
         "ko" : {
@@ -6494,6 +6566,12 @@
             "value" : "Latest 8 games will appear here."
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die letzten 8 Partien werden hier angezeigt."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6527,6 +6605,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Composition Stats"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comp-Statistik"
           }
         },
         "fr" : {
@@ -7042,6 +7126,12 @@
             "value" : "No composition data"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Comp-Daten"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7128,6 +7218,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The final placement the hero achieves on average, adjusted for the available minion types"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Endplatzierung, die dieser Held im Durchschnitt erreicht, angepasst an die verfügbaren Dienertypen"
           }
         },
         "fr" : {
@@ -7275,6 +7371,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Percent of the time this hero is picked at the start of a game when presented as an option"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie oft dieser Held zu Beginn einer Partie gewählt wird, wenn er zur Auswahl steht, in Prozent"
           }
         },
         "fr" : {
@@ -7651,6 +7753,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Percentage of 1st place finishes"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anteil der Partien auf dem 1. Platz"
           }
         },
         "fr" : {
@@ -8177,6 +8285,12 @@
             "value" : "Sign in to HSReplay.net to access Pick Rates, Average Placements, and more!"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melde dich bei HSReplay.net an, um Pickraten, durchschnittliche Platzierungen und mehr zu sehen!"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8302,6 +8416,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hover for more details"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für mehr Details mit der Maus darüberfahren"
           }
         },
         "fr" : {
@@ -8649,6 +8769,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enjoy the new season with all the Tier7 stats and features saving up to %d%% for a limited time!"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starte mit allen Tier7-Statistiken und -Features in die neue Saison und spare für kurze Zeit bis zu %d%%!"
           }
         },
         "ko" : {
@@ -9215,6 +9341,12 @@
             "value" : "The final placement this reward achieves on average, adjusted for your hero and the available minion types"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Endplatzierung, die diese Belohnung im Durchschnitt erreicht, angepasst an deinen Helden und die verfügbaren Dienertypen"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9248,6 +9380,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Percent of the time this reward is picked by first place players"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie oft diese Belohnung von Spielern auf dem 1. Platz gewählt wird, in Prozent"
           }
         },
         "fr" : {
@@ -9365,6 +9503,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reign of the Black Empire"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herrschaft des Schwarzen Imperiums"
           }
         }
       }
@@ -11187,6 +11331,12 @@
             "state" : "translated",
             "value" : "Drawn by %@"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gezogen durch %@"
+          }
         }
       }
     },
@@ -11701,6 +11851,12 @@
             "value" : "HAND RANK"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HANDRANG"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11772,6 +11928,12 @@
             "value" : "Hand Rank"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handrang"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11805,6 +11967,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep Rate"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behaltequote"
           }
         },
         "fr" : {
@@ -11842,6 +12010,12 @@
             "value" : "Percent of the time this card is kept when presented during Mulligan."
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie oft diese Karte behalten wird, wenn sie beim Mulligan angeboten wird, in Prozent."
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11875,6 +12049,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep Rate"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behaltequote"
           }
         },
         "fr" : {
@@ -11945,6 +12125,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Average winrate of games where this card ends up in the opening hand."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durchschnittliche Gewinnrate der Partien, in denen diese Karte in der Starthand landet."
           }
         },
         "fr" : {
@@ -15468,6 +15654,12 @@
             "value" : "Overdrawn"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überzogen"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17792,6 +17984,12 @@
             "state" : "translated",
             "value" : "Graveyard"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friedhof"
+          }
         }
       }
     },
@@ -18501,6 +18699,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Find Meta Decks"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meta-Decks finden"
           }
         },
         "ko" : {
@@ -26460,6 +26664,12 @@
             "state" : "translated",
             "value" : "No minions on board"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Diener auf dem Board"
+          }
         }
       }
     },
@@ -27246,6 +27456,12 @@
             "value" : "Show Opponent's Legendary groups"
           }
         },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legendäre Gruppen des Gegners anzeigen"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27273,6 +27489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dynamically appears during match when the opponent plays a card that can identify the group"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erscheint während der Partie, sobald der Gegner eine Karte ausspielt, anhand der sich die Gruppe bestimmen lässt"
           }
         },
         "pt-BR" : {
@@ -29086,6 +29308,12 @@
             "state" : "translated",
             "value" : "Overlay layout"
           }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overlay-Layout"
+          }
         }
       }
     },
@@ -29096,6 +29324,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Section order:"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reihenfolge der Bereiche:"
           }
         }
       }
@@ -30980,6 +31214,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Secret helper"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Secret-Helper"
           }
         }
       }
@@ -34757,6 +34997,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compare Timewarped Cards"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeitverzerrte Karten vergleichen"
           }
         },
         "ko" : {
