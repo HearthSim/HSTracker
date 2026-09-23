@@ -395,6 +395,7 @@
 		480F124A16C342BC0FABD117 /* NefersetWeaponsmith.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B4879D1F841A5C5B881C07 /* NefersetWeaponsmith.swift */; };
 		48322B90DCAA4448B36B9F1C /* BattlegroundsCompositionPopularityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75211172CFA463FA1833F50 /* BattlegroundsCompositionPopularityView.swift */; };
 		490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */; };
+		A1FA0F4C87D99B499D313CA0 /* ReflectionHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96127C26777821E51B4751B /* ReflectionHelperTests.swift */; };
 		49343FDE7AA0367B0160D8C2 /* WandThief.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C3A83B70B12BF750F562 /* WandThief.swift */; };
 		497E54F9A862A0502E3E53F2 /* StolenSteel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00C645B34B9238100C9B1F8 /* StolenSteel.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
@@ -1913,6 +1914,7 @@
 		0093278898A576BD6877B781 /* TheSunwell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheSunwell.swift; sourceTree = "<group>"; };
 		00BFAC2B12E59F4823A7F163 /* ThreshridersBlessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreshridersBlessing.swift; sourceTree = "<group>"; };
 		00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerPanelLayoutTests.swift; sourceTree = "<group>"; };
+		B96127C26777821E51B4751B /* ReflectionHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionHelperTests.swift; sourceTree = "<group>"; };
 		011F18270F3BFB47C67ED301 /* TheRunespear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheRunespear.swift; sourceTree = "<group>"; };
 		016692564B00DD8F5DDF354B /* LinaShopManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinaShopManager.swift; sourceTree = "<group>"; };
 		024361DC162B7159D7896147 /* MuckPools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuckPools.swift; sourceTree = "<group>"; };
@@ -4194,6 +4196,7 @@
 				8A81ED9C5D9E0C8B7B59D47B /* RelatedCardVisibilitySettingsTests.swift */,
 				F30A65480677593C5B740634 /* CounterVisibilitySettingsTests.swift */,
 				00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */,
+				B96127C26777821E51B4751B /* ReflectionHelperTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
 				C94596811D174FBA008CD47A /* StatsTests.swift */,
@@ -8802,6 +8805,7 @@
 				361D169ACCA1FD1FF886552A /* RelatedCardVisibilitySettingsTests.swift in Sources */,
 				1FF1181E24A5805352427D88 /* CounterVisibilitySettingsTests.swift in Sources */,
 				490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */,
+				A1FA0F4C87D99B499D313CA0 /* ReflectionHelperTests.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,
 				1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */,
