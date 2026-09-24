@@ -57,6 +57,7 @@ struct BattlegroundsCardsGroupView: View {
                 // tavern spells do not.
                 MinionCardRow(card: card,
                               showInspiration: group.isInspirationEnabled && card.type == .minion,
+                              isDarkened: group.bannedDbfIds.contains(card.dbfId),
                               pinning: pinning,
                               rowHover: rowHover)
             }
@@ -231,6 +232,8 @@ struct MinionCardRow: View {
     let card: Card
     // AnimatedCard.Update's showTier7InspirationBtn.
     let showInspiration: Bool
+    // BattlegroundsCardTile's IsDarkened: a card the minion pool has banned.
+    var isDarkened = false
     @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
     @ObservedObject var rowHover: RowHoverCoordinator
     /// See `OverlayThemeObserver`: these bars are drawn from the same theme the
@@ -298,6 +301,12 @@ struct MinionCardRow: View {
                 if isSpell { spellCoin }
             }
             .frame(height: Self.rowH)
+
+            // <Grid Background="#000000" Opacity="0.6" Visibility="{Binding IsDarkened, ...}"/>
+            // on top of the whole tile, below the AnimatedCard's buttons.
+            if isDarkened {
+                Color.black.opacity(0.6)
+            }
         }
         .frame(maxWidth: .infinity)
         .frame(height: Self.rowH)

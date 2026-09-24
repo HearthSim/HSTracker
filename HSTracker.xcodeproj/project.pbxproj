@@ -1733,6 +1733,7 @@
 		CF48CFF4465788DC7A61837F /* SecretPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A99E1F30E14766662C9E9B /* SecretPlan.swift */; };
 		D01582A9C9225274F35705E3 /* RiteOfAtrocity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0431454C0949B97A41A6CC2 /* RiteOfAtrocity.swift */; };
 		D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */; };
+		FDCD8F8804C39B9E13F8D4BD /* BattlegroundsDbMinionPoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45655C238585D4BF846DF0 /* BattlegroundsDbMinionPoolTests.swift */; };
 		D12A464FC97B4DBF2EC40DB0 /* ScarabKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A37F0108C6C0EB95AC68DA4 /* ScarabKeychain.swift */; };
 		D14A1C61FB31DFC8627B5343 /* PoolContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B85B6980B9A344E344EBCB /* PoolContext.swift */; };
 		D223468F561D8A0699794F38 /* PuzzleBoxOfYoggSaron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C400898AA61CA993BE59AFC /* PuzzleBoxOfYoggSaron.swift */; };
@@ -2378,6 +2379,7 @@
 		5537E7CD7F6D8796DF7305E1 /* ContainmentUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainmentUnit.swift; sourceTree = "<group>"; };
 		558FC9BE93EE633F8821DB77 /* FranticForger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FranticForger.swift; sourceTree = "<group>"; };
 		55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDbTests.swift; sourceTree = "<group>"; };
+		7C45655C238585D4BF846DF0 /* BattlegroundsDbMinionPoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDbMinionPoolTests.swift; sourceTree = "<group>"; };
 		55D13E664DE30C03F7F95E7B /* SecretIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretIngredient.swift; sourceTree = "<group>"; };
 		55DD761DCC1540C631AB48F5 /* DiseasedVulture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiseasedVulture.swift; sourceTree = "<group>"; };
 		55FC72C7EE79DFD077F2A735 /* NagaAllies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NagaAllies.swift; sourceTree = "<group>"; };
@@ -4196,6 +4198,7 @@
 				B8F1A00324F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift */,
 				59AC68FC073DF2A0DBAB9790 /* GodfreyOverdrawnTests.swift */,
 				55B107BF8118B600DF68D3BE /* BattlegroundsDbTests.swift */,
+				7C45655C238585D4BF846DF0 /* BattlegroundsDbMinionPoolTests.swift */,
 				102EDFA463668F57A17A24D8 /* PlayerResourcesViewModelTests.swift */,
 				8A81ED9C5D9E0C8B7B59D47B /* RelatedCardVisibilitySettingsTests.swift */,
 				F30A65480677593C5B740634 /* CounterVisibilitySettingsTests.swift */,
@@ -8808,6 +8811,7 @@
 				B8F1A00424F4185200F2F0F2 /* BobsBuddySimulationFailureTests.swift in Sources */,
 				41CF366434305109269D5CB2 /* GodfreyOverdrawnTests.swift in Sources */,
 				D0E7DEDC34BEFCFD07851AF5 /* BattlegroundsDbTests.swift in Sources */,
+				FDCD8F8804C39B9E13F8D4BD /* BattlegroundsDbMinionPoolTests.swift in Sources */,
 				528EEF50E2977AE5C12DA757 /* PlayerResourcesViewModelTests.swift in Sources */,
 				361D169ACCA1FD1FF886552A /* RelatedCardVisibilitySettingsTests.swift in Sources */,
 				1FF1181E24A5805352427D88 /* CounterVisibilitySettingsTests.swift in Sources */,

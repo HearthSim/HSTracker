@@ -187,19 +187,22 @@ class BaseCounter: NSObject {
     final let _alwaysAvailableCards = [ CardIds.NonCollectible.Neutral.BoonofBeetles_BeetleToken1, CardIds.NonCollectible.Neutral.BloodGem1, CardIds.NonCollectible.Neutral.TwilightHatchling_TwilightWhelpToken ]
 
     private var _availableCardIds: Set<Int>?
+    private weak var _availableCardIdsDb: BattlegroundsDb?
     
     private func getAvailableCardIds() -> Set<Int>? {
-        if let availableCardIds = _availableCardIds {
+        let db = BattlegroundsDbSingleton.current
+        if let availableCardIds = _availableCardIds, _availableCardIdsDb === db {
             return availableCardIds
         }
         guard let availableRaces = game.availableRaces else {
             return nil
         }
         let currentRaces = Set<Race>(availableRaces) + [ .all, .invalid ]
-        let availableCards = BattlegroundsDbSingleton.instance.getCardsByRaces(currentRaces, game.isBattlegroundsDuosMatch()) + BattlegroundsDbSingleton.instance.getSpells(game.isBattlegroundsDuosMatch())
+        let availableCards = db.getCardsByRaces(currentRaces, game.isBattlegroundsDuosMatch()) + db.getSpells(game.isBattlegroundsDuosMatch())
         
         let availableCardIds = Set<Int>(availableCards.compactMap({ $0.dbfId }))
         _availableCardIds = availableCardIds
+        _availableCardIdsDb = db
         return availableCardIds
     }
     

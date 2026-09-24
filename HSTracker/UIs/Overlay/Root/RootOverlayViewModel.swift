@@ -164,6 +164,14 @@ class RootOverlayViewModel: ObservableObject {
         }
     }
 
+    // HDT's OverlayWindow.OnBattlegroundsMinionPoolLoaded.
+    @MainActor
+    func onBattlegroundsMinionPoolLoaded() {
+        battlegroundsMinionsGuide.onMinionPoolChanged()
+        battlegroundsMinionPinning.onMinionPoolChanged()
+        battlegroundsCompsGuides.onMinionPoolChanged()
+    }
+
     // On-screen frames (in RootOverlayView's own coordinate space) of every
     // child that currently needs real mouse interactivity, reported by
     // InteractiveRegionPreferenceKey. RootOverlayWindow reads these to know

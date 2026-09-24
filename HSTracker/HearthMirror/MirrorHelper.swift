@@ -622,5 +622,13 @@ struct MirrorHelper {
         }
         return result
     }
+
+    static func getBattlegroundsMinionPool() -> MirrorBattlegroundsMinionPool? {
+        var result: MirrorBattlegroundsMinionPool?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattlegroundsMinionPool()
+        }
+        return result
+    }
 }
 

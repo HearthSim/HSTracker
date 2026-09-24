@@ -206,28 +206,38 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     // from `areAllCompCardsPinned` on every render of every comp row, and these
     // view models are structs rebuilt from the guide list, so a per-instance
     // cache would miss constantly.
+    //
+    // The cache also remembers the database, so it is rebuilt once the match's
+    // minion pool replaces the assembled one - HDT's _availableCardIdsDb.
     private static var cachedLobbyKey: String?
+    private static var cachedLobbyDb: BattlegroundsDb?
     private static var cachedLobbyCardIds: Set<Int> = []
 
-    static func availableCardIds() -> Set<Int> {
+    // nil means every card is available, which is also the case while the
+    // lobby's races have not been read yet.
+    static func availableCardIds() -> Set<Int>? {
         let game = AppDelegate.instance().coreManager.game
+        guard let availableRaces = game.availableRaces else {
+            return nil
+        }
+        let db = BattlegroundsDbSingleton.current
         let isDuos = game.isBattlegroundsDuosMatch()
-        let key = "\(game.availableRaces?.map { $0.rawValue }.sorted() ?? [])-\(isDuos)"
-        if key == cachedLobbyKey {
+        let key = "\(availableRaces.map { $0.rawValue }.sorted())-\(isDuos)"
+        if key == cachedLobbyKey && db === cachedLobbyDb {
             return cachedLobbyCardIds
         }
-        let ids = computeAvailableCardIds(game: game, isDuos: isDuos)
+        let ids = computeAvailableCardIds(db: db, races: availableRaces, isDuos: isDuos)
         cachedLobbyKey = key
+        cachedLobbyDb = db
         cachedLobbyCardIds = ids
         return ids
     }
 
-    private static func computeAvailableCardIds(game: Game, isDuos: Bool) -> Set<Int> {
-        var races = Set(game.availableRaces ?? [])
+    private static func computeAvailableCardIds(db: BattlegroundsDb, races availableRaces: [Race], isDuos: Bool) -> Set<Int> {
+        var races = Set(availableRaces)
         races.insert(.all)
         races.insert(.invalid)
-        let cards = BattlegroundsDbSingleton.instance.getCardsByRaces(Array(races), isDuos)
-            + BattlegroundsDbSingleton.instance.getSpells(isDuos)
+        let cards = db.getCardsByRaces(Array(races), isDuos) + db.getSpells(isDuos)
         return Set(cards.map { $0.dbfId })
     }
 

@@ -13,6 +13,29 @@ class BattlegroundsDbSingleton {
         let result = BattlegroundsDb.init()
         return result
     }()
+
+    private static var minionPoolDb: (gameId: String, db: BattlegroundsDb)?
+
+    /// The minion pool of the current match once it has been read from the game, the assembled database otherwise.
+    static var current: BattlegroundsDb {
+        guard let poolDb = minionPoolDb, let game = AppDelegate.instance().coreManager?.game,
+              !game.isInMenu, game.isBattlegroundsMatch(), poolDb.gameId == game.gameId else {
+            return instance
+        }
+        return poolDb.db
+    }
+
+    static func tryLoadMinionPool() -> Bool {
+        guard let game = AppDelegate.instance().coreManager?.game else {
+            return false
+        }
+        let gameId = game.gameId
+        guard let pool = MirrorHelper.getBattlegroundsMinionPool(), !pool.cards.isEmpty else {
+            return false
+        }
+        minionPoolDb = (gameId, BattlegroundsDb.fromMinionPool(pool, fallback: instance))
+        return true
+    }
 }
 
 class BattlegroundsDb {
@@ -27,6 +50,12 @@ class BattlegroundsDb {
     private var _duosExclusiveBuddiesByTier = [Int: [Card]]()
     
     var races = Set<Race>()
+
+    private(set) var bannedDbfIds = Set<Int>()
+
+    func isBanned(_ dbfId: Int) -> Bool {
+        return bannedDbfIds.contains(dbfId)
+    }
     
     fileprivate convenience init() {
         self.init(RemoteConfig.battlegroundsLiveMetaPeriod)
@@ -41,6 +70,68 @@ class BattlegroundsDb {
         update(metaPeriod)
     }
     
+    private init(_ pool: MirrorBattlegroundsMinionPool, _ fallback: BattlegroundsDb) {
+        update(pool, fallback)
+    }
+
+    /// Builds a database for the pool the game server sent for the current match. It is already specific to
+    /// the game mode, so isDuos is ignored by all queries. Buddies are not part of the pool and are taken
+    /// from the fallback.
+    static func fromMinionPool(_ pool: MirrorBattlegroundsMinionPool, fallback: BattlegroundsDb) -> BattlegroundsDb {
+        return BattlegroundsDb(pool, fallback)
+    }
+
+    static let subsetTagRaces: [GameTag: Race] = [
+        .bacon_subset_beast: .beast,
+        .bacon_subset_demon: .demon,
+        .bacon_subset_dragon: .dragon,
+        .bacon_subset_elementals: .elemental,
+        .bacon_subset_mech: .mechanical,
+        .bacon_subset_murloc: .murloc,
+        .bacon_subset_naga: .naga,
+        .bacon_subset_pirate: .pirate,
+        .bacon_subset_quillboar: .quilboar,
+        .bacon_subset_undead: .undead,
+        .bacon_subset_aberration: .aberration
+    ]
+
+    private func update(_ pool: MirrorBattlegroundsMinionPool, _ fallback: BattlegroundsDb) {
+        let activeRaces = Set(pool.activeMinionTypes.compactMap { Race(rawValue: $0.intValue) })
+        races.formUnion(fallback.races)
+        races.formUnion(activeRaces)
+        races.insert(.invalid)
+        races.insert(.all)
+
+        for entry in pool.cards {
+            guard let card = Cards.by(dbfId: entry.dbfId, collectible: false) else {
+                continue
+            }
+            // HDT zeroes the banned card's Count, which is what darkens its
+            // tile. HSTracker's cards are shared and already count 0, so the
+            // browser asks isBanned instead.
+            if entry.banned {
+                bannedDbfIds.insert(entry.dbfId)
+            }
+
+            if entry.cardType == CardType.battleground_spell.rawValue {
+                _spellsByTier[entry.tier, default: []].append(card)
+                continue
+            }
+
+            // match the in-game minion gallery, which also lists a minion under active tribes it is a subset of
+            var cardRaces = Set(entry.minionTypes.compactMap { Race(rawValue: $0.intValue) })
+            for race in card.baconSubsetRaces where activeRaces.contains(race) {
+                cardRaces.insert(race)
+            }
+
+            for race in cardRaces {
+                _cardsByTier[entry.tier, default: [:]][race, default: []].append(card)
+            }
+        }
+
+        _buddiesByTier = fallback._buddiesByTier
+    }
+
     // Mirrors HDT's BattlegroundsDb.TagLookup: the remote tag overrides, keyed by
     // the card *and* the tag they apply to. Keying on the card alone - which this
     // used to do - made an override for one tag answer every other tag's question
@@ -265,7 +356,12 @@ class BattlegroundsDb {
         return cards + exclusiveCards
     }
     
+    /// The cards that can be offered for the given races. Unlike the display queries, this leaves out banned cards.
     func getCardsByRaces(_ races: [Race], _ isDuos: Bool) -> [Card] {
+        return allCardsByRaces(races, isDuos).filter { !isBanned($0.dbfId) }
+    }
+
+    private func allCardsByRaces(_ races: [Race], _ isDuos: Bool) -> [Card] {
         var cards = [Card]()
         
         for tier in _cardsByTier.values {
@@ -287,7 +383,12 @@ class BattlegroundsDb {
         return cards
     }
     
+    /// The spells that can be offered. Unlike the display queries, this leaves out banned spells.
     func getSpells(_ isDuos: Bool) -> [Card] {
+        return getAllSpells(isDuos).filter { !isBanned($0.dbfId) }
+    }
+
+    private func getAllSpells(_ isDuos: Bool) -> [Card] {
         var allSpells = [Card]()
         
         for tierEntry in _spellsByTier {
@@ -334,9 +435,10 @@ class BattlegroundsDb {
 
     // Spells matching a keyword, across every tier - the keyword view shows them
     // as one trailing group rather than per tier. Mirrors HDT's
-    // GetSpells(keyword, isDuos), which filters GetAllSpells(isDuos) the same way.
+    // GetSpells(keyword, isDuos), which filters GetAllSpells(isDuos) the same way,
+    // banned spells included.
     func getSpells(keyword: BattlegroundsKeyword, _ isDuos: Bool) -> [Card] {
-        return getSpells(isDuos).filter { keyword.matches($0) }
+        return getAllSpells(isDuos).filter { keyword.matches($0) }
     }
 
     func getBuddies(_ tier: Int, _ isDuos: Bool) -> [Card] {

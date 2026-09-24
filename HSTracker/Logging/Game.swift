@@ -3318,6 +3318,23 @@ class Game: NSObject, PowerEventHandler {
         return false
     }
     
+    // the game only requests the pool from the server once the match has initialized
+    private func loadBattlegroundsMinionPool() async {
+        for _ in 0 ..< 60 {
+            if isInMenu {
+                return
+            }
+            if BattlegroundsDbSingleton.tryLoadMinionPool() {
+                await MainActor.run {
+                    self.windowManager.rootOverlay?.viewModel.onBattlegroundsMinionPoolLoaded()
+                }
+                return
+            }
+            await Task.sleep(milliseconds: 500)
+        }
+        logger.warning("Battlegrounds minion pool was not available, falling back to the assembled database")
+    }
+
     @MainActor
     private func handleBattlegroundsStart() async {
         Watchers.battlegroundsLeaderboardWatcher.run()
@@ -3325,6 +3342,9 @@ class Game: NSObject, PowerEventHandler {
         OpponentDeadForTracker.reset()
         await MainActor.run {
             self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
+        }
+        Task.detached {
+            await self.loadBattlegroundsMinionPool()
         }
         var heroes = [Entity]()
         for _ in 0 ..< 10 {
