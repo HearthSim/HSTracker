@@ -27,7 +27,7 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         Settings.player_cards_top, Settings.player_cards_bottom, Settings.hide_player_sideboards,
         Settings.opponent_card_count, Settings.opponent_draw_chance,
         Settings.show_opponent_class, Settings.opponent_related_cards,
-        Settings.hide_opponent_arena_packages
+        Settings.hide_opponent_arena_packages, Settings.show_win_rate_against
     ]
 
     override func setUp() {
@@ -51,6 +51,7 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         Settings.showOpponentClassInTracker = true
         Settings.showOpponentRelatedCards = true
         Settings.hideOpponentArenaPackages = false
+        Settings.showWinRateAgainst = false
         Settings.deckPanelOrderPlayer = DeckPanel.defaultPlayerOrder.map { $0.rawValue }
         Settings.deckPanelOrderOpponent = DeckPanel.defaultOpponentOrder.map { $0.rawValue }
         Settings.overlayPlayerScaling = 100
@@ -169,6 +170,68 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         XCTAssertFalse(order.contains(.cardsTop))
         XCTAssertFalse(order.contains(.sideboards))
         XCTAssertEqual(Array(order.prefix(2)), [.cards, .cardCounter])
+    }
+
+    func testSavedOpponentOrderInsertsWinRateAfterDeckTitle() {
+        let savedOrder: [DeckPanel] = [.cards, .deckTitle, .drawChances, .cardCounter, .graveyard]
+        Settings.deckPanelOrderOpponent = savedOrder.map { $0.rawValue }
+
+        let order = DeckPanel.order(for: .opponent)
+
+        XCTAssertEqual(order, [.cards, .deckTitle, .winrate, .drawChances, .cardCounter, .graveyard])
+        XCTAssertEqual(order.filter { $0 != .winrate }, savedOrder)
+    }
+
+    func testSavedOpponentOrderPreservesCustomizedWinRatePosition() {
+        let savedOrder: [DeckPanel] = [.cards, .cardCounter, .winrate, .deckTitle, .drawChances, .graveyard]
+        Settings.deckPanelOrderOpponent = savedOrder.map { $0.rawValue }
+
+        let order = DeckPanel.order(for: .opponent)
+
+        XCTAssertEqual(order, savedOrder)
+        XCTAssertEqual(order.filter { $0 == .winrate }.count, 1)
+    }
+
+    func testPlayerOrderDropsOpponentWinRateSection() {
+        Settings.deckPanelOrderPlayer = [DeckPanel.winrate, .cards, .deckTitle].map { $0.rawValue }
+
+        let order = DeckPanel.order(for: .player)
+
+        XCTAssertFalse(DeckPanel.available(for: .player).contains(.winrate))
+        XCTAssertFalse(order.contains(.winrate))
+        XCTAssertEqual(Array(order.prefix(2)), [.cards, .deckTitle])
+    }
+
+    func testOpponentWinRateSectionRequiresSettingAndMessage() {
+        let model = TrackerPanelViewModel(playerType: .opponent)
+        model.panelOrder = DeckPanel.order(for: .opponent)
+        let cases: [(enabled: Bool, message: String, shown: Bool)] = [
+            (false, "", false),
+            (false, "Vs Mage: 2-1 (67%)", false),
+            (true, "", false),
+            (true, "Vs Mage: 2-1 (67%)", true)
+        ]
+
+        for testCase in cases {
+            Settings.showWinRateAgainst = testCase.enabled
+            model.winRateMessage = testCase.message
+            let layout = TrackerPanelLayout(viewModel: model, canvasHeight: 1080)
+
+            XCTAssertEqual(kinds(layout).contains(.deckPanel(.winrate)), testCase.shown,
+                           "enabled=\(testCase.enabled), message=\(testCase.message)")
+        }
+    }
+
+    func testPlayerLayoutNeverShowsOpponentWinRateSection() {
+        Settings.showWinRateAgainst = true
+        let model = playerModel(deck: 3)
+        model.panelOrder.insert(.winrate, at: 0)
+        model.winRateMessage = "Vs Mage: 2-1 (67%)"
+
+        let layout = TrackerPanelLayout(viewModel: model, canvasHeight: 1080)
+
+        XCTAssertFalse(kinds(layout).contains(.deckPanel(.winrate)))
+        XCTAssertTrue(kinds(layout).contains(.deckPanel(.cards)))
     }
 
     // MARK: - Sizing

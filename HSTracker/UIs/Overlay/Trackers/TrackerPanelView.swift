@@ -211,6 +211,8 @@ struct TrackerPanelView: View {
             }
         case .deckPanel(.wins):
             TrackerRecordView(message: viewModel.recordMessage, height: layout.smallFrameHeight)
+        case .deckPanel(.winrate):
+            TrackerWinRateView(message: viewModel.winRateMessage, height: layout.winRateFrameHeight)
         case .deckPanel(.cards):
             list(viewModel.cards, layout: layout)
         case .deckPanel(.cardsTop):
@@ -316,6 +318,7 @@ struct TrackerPanelLayout {
     let cardHeight: CGFloat
     let smallFrameHeight: CGFloat
     let bigFrameHeight: CGFloat
+    let winRateFrameHeight: CGFloat
     let boxHeight: CGFloat
     let sections: [Section]
 
@@ -354,6 +357,7 @@ struct TrackerPanelLayout {
         }
         smallFrameHeight = (40 / ratio).rounded()
         bigFrameHeight = (71 / ratio).rounded()
+        winRateFrameHeight = (25 / ratio).rounded()
 
         // PlayerStackHeight: the box the stack has to fit into, in its own units.
         let scale = max(CGFloat(viewModel.scaling) / 100.0, 0.01)
@@ -375,6 +379,10 @@ struct TrackerPanelLayout {
             case .wins:
                 if !isOpponent && Settings.showWinLossRatio {
                     kinds.append((.deckPanel(panel), 0, smallFrameHeight))
+                }
+            case .winrate:
+                if isOpponent && Settings.showWinRateAgainst && !viewModel.winRateMessage.isEmpty {
+                    kinds.append((.deckPanel(panel), 0, winRateFrameHeight))
                 }
             case .cards:
                 kinds.append((.deckPanel(panel), viewModel.cards.cards.count, 0))
