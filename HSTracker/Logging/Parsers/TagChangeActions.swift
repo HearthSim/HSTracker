@@ -90,7 +90,6 @@ struct TagChangeActions {
                 self.cantPlayChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .health:
                 self.healthChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
-                self.drBoomsMonsterRebornHealth(eventHandler: eventHandler, id: id, value: value)
             case .atk:
                 self.opponentMalorneAtkChange(eventHandler: eventHandler, id: id, value: value, previous: prevValue)
             case .maxresources:
@@ -240,20 +239,6 @@ struct TagChangeActions {
         if value != 1 {
             return
         }
-    }
-    
-    private func drBoomsMonsterRebornHealth(eventHandler: PowerEventHandler, id: Int, value: Int) {
-        if !BobsBuddyInvoker.currentCombatHasDrBoomsMonster {
-            return
-        }
-        guard let entity = eventHandler.entities[id] else {
-            return
-        }
-        if entity.cardId != CardIds.NonCollectible.Neutral.DrBoomsMonster
-            && entity.cardId != CardIds.NonCollectible.Neutral.DrBoomsMonster_DrBoomsMonster1 {
-            return
-        }
-        BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.updateDrBoomsMonsterReborn(entity[.creator], value, entity.isControlled(by: eventHandler.player.id))
     }
     
     private func opponentMalorneAtkChange(eventHandler: PowerEventHandler, id: Int, value: Int, previous: Int) {
