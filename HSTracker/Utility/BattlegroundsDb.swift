@@ -333,13 +333,8 @@ class BattlegroundsDb {
     }
 
     // Spells matching a keyword, across every tier - the keyword view shows them
-    // as one trailing group rather than per tier.
-    //
-    // Diverges from HDT's GetSpells(keyword, isDuos) deliberately: that one skips
-    // duos-exclusive spells *while in duos* (and solos-exclusive while in solos),
-    // inverting the sense every other query in both codebases uses. Reusing
-    // getSpells(isDuos) here keeps the mode filtering consistent with the tier and
-    // minion-type views.
+    // as one trailing group rather than per tier. Mirrors HDT's
+    // GetSpells(keyword, isDuos), which filters GetAllSpells(isDuos) the same way.
     func getSpells(keyword: BattlegroundsKeyword, _ isDuos: Bool) -> [Card] {
         return getSpells(isDuos).filter { keyword.matches($0) }
     }

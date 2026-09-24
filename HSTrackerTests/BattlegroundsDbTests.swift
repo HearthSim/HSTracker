@@ -42,4 +42,17 @@ class BattlegroundsDbTests: HSTrackerTests {
 
         XCTAssertTrue(db.races.contains(Self.tribeInCardData))
     }
+
+    func testKeywordSpellsIncludeDuosExclusiveSpellsOnlyInDuos() throws {
+        let db = BattlegroundsDb(nil)
+        let duosSpell = try XCTUnwrap(Cards.cards.first {
+            $0.type == .battleground_spell && $0.isBaconPoolSpell && $0.isBaconDuosExclusive > 0 && !$0.enText.isEmpty
+        }, "no Duos-exclusive spell in the card data")
+        // HDT matches every pool spell with TagKeyword(TECH_LEVEL, ""); a
+        // mention of the spell's own text is the nearest keyword Swift can build
+        let keyword = BattlegroundsKeyword(locKey: "", englishName: duosSpell.enText, mechanic: nil)
+
+        XCTAssertTrue(db.getSpells(keyword: keyword, true).contains { $0.dbfId == duosSpell.dbfId })
+        XCTAssertFalse(db.getSpells(keyword: keyword, false).contains { $0.dbfId == duosSpell.dbfId })
+    }
 }
