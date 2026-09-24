@@ -1072,6 +1072,8 @@ class Game: NSObject, PowerEventHandler {
     var buildNumber: Int = 0
     var playerIDNameMapping = SynchronizedDictionary<Int, String>()
     var playerIdsByPlayerName = SynchronizedDictionary<String, Int>()
+    // Whether this game's Power.log has told us the Hearthstone build yet
+    var parsedBuildNumber = false
     
     var choicesById = SynchronizedDictionary<Int, IHsChoice>()
     var choicesByTaskList = SynchronizedDictionary<Int, [IHsChoice]>()
@@ -1664,6 +1666,7 @@ class Game: NSObject, PowerEventHandler {
         
         playerIDNameMapping.removeAll()
         playerIdsByPlayerName.removeAll()
+        parsedBuildNumber = false
         choicesById.removeAll()
         choicesByTaskList.removeAll()
 
