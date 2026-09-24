@@ -362,8 +362,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     }
 
     // Mirrors HDT's MinionTypeButtons: the lobby's races (or every known race
-    // out of match) sorted by their displayed name, then "Other" (INVALID) and
-    // "All" (ALL) forced to the end, and the Spells / Buddies sentinels
+    // out of match) sorted by their displayed name, then "All" (ALL) and
+    // "Other" (INVALID) forced to the end, and the Spells / Buddies sentinels
     // appended after them. ALL and INVALID are filtered out of the sort so they
     // only ever appear in those fixed slots.
     var minionTypeButtons: [MinionTypeButton] {
@@ -373,8 +373,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 BattlegroundsMinionType.raceName($0)
                     .localizedStandardCompare(BattlegroundsMinionType.raceName($1)) == .orderedAscending
             }
-        races.append(.invalid)
         races.append(.all)
+        races.append(.invalid)
 
         var types = races.map { BattlegroundsMinionType.race($0) }
         types.append(.spells)

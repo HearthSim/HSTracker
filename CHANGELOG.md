@@ -6,7 +6,7 @@
 - HSTracker's splash screen closes sooner when it starts.
 - The trackers now forget everything a Rewind from Semi-Stable Portal takes back, without the overlay flickering while they catch up, and games with a rewind still upload as replays.
 ## Battlegrounds
-- Added an All filter to the minion browser's card types, and refreshed the Other icon.
+- Added an All filter to the minion browser's card types, placed ahead of Other, and refreshed the Other icon.
 - Fixed the Aberration icon in the session panel's minion types going blank while the Deity's portrait was loading.
 - The minion browser now shows the match's own minion pool as the game has it, at the tiers it puts them, with banned cards darkened.
 - An orange dot in the minion browser now marks this match's Dark Paradox and the tier it is on, hovering that tier shows the card, and a Dark Paradox whose tier is not known is listed first under All.
