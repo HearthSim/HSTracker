@@ -27,7 +27,7 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         Settings.player_cards_top, Settings.player_cards_bottom, Settings.hide_player_sideboards,
         Settings.opponent_card_count, Settings.opponent_draw_chance,
         Settings.show_opponent_class, Settings.opponent_related_cards,
-        Settings.hide_opponent_arena_packages
+        Settings.hide_opponent_arena_packages, Settings.show_win_rate_against
     ]
 
     override func setUp() {
@@ -51,6 +51,7 @@ class TrackerPanelLayoutTests: HSTrackerTests {
         Settings.showOpponentClassInTracker = true
         Settings.showOpponentRelatedCards = true
         Settings.hideOpponentArenaPackages = false
+        Settings.showWinRateAgainst = false
         Settings.deckPanelOrderPlayer = DeckPanel.defaultPlayerOrder.map { $0.rawValue }
         Settings.deckPanelOrderOpponent = DeckPanel.defaultOpponentOrder.map { $0.rawValue }
         Settings.overlayPlayerScaling = 100

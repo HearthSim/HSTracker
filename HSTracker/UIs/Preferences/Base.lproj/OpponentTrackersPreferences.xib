@@ -26,21 +26,32 @@
                 <outlet property="showPlayerClass" destination="AOs-wd-f13" id="vyY-xh-9tG"/>
                 <outlet property="showPlayerMaxResources" destination="dFP-v4-7Gs" id="iLG-h7-6x2"/>
                 <outlet property="showPlayerRelatedCards" destination="5ic-Gb-JtT" id="Dp7-9b-TWr"/>
+                <outlet property="showWinRateAgainst" destination="WRa-teA-gst" id="WRa-teO-utl"/>
                 <outlet property="view" destination="DPe-et-cJR" id="cJe-z5-DVd"/>
             </connections>
         </customObject>
         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" id="DPe-et-cJR">
-            <rect key="frame" x="0.0" y="0.0" width="432" height="428"/>
+            <rect key="frame" x="0.0" y="0.0" width="432" height="454"/>
             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bt4-kn-GjS">
-                    <rect key="frame" x="20" y="402" width="392" height="16"/>
+                    <rect key="frame" x="20" y="428" width="392" height="16"/>
                     <buttonCell key="cell" type="check" title="Show opponent tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MLJ-7t-LVJ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="ktr-VS-gDn"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WRa-teA-gst">
+                    <rect key="frame" x="20" y="402" width="392" height="16"/>
+                    <buttonCell key="cell" type="check" title="Win rate" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WRa-teC-ell">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="WRa-teA-ctn"/>
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vp4-QG-lNm">
@@ -240,6 +251,8 @@
                 <constraint firstAttribute="trailing" secondItem="mB7-0k-NWy" secondAttribute="trailing" constant="20" symbolic="YES" id="4o9-TG-JVw"/>
                 <constraint firstAttribute="trailing" secondItem="Vgg-OU-9bx" secondAttribute="trailing" constant="20" symbolic="YES" id="7V0-bj-IhT"/>
                 <constraint firstItem="wnH-Tv-Haz" firstAttribute="leading" secondItem="DPe-et-cJR" secondAttribute="leading" constant="20" symbolic="YES" id="8HV-1A-ja4"/>
+                <constraint firstItem="WRa-teA-gst" firstAttribute="leading" secondItem="DPe-et-cJR" secondAttribute="leading" constant="20" symbolic="YES" id="WRa-teL-ead"/>
+                <constraint firstAttribute="trailing" secondItem="WRa-teA-gst" secondAttribute="trailing" constant="20" symbolic="YES" id="WRa-teT-rai"/>
                 <constraint firstAttribute="trailing" secondItem="0w1-8P-7Ul" secondAttribute="trailing" constant="20" symbolic="YES" id="8cz-2a-o4B"/>
                 <constraint firstAttribute="trailing" secondItem="npw-Sr-U97" secondAttribute="trailing" constant="20" symbolic="YES" id="9Nd-Pi-1ua"/>
                 <constraint firstItem="S1f-xh-msr" firstAttribute="leading" secondItem="DPe-et-cJR" secondAttribute="leading" constant="20" symbolic="YES" id="A4q-Mk-WZr"/>

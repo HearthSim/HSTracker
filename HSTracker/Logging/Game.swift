@@ -361,6 +361,27 @@ class Game: NSObject, PowerEventHandler {
                 tracker.setGraveyard(self.opponent.graveyard)
                 tracker.playerClassId = self.opponent.playerClassId
 
+                tracker.winRateMessage = ""
+                if Settings.showWinRateAgainst,
+                   let currentDeck = self.currentDeck,
+                   let opponentClass = self.opponent.originalClass,
+                   Cards.classes.contains(opponentClass),
+                   let deck = RealmHelper.getDeck(with: currentDeck.id) {
+                    let record = StatsHelper.getDeckRecord(deck: deck,
+                                                           againstClass: opponentClass,
+                                                           mode: .all)
+                    let total = record.wins + record.losses
+                    let percent = total > 0
+                        ? String(Int(round(Double(record.wins) * 100.0 / Double(total))))
+                        : "-"
+                    let className = String.localizedString(opponentClass.rawValue,
+                                                           comment: "").capitalized
+                    let matchup = String(format: String.localizedString("Vs %@", comment: ""),
+                                         className)
+                    tracker.winRateMessage = "\(matchup): "
+                        + "\(record.wins)-\(record.losses) (\(percent)%)"
+                }
+
                 // The stack is a child of the overlay canvas now, so there is no
                 // window left to frame: the percentages HDT places it with are
                 // read back off the settings here, and the panel measures itself
@@ -1512,6 +1533,7 @@ class Game: NSObject, PowerEventHandler {
                                            Settings.opponent_deck_height, Settings.overlay_opponent_scaling,
                                            Settings.opponent_opacity, Settings.overlay_center_opponent_stack,
                                            Settings.deck_panel_order_opponent,
+                                           Settings.show_win_rate_against,
                                            // HDT hooks RelatedCardVisibilitySettings.Changed up to
                                            // Core.UpdateOpponentCards; here the setting's own
                                            // notification does the same job.

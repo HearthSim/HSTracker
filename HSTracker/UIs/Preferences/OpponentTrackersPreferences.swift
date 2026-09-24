@@ -17,6 +17,7 @@ class OpponentTrackersPreferences: PreferencePaneController, PreferencePane {
     var toolbarItemIcon = NSImage(named: "settings-opponent")!
 
     @IBOutlet var showOpponentTracker: NSButton!
+    @IBOutlet var showWinRateAgainst: NSButton!
     @IBOutlet var showCardHuds: NSButton!
     @IBOutlet var clearTrackersOnGameEnd: NSButton!
     @IBOutlet var showOpponentCardCount: NSButton!
@@ -43,6 +44,7 @@ class OpponentTrackersPreferences: PreferencePaneController, PreferencePane {
         }
         
         showOpponentTracker.state = Settings.showOpponentTracker ? .on : .off
+        showWinRateAgainst.state = Settings.showWinRateAgainst ? .on : .off
         showCardHuds.state = Settings.showCardHuds ? .on : .off
         clearTrackersOnGameEnd.state = Settings.clearTrackersOnGameEnd ? .on : .off
         showOpponentCardCount.state = Settings.showOpponentCardCount ? .on : .off
@@ -66,6 +68,8 @@ class OpponentTrackersPreferences: PreferencePaneController, PreferencePane {
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == showOpponentTracker {
             Settings.showOpponentTracker = showOpponentTracker.state == .on
+        } else if sender == showWinRateAgainst {
+            Settings.showWinRateAgainst = showWinRateAgainst.state == .on
         } else if sender == showCardHuds {
             Settings.showCardHuds = showCardHuds.state == .on
         } else if sender == clearTrackersOnGameEnd {

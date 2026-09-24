@@ -166,6 +166,25 @@ struct TrackerRecordView: View {
     }
 }
 
+/// HDT's opponent-class record, drawn without a frame directly below the hero bar.
+struct TrackerWinRateView: View {
+    let message: String
+    let height: CGFloat
+
+    var body: some View {
+        Text(verbatim: message)
+            .font(CardTileTheme.font(CardTileTheme.numbersFontName, size: 15))
+            .lineLimit(1)
+            .minimumScaleFactor(0.3)
+            .frame(width: 217 - 20, height: 25, alignment: .center)
+            .outlinedText(.white, width: CardTileTheme.outlineWidth)
+            .offset(x: 10, y: 1)
+            .frame(width: 217, height: 25, alignment: .topLeading)
+            .scaleEffect(height / 25, anchor: .topLeading)
+            .frame(width: 217 * height / 25, height: height, alignment: .topLeading)
+    }
+}
+
 /// `GraveyardCounter`: how many minions have died, and how many were murlocs.
 struct TrackerGraveyardCounterView: View {
     let minions: Int
