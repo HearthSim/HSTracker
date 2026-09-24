@@ -124,6 +124,29 @@ class BattlegroundsDbMinionPoolTests: HSTrackerTests {
         XCTAssertTrue(withoutMurlocs.getCards(3, .murloc, false).isEmpty)
     }
 
+    func testDarkParadoxPrefersThisGamesVariantOverTheGenericCard() throws {
+        let generic = try XCTUnwrap(Cards.any(byId: CardIds.NonCollectible.Neutral.DarkParadox))
+        let variant = try XCTUnwrap(Cards.any(byId: CardIds.NonCollectible.Neutral.DarkParadox_DarkParadoxToken2))
+        let beast = try XCTUnwrap(fallback.getCards(1, .beast, false).first)
+
+        let withVariant = BattlegroundsDb.fromMinionPool(pool(
+            [.beast],
+            minion(generic.dbfId, 1, .invalid),
+            minion(variant.dbfId, 5, .invalid),
+            minion(beast.dbfId, 1, .beast)
+        ), fallback: fallback)
+        let genericOnly = BattlegroundsDb.fromMinionPool(pool([.beast], minion(generic.dbfId, 1, .invalid)), fallback: fallback)
+        let without = BattlegroundsDb.fromMinionPool(pool([.beast], minion(beast.dbfId, 1, .beast)), fallback: fallback)
+        let banned = BattlegroundsDb.fromMinionPool(pool([.beast], minion(variant.dbfId, 5, .invalid, banned: true)), fallback: fallback)
+
+        XCTAssertEqual(withVariant.darkParadox?.dbfId, variant.dbfId)
+        XCTAssertEqual(withVariant.darkParadoxTier, 5)
+        XCTAssertEqual(genericOnly.darkParadox?.dbfId, generic.dbfId)
+        XCTAssertNil(without.darkParadox)
+        XCTAssertNil(without.darkParadoxTier)
+        XCTAssertNil(banned.darkParadox)
+    }
+
     func testRacesAndBuddiesComeFromTheFallback() throws {
         let db = BattlegroundsDb.fromMinionPool(pool([.beast]), fallback: fallback)
 

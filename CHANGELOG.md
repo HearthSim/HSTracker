@@ -9,6 +9,7 @@
 - Added an All filter to the minion browser's card types, and refreshed the Other icon.
 - Fixed the Aberration icon in the session panel's minion types going blank while the Deity's portrait was loading.
 - The minion browser now shows the match's own minion pool as the game has it, at the tiers it puts them, with banned cards darkened.
+- An orange dot in the minion browser now marks this match's Dark Paradox and the tier it is on, and hovering that tier shows the card.
 # 3.6.12
 ## Hearthstone
 - The player and opponent deck trackers, the secret helper and the "know your opponent's deck?" prompt are now part of the overlay rather than windows of their own, so they sit where Hearthstone Deck Tracker puts them, keep their place when the game's resolution changes, and are cut away wherever Hearthstone draws over the board.

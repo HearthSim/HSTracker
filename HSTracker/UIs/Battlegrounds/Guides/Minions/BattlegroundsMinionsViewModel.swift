@@ -307,12 +307,24 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     // Mirrors HDT's TierButton: every tier 1-6 (plus 7 when shown) always gets a
     // button, with availability and fading carried as flags rather than by
     // omitting the tier from the list.
+    //
+    // HDT turned its TierButton into a view model it keeps and updates in
+    // place, so that the button under the mouse keeps its hover and the Dark
+    // Paradox tooltip. SwiftUI already keeps that state by the tier id, so these
+    // stay values rebuilt on every read.
     struct TierButton: Identifiable {
         let tier: Int
         let isActive: Bool
         let isAvailable: Bool
         let isFaded: Bool
+        // The match's Dark Paradox, on the tier it rolled.
+        let darkParadox: Card?
         var id: Int { tier }
+
+        var hasDarkParadox: Bool { darkParadox != nil }
+
+        // the open tier already lists the Dark Paradox
+        var showDarkParadoxTooltip: Bool { hasDarkParadox && !isActive }
     }
 
     var tierButtons: [TierButton] {
@@ -320,6 +332,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         if shouldShowTier7 {
             tiers.append(7)
         }
+        let darkParadox = db.darkParadox
+        let darkParadoxTier = db.darkParadoxTier
         return tiers.map { tier in
             TierButton(
                 tier: tier,
@@ -327,7 +341,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 isAvailable: availableTiers.contains(tier),
                 // Everything dims once the list is showing something other than
                 // this tier - either a different tier, or a type/keyword filter.
-                isFaded: (activeTier != nil && activeTier != tier) || isExtraFilterSelected
+                isFaded: (activeTier != nil && activeTier != tier) || isExtraFilterSelected,
+                darkParadox: darkParadoxTier == tier ? darkParadox : nil
             )
         }
     }

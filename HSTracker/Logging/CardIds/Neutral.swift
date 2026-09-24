@@ -1354,5 +1354,7 @@ extension CardIds.NonCollectible {
         static let InisToolkit = "Story_11_IniToolkit"
         static let WitchyLackey = "DAL_615"
         static let SemiStablePortal_RewindTimelineToken = "TIME_000tb"
+        static let DarkParadox = "BG36_360"
+        static let DarkParadox_DarkParadoxToken2 = "BG36_360t4"
     }
 }

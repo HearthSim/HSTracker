@@ -33,7 +33,11 @@ class BattlegroundsDbSingleton {
         guard let pool = MirrorHelper.getBattlegroundsMinionPool(), !pool.cards.isEmpty else {
             return false
         }
-        minionPoolDb = (gameId, BattlegroundsDb.fromMinionPool(pool, fallback: instance))
+        let db = BattlegroundsDb.fromMinionPool(pool, fallback: instance)
+        minionPoolDb = (gameId, db)
+        if let darkParadox = db.darkParadox {
+            logger.info("Dark Paradox in the minion pool: \(darkParadox.id) (tier \(darkParadox.techLevel))")
+        }
         return true
     }
 }
@@ -55,6 +59,18 @@ class BattlegroundsDb {
 
     func isBanned(_ dbfId: Int) -> Bool {
         return bannedDbfIds.contains(dbfId)
+    }
+
+    /// The Dark Paradox in the minion pool, which rolls a different Dark Gift, stats and tier each game.
+    private(set) var darkParadox: Card?
+
+    private(set) var darkParadoxTier: Int?
+
+    private static func isDarkParadox(_ card: Card) -> Bool {
+        guard let darkParadox = Cards.any(byId: CardIds.NonCollectible.Neutral.DarkParadox) else {
+            return false
+        }
+        return card.dbfId == darkParadox.dbfId || card.baconEvolutionCardId == darkParadox.dbfId
     }
     
     fileprivate convenience init() {
@@ -111,6 +127,10 @@ class BattlegroundsDb {
             // browser asks isBanned instead.
             if entry.banned {
                 bannedDbfIds.insert(entry.dbfId)
+            } else if Self.isDarkParadox(card) && (darkParadox == nil || darkParadox?.id == CardIds.NonCollectible.Neutral.DarkParadox) {
+                // prefer this game's variant over the generic card, as only the variant knows the Dark Gift
+                darkParadox = card
+                darkParadoxTier = entry.tier
             }
 
             if entry.cardType == CardType.battleground_spell.rawValue {

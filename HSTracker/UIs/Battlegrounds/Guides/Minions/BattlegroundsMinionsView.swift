@@ -322,10 +322,24 @@ private struct MinionsViewTierButton: View {
                 }
             }
             .frame(width: badgeSize, height: badgeSize)
+            // Outside the 0.905 scaled grid, so it sits in the button's own
+            // corner rather than the badge's.
+            .overlay(darkParadoxDot, alignment: .topTrailing)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .onHover { hovering in isHovering = hovering }
+        // ToolTipService.Placement="Left" and InitialShowDelay="500" on the tier
+        // buttons, with the CardTooltip only set while ShowDarkParadoxTooltip.
+        .cardImageTooltip(cardId: button.showDarkParadoxTooltip ? button.darkParadox?.id : nil,
+                          showTriple: false, placement: .left, showDelay: 0.5)
+    }
+
+    @ViewBuilder
+    private var darkParadoxDot: some View {
+        if button.hasDarkParadox {
+            DarkParadoxDot()
+        }
     }
 
     // Ported verbatim from BattlegroundsTierButton.xaml.cs's IconOpacity.

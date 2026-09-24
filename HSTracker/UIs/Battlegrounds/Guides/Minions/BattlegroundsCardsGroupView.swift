@@ -263,6 +263,16 @@ struct MinionCardRow: View {
 
     private var isSpell: Bool { card.type == .battleground_spell }
 
+    // CardTileViewModel.IsDarkParadoxVariant: only this game's variant evolves
+    // from the generic card, which has no known tier or stats. HDT also checks
+    // BaconCard, which every card in the browser is.
+    private var isDarkParadoxVariant: Bool {
+        guard let darkParadox = Cards.any(byId: CardIds.NonCollectible.Neutral.DarkParadox) else {
+            return false
+        }
+        return card.baconEvolutionCardId == darkParadox.dbfId
+    }
+
     var body: some View {
         ZStack(alignment: .leading) {
             Color(red: 0x1a/255, green: 0x1c/255, blue: 0x1e/255)
@@ -301,6 +311,11 @@ struct MinionCardRow: View {
                 if isSpell { spellCoin }
             }
             .frame(height: Self.rowH)
+
+            if isDarkParadoxVariant {
+                DarkParadoxDot()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            }
 
             // <Grid Background="#000000" Opacity="0.6" Visibility="{Binding IsDarkened, ...}"/>
             // on top of the whole tile, below the AnimatedCard's buttons.
@@ -515,5 +530,19 @@ enum BarThemeImages {
     // ClassicBar overrides to "Belwe Bd BT"; all other themes use "ChunkFive".
     static func cardNameFont(for theme: String = Settings.theme) -> String {
         theme == "classic" ? "Belwe Bd BT" : "ChunkFive"
+    }
+}
+
+// The Ellipse BattlegroundsCardTile.xaml and BattlegroundsTierButton.xaml both
+// put in their top-right corner (Margin="0,2,2,0") to mark this match's Dark
+// Paradox. WPF draws the stroke inside the ellipse's bounds, as strokeBorder does.
+struct DarkParadoxDot: View {
+    var body: some View {
+        Circle()
+            .fill(Color(hex: "#FF9F1C"))
+            .overlay(Circle().strokeBorder(Color(hex: "#141617"), lineWidth: 1))
+            .frame(width: 8, height: 8)
+            .padding(.top, 2)
+            .padding(.trailing, 2)
     }
 }
