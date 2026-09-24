@@ -1509,6 +1509,9 @@ class BobsBuddyInvoker {
         inputPlayer.tavernSpellCounter = Int32(readPlayerCounter(.gametag_3088)) // direct or transfer
         
         inputPlayer.deathrattleCounter = Int32(readPlayerCounter(.gametag_4639)) // direct or transfer
+
+        inputPlayer.volumizerAtkBuff = Int32(readPlayerCounter(.gametag_4468)) // direct or transfer
+        inputPlayer.volumizerHealthBuff = Int32(readPlayerCounter(.gametag_4469)) // direct or transfer
          
         if let pHaunted = playerAttached.first(where: { x in x.cardId == CardIds.NonCollectible.Neutral.HauntedCarapace_HauntedCarapacePlayerEnchantDnt }) {
             inputPlayer.hauntedAtkBuff = Int32(pHaunted[GameTag.tag_script_data_num_1]) // attached

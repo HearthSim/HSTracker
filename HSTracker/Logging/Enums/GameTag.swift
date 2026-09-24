@@ -523,6 +523,8 @@ enum GameTag: Int, CaseIterable, Codable {
     prepare_revealed = 4459,
     bacon_free_refresh_count = 4536,
     gametag_4629 = 4629,
+    gametag_4468 = 4468,
+    gametag_4469 = 4469,
     gametag_4639 = 4639,
     bacon_fodders_in_refresh = 4664,
     gametag_4696 = 4696,
