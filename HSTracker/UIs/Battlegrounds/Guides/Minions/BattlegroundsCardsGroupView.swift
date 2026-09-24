@@ -177,7 +177,8 @@ struct BattlegroundsCardsGroupView: View {
     // lands in the second branch and titles itself "spells", not "Tavern Tier 0".
     private var groupTitle: String {
         if group.groupedByMinionType || (group.groupedByKeyword && group.minionType != .spells) {
-            return "Tavern Tier \(group.tier)"
+            // an unknown Dark Paradox is grouped under tier 0
+            return "Tavern Tier \(group.tier > 0 ? "\(group.tier)" : "?")"
         }
         // HDT titles this group from Battlegrounds_Spells - plural - while the
         // subtitle and the Card Types button use the singular GameTag_BGSpell.

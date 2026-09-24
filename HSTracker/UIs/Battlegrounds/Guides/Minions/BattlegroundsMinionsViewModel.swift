@@ -597,7 +597,23 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                                       cards: cards,
                                       isInspirationEnabled: isInspirationEnabled))
         }
+
+        if minionType == .race(.all), let darkParadox = unknownDarkParadox {
+            result.insert(MinionGroup(tier: 0, minionType: minionType, keyword: nil,
+                                      groupedByMinionType: true, groupedByKeyword: false,
+                                      cards: [darkParadox],
+                                      isInspirationEnabled: isInspirationEnabled), at: 0)
+        }
         return result
+    }
+
+    // outside of a match any game can roll a Dark Paradox, so its tier is never known
+    private var unknownDarkParadox: Card? {
+        let darkParadoxId = CardIds.NonCollectible.Neutral.DarkParadox
+        if !isPreLobby {
+            return db.darkParadox?.id == darkParadoxId ? db.darkParadox : nil
+        }
+        return Cards.any(byId: darkParadoxId)
     }
 
     // Mirrors HDT's ActiveMinionKeyword branch: one group per tier of matching
