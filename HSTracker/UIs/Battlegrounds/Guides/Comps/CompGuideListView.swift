@@ -98,11 +98,15 @@ struct CompGuideListView: View {
             errorState
         case .baseFeature:
             if let comps = viewModel.comps {
-                rows(comps)
+                ScrollView {
+                    rows(comps)
+                }
             }
         case .tier7Feature:
             if let compsByTier = viewModel.compsByTier {
-                tieredRows(compsByTier)
+                ScrollView {
+                    tieredRows(compsByTier)
+                }
             }
         }
     }
