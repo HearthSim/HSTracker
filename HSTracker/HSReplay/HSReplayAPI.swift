@@ -858,6 +858,30 @@ class HSReplayAPI {
         }
     }
 
+    // ApiWrapper.PostBattlegroundsTavernPoolObservation: fire and forget, with
+    // failures only logged in debug builds.
+    static func postBattlegroundsTavernPoolObservation(parameters: BattlegroundsTavernPoolObservationParams) {
+        guard let url = URL(string: HSReplay.battlegroundsTavernPoolObservationsUrl) else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            request.httpBody = try JSONEncoder().encode(parameters)
+        } catch {
+            logger.error(error)
+            return
+        }
+        URLSession.shared.dataTask(with: request) { _, _, error in
+#if DEBUG
+            if let error {
+                logger.error(error)
+            }
+#endif
+        }.resume()
+    }
+
     static func getMulliganGuideStatus(parameters: MulliganGuideStatusParams) async -> MulliganGuideStatusData? {
         return await withCheckedContinuation { continuation in
             let encoder = JSONEncoder()

@@ -72,6 +72,11 @@ struct Tier7Data: Codable {
     var disabled: Bool
 }
 
+struct BattlegroundsTavernPoolData: Codable {
+    var disabled: Bool?
+    var sampling: Double?
+}
+
 struct ArenasmithData: Codable {
     var disabled: Bool?
 }
@@ -100,6 +105,7 @@ struct ConfigData: Codable {
     var battlegrounds_short_names: [CardShortName]?
     var bobs_buddy: BobsBuddyData?
     var tier7: Tier7Data?
+    var battlegrounds_tavern_pool: BattlegroundsTavernPoolData?
     var arenasmith: ArenasmithData?
     var mulligan_guide: MulliganGuideData?
     var sales: SalesData?

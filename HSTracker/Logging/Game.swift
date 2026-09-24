@@ -3329,15 +3329,47 @@ class Game: NSObject, PowerEventHandler {
             if isInMenu {
                 return
             }
-            if BattlegroundsDbSingleton.tryLoadMinionPool() {
+            if let pool = BattlegroundsDbSingleton.tryLoadMinionPool() {
                 await MainActor.run {
                     self.windowManager.rootOverlay?.viewModel.onBattlegroundsMinionPoolLoaded()
                 }
+                postBattlegroundsTavernPoolObservation(pool)
                 return
             }
             await Task.sleep(milliseconds: 500)
         }
         logger.warning("Battlegrounds minion pool was not available, falling back to the assembled database")
+    }
+
+    // HDT gates this on Config.GoogleAnalytics, its usage statistics switch;
+    // HSTracker's is isTelemetryEnabled.
+    private func postBattlegroundsTavernPoolObservation(_ pool: MirrorBattlegroundsMinionPool) {
+        if !AppDelegate.isTelemetryEnabled || spectator {
+            return
+        }
+
+        guard let remoteConfig = RemoteConfig.data?.battlegrounds_tavern_pool, !(remoteConfig.disabled ?? false),
+              Sampling.shouldSample(remoteConfig.sampling ?? 0) else {
+            return
+        }
+
+        let parameters = BattlegroundsTavernPoolObservationParams(
+            game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue,
+            battlegrounds_rating: currentBattlegroundsRating,
+            player_region: currentRegion != .unknown ? Region.toBnetRegion(region: currentRegion) : nil,
+            minion_types: (availableRaces ?? []).map { Race.lookup($0) }.sorted(),
+            anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity),
+            deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity),
+            hearthstone_build: buildNumber > 0 ? buildNumber : nil,
+            tavern_guide_pool: pool.cards.map { entry in
+                BattlegroundsTavernPoolObservationParams.TavernGuidePoolEntry(
+                    dbf_id: entry.dbfId,
+                    tier: entry.tier,
+                    card_type: entry.cardType,
+                    minion_types: entry.minionTypes.map { $0.intValue },
+                    banned: entry.banned)
+            })
+        HSReplayAPI.postBattlegroundsTavernPoolObservation(parameters: parameters)
     }
 
     @MainActor

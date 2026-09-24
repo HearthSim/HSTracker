@@ -25,20 +25,20 @@ class BattlegroundsDbSingleton {
         return poolDb.db
     }
 
-    static func tryLoadMinionPool() -> Bool {
+    static func tryLoadMinionPool() -> MirrorBattlegroundsMinionPool? {
         guard let game = AppDelegate.instance().coreManager?.game else {
-            return false
+            return nil
         }
         let gameId = game.gameId
         guard let pool = MirrorHelper.getBattlegroundsMinionPool(), !pool.cards.isEmpty else {
-            return false
+            return nil
         }
         let db = BattlegroundsDb.fromMinionPool(pool, fallback: instance)
         minionPoolDb = (gameId, db)
         if let darkParadox = db.darkParadox {
             logger.info("Dark Paradox in the minion pool: \(darkParadox.id) (tier \(darkParadox.techLevel))")
         }
-        return true
+        return pool
     }
 }
 
