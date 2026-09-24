@@ -5,6 +5,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show experience counter\"; ObjectID = \"3i1-BX-ZbC\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfahrungszähler anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -209,6 +215,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Disable tracking in spectator mode\"; ObjectID = \"6n7-a6-LsZ\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tracking im Zuschauermodus deaktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -809,6 +821,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable Mulligan Guide\"; ObjectID = \"bku-WW-nZc\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulligan-Guide aktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1187,6 +1205,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show flavor text\"; ObjectID = \"Ehf-nl-mzO\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aromatext anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1211,6 +1235,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable Mulligan G-V2\"; ObjectID = \"gV2-en-Cel\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulligan G-V2 aktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1313,6 +1343,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show constructed mulligan\"; ObjectID = \"HeE-hK-rL7\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulligan für Gebaute Decks anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1337,6 +1373,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Hide all trackers when game is in background\"; ObjectID = \"HEr-xo-koe\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Tracker ausblenden, wenn das Spiel im Hintergrund ist"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1853,6 +1895,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show availability on deck selection screen\"; ObjectID = \"OaC-wC-z3b\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verfügbarkeit im Deckauswahlbildschirm anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1961,6 +2009,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show mulligan overlay at start of game\"; ObjectID = \"UXw-QE-lUP\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulligan-Overlay bei Spielbeginn anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
