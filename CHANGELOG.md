@@ -11,6 +11,7 @@
 - Fixed the Aberration icon in the session panel's minion types going blank while the Deity's portrait was loading.
 - The minion browser now shows the match's own minion pool as the game has it, at the tiers it puts them, with banned cards darkened.
 - An orange dot in the minion browser now marks this match's Dark Paradox and the tier it is on, hovering that tier shows the card, and a Dark Paradox whose tier is not known is listed first under All.
+- Fixed the Comp Guides list not scrolling, so only the first few comps could be seen (thanks @djorno)
 ## Bob's Buddy
 - Bob's Buddy now knows the stats your Volumizers have gained.
 # 3.6.12
