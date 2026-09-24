@@ -42,8 +42,6 @@ struct CardTooltipRequest: Equatable {
     // markers set VerticalOffset="20".
     var horizontalOffset: CGFloat = 0
     var verticalOffset: CGFloat = 0
-    // ToolTipService.InitialShowDelay, for the few elements that set their own.
-    var showDelay: TimeInterval?
 }
 
 // Which mechanism put the tooltip currently on screen. HDT needs no equivalent - every element
@@ -445,7 +443,7 @@ class CardTooltipPanel: NSPanel {
             }
         }
         pendingShowWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + (request.showDelay ?? Self.showDelay), execute: work)
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.showDelay, execute: work)
     }
 
     // Mirrors CardTooltipViewModel.UpdateTooltipCards: which card fills the card
@@ -830,15 +828,13 @@ extension View {
                           text: String? = nil,
                           placement: CardTooltipPlacement = .right,
                           horizontalOffset: CGFloat = 0,
-                          verticalOffset: CGFloat = 0,
-                          showDelay: TimeInterval? = nil) -> some View {
+                          verticalOffset: CGFloat = 0) -> some View {
         modifier(CardImageTooltipModifier(
             request: cardId.map {
                 CardTooltipRequest(cardId: $0, showTriple: showTriple, baconTriple: baconTriple,
                                    text: text, placement: placement,
                                    horizontalOffset: horizontalOffset,
-                                   verticalOffset: verticalOffset,
-                                   showDelay: showDelay)
+                                   verticalOffset: verticalOffset)
             }))
     }
 

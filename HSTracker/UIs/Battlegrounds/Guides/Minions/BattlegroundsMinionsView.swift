@@ -329,10 +329,11 @@ private struct MinionsViewTierButton: View {
         }
         .buttonStyle(.plain)
         .onHover { hovering in isHovering = hovering }
-        // ToolTipService.Placement="Left" and InitialShowDelay="500" on the tier
-        // buttons, with the CardTooltip only set while ShowDarkParadoxTooltip.
+        // ToolTipService.Placement="Left" on the tier buttons, with the
+        // CardTooltip only set while ShowDarkParadoxTooltip. Their
+        // InitialShowDelay="300" is the tooltip's default.
         .cardImageTooltip(cardId: button.showDarkParadoxTooltip ? button.darkParadox?.id : nil,
-                          showTriple: false, placement: .left, showDelay: 0.5)
+                          showTriple: false, placement: .left)
     }
 
     @ViewBuilder
