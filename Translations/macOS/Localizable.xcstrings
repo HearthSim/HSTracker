@@ -17174,6 +17174,17 @@
         }
       }
     },
+    "Enum_DeckPanel_Winrate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Win rate"
+          }
+        }
+      }
+    },
     "Enum_DeckPanel_Wins" : {
       "extractionState" : "manual",
       "localizations" : {

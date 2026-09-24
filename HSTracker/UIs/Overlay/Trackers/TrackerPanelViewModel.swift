@@ -220,6 +220,7 @@ class TrackerPanelViewModel: ObservableObject {
     @Published var playerClassId: String?
     @Published var playerName: String?
     @Published var recordMessage = ""
+    @Published var winRateMessage = ""
 
     // MARK: - Placement
     //
