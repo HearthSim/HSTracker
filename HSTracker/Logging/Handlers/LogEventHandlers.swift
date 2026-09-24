@@ -243,6 +243,7 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerUnknownCardAddedToDeck()
     
     var dredgeCounter: Int { get set }
+    var boardOrderCounter: Int { get set }
     
     func handleOpponentSecretRemove(entity: Entity, cardId: String?, turn: Int)
     

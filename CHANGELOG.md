@@ -5,6 +5,7 @@
 - The settings window now lists its panes in a sidebar, grouped and with a search field that finds a setting by name, instead of a toolbar that had run out of room.
 - HSTracker's splash screen closes sooner when it starts.
 - The trackers now forget everything a Rewind from Semi-Stable Portal takes back, without the overlay flickering while they catch up, and games with a rewind still upload as replays.
+- Added an option in the Trackers settings to number every minion and weapon on the board by the order it entered play.
 ## Battlegrounds
 - Added an All filter to the minion browser's card types, placed ahead of Other, and refreshed the Other icon.
 - Fixed the Aberration icon in the session panel's minion types going blank while the Deity's portrait was loading.

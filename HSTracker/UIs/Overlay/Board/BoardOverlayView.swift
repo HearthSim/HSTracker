@@ -130,19 +130,31 @@ struct BoardOverlayView: View {
         .frame(width: canvasSize.width, height: Self.boardHeight(canvasSize))
     }
 
-    // Canvas.SetTop(GridOpponentBoard, Height / 2 - BoardHeight - opponentBoardOffset).
     private var opponentTop: CGFloat {
-        let offset = viewModel.isMercenariesMatch && viewModel.isMainAction && !viewModel.mercsToNominate
+        Self.opponentTop(canvasSize, isMercenariesMatch: viewModel.isMercenariesMatch,
+                         isMainAction: viewModel.isMainAction, mercsToNominate: viewModel.mercsToNominate)
+    }
+
+    private var playerTop: CGFloat {
+        Self.playerTop(canvasSize, isMercenariesMatch: viewModel.isMercenariesMatch,
+                       isMainAction: viewModel.isMainAction, mercsToNominate: viewModel.mercsToNominate)
+    }
+
+    // Canvas.SetTop(GridOpponentBoard, Height / 2 - BoardHeight - opponentBoardOffset).
+    static func opponentTop(_ canvasSize: CGSize, isMercenariesMatch: Bool,
+                            isMainAction: Bool, mercsToNominate: Bool) -> CGFloat {
+        let offset = isMercenariesMatch && isMainAction && !mercsToNominate
             ? canvasSize.height * 0.142
             : canvasSize.height * 0.045
-        return canvasSize.height / 2 - Self.boardHeight(canvasSize) - offset
+        return canvasSize.height / 2 - boardHeight(canvasSize) - offset
     }
 
     // Canvas.SetTop(GridPlayerBoard, Height / 2 - playerBoardOffset).
-    private var playerTop: CGFloat {
+    static func playerTop(_ canvasSize: CGSize, isMercenariesMatch: Bool,
+                          isMainAction: Bool, mercsToNominate: Bool) -> CGFloat {
         let offset: CGFloat
-        if viewModel.isMercenariesMatch {
-            offset = viewModel.isMainAction && !viewModel.mercsToNominate
+        if isMercenariesMatch {
+            offset = isMainAction && !mercsToNominate
                 ? canvasSize.height * -0.09
                 : canvasSize.height * 0.003
         } else {

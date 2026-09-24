@@ -805,6 +805,66 @@
         }
       }
     },
+    "bEo-Or-Btn.ibShadowedToolTip" : {
+      "comment" : "Class = \"NSButton\"; ibShadowedToolTip = \"Draws a small number under each minion and weapon. Traditional Hearthstone only.\"; ObjectID = \"bEo-Or-Btn\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeichnet eine kleine Zahl unter jeden Diener und jeder Waffe. Nur im traditionellen Hearthstone."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Draws a small number under each minion and weapon. Traditional Hearthstone only."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desenha um número sob cada lacaio e arma. Apenas Hearthstone tradicional."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在每一个随从和武器下方显示一个小数字。仅限炉石传说传统对战。"
+          }
+        }
+      }
+    },
+    "bEo-Or-Cel.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Show the order cards entered the board\"; ObjectID = \"bEo-Or-Cel\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reihenfolge anzeigen, in der Karten das Spielbrett betraten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show the order cards entered the board"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exibir ordem de entrada dos cards no tabuleiro"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示卡牌进入场上的顺序"
+          }
+        }
+      }
+    },
     "bku-WW-nZc.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable Mulligan Guide\"; ObjectID = \"bku-WW-nZc\";",
       "extractionState" : "extracted_with_value",

@@ -1005,6 +1005,13 @@ struct TagChangeActions {
         }
     }
 
+    private func updateBoardOrder(eventHandler: PowerEventHandler, entity: Entity, value: Int, prevValue: Int) {
+        if value == Zone.play.rawValue && prevValue != Zone.play.rawValue {
+            eventHandler.boardOrderCounter += 1
+            entity.info.boardOrder = eventHandler.boardOrderCounter
+        }
+    }
+
     private func zoneChange(eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int) {
         guard id > 3 else { return }
         guard let entity = eventHandler.entities[id] else { return }
@@ -1016,6 +1023,7 @@ struct TagChangeActions {
                 entity.info.originalZone = Zone(rawValue: value)
             }
         }
+        updateBoardOrder(eventHandler: eventHandler, entity: entity, value: value, prevValue: prevValue)
         
         let controller = entity[.controller]
         guard let zoneValue = Zone(rawValue: prevValue) else {

@@ -68,25 +68,24 @@ class PlayZoneWatcher: Watcher {
     }
 
     override func update() -> Bool {
-        // HDT polls this through every gameplay scene because its
-        // board-entry-order overlay consumes the friendly zone in
-        // Constructed. HSTracker has no such overlay, so the only consumer
-        // is Battlegrounds' Tavern Pinning - and at a 16ms cadence on the
-        // single serial mirror queue every other watcher shares, polling
-        // through Constructed matches would be pure contention. Skip the
-        // read instead of stopping the thread, so the watcher still picks up
-        // the next Battlegrounds match without needing its own lifecycle.
-        guard AppDelegate.instance().coreManager.game.isBattlegroundsMatch() else {
+        // HDT polls this through every gameplay scene. Its two consumers are
+        // Battlegrounds' Tavern Pinning and, in traditional Hearthstone, the
+        // board entry order overlay; when neither is live - the setting is
+        // off by default - a 16ms read on the single serial mirror queue
+        // every other watcher shares would be pure contention. Skip the read
+        // instead of stopping the thread, so the watcher still picks up the
+        // next match without needing its own lifecycle.
+        let game = AppDelegate.instance().coreManager.game
+        // HDT's HearthMirrorBoardStateProvider.NeedsFriendlyZone.
+        let needsFriendlyZone = Settings.showBoardEntryOrder && game.isTraditionalHearthstoneMatch
+        guard needsFriendlyZone || game.isBattlegroundsMatch() else {
             if _prev != nil {
                 _prev = nil
             }
             return false
         }
 
-        // HDT passes Config.ShowBoardEntryOrder && IsTraditionalHearthstoneMatch
-        // for the friendly zone; with no board-entry-order overlay here the
-        // friendly half is never read and the mirror can skip it.
-        let state = MirrorHelper.getBoardState(includeFriendly: false)
+        let state = MirrorHelper.getBoardState(includeFriendly: needsFriendlyZone)
         let curr = BoardStateArgs(friendly: Self.toArgs(state?.friendly),
                                   opposing: Self.toArgs(state?.opposing))
         if curr == _prev {

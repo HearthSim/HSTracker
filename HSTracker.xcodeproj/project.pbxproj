@@ -1325,6 +1325,8 @@
 		B8A1F7042FD70001000A0704 /* MercenariesAbilityIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7032FD70001000A0703 /* MercenariesAbilityIconView.swift */; };
 		B8A1F7062FD70001000A0706 /* BoardOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7052FD70001000A0705 /* BoardOverlayViewModel.swift */; };
 		B8A1F7082FD70001000A0708 /* BoardOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7072FD70001000A0707 /* BoardOverlayView.swift */; };
+		B8A1F7A22FD70001000A0A02 /* BoardOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7A12FD70001000A0A01 /* BoardOrderViewModel.swift */; };
+		B8A1F7A42FD70001000A0A04 /* BoardOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7A32FD70001000A0A03 /* BoardOrderView.swift */; };
 		B8A1F7102FD70001000A0710 /* BoardMouseOverDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F7092FD70001000A0709 /* BoardMouseOverDetection.swift */; };
 		B8A1F8022FD80001000A0802 /* MercenariesAbilityHoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F8012FD80001000A0801 /* MercenariesAbilityHoverView.swift */; };
 		B8A1F9022FD90001000A0902 /* CardMarkerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A1F9012FD90001000A0901 /* CardMarkerViewModel.swift */; };
@@ -3262,6 +3264,8 @@
 		B8A1F7032FD70001000A0703 /* MercenariesAbilityIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilityIconView.swift; sourceTree = "<group>"; };
 		B8A1F7052FD70001000A0705 /* BoardOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardOverlayViewModel.swift; sourceTree = "<group>"; };
 		B8A1F7072FD70001000A0707 /* BoardOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardOverlayView.swift; sourceTree = "<group>"; };
+		B8A1F7A12FD70001000A0A01 /* BoardOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardOrderViewModel.swift; sourceTree = "<group>"; };
+		B8A1F7A32FD70001000A0A03 /* BoardOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardOrderView.swift; sourceTree = "<group>"; };
 		B8A1F7092FD70001000A0709 /* BoardMouseOverDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardMouseOverDetection.swift; sourceTree = "<group>"; };
 		B8A1F8012FD80001000A0801 /* MercenariesAbilityHoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MercenariesAbilityHoverView.swift; sourceTree = "<group>"; };
 		B8A1F9012FD90001000A0901 /* CardMarkerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardMarkerViewModel.swift; sourceTree = "<group>"; };
@@ -5546,6 +5550,8 @@
 				B8A1F8012FD80001000A0801 /* MercenariesAbilityHoverView.swift */,
 				B8A1F7052FD70001000A0705 /* BoardOverlayViewModel.swift */,
 				B8A1F7072FD70001000A0707 /* BoardOverlayView.swift */,
+				B8A1F7A12FD70001000A0A01 /* BoardOrderViewModel.swift */,
+				B8A1F7A32FD70001000A0A03 /* BoardOrderView.swift */,
 				B8A1F7092FD70001000A0709 /* BoardMouseOverDetection.swift */,
 			);
 			path = Board;
@@ -8743,6 +8749,8 @@
 				B8A1F7042FD70001000A0704 /* MercenariesAbilityIconView.swift in Sources */,
 				B8A1F7062FD70001000A0706 /* BoardOverlayViewModel.swift in Sources */,
 				B8A1F7082FD70001000A0708 /* BoardOverlayView.swift in Sources */,
+				B8A1F7A22FD70001000A0A02 /* BoardOrderViewModel.swift in Sources */,
+				B8A1F7A42FD70001000A0A04 /* BoardOrderView.swift in Sources */,
 				B8A1F7102FD70001000A0710 /* BoardMouseOverDetection.swift in Sources */,
 				B8A1F6022FD60001000A0602 /* FlavorTextView.swift in Sources */,
 				B8A1F5022FD50001000A0502 /* MercenariesTaskViewModel.swift in Sources */,

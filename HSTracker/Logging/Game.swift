@@ -879,6 +879,40 @@ class Game: NSObject, PowerEventHandler {
                 board.isShown = false
                 board.clearAbilities()
             }
+            self.updateBoardEntryOrder()
+        }
+    }
+
+    // The board entry order part of HDT's OverlayWindow.UpdateBoardState,
+    // which runs after every log batch whatever the board grids' own gate.
+    // Main thread only.
+    private func updateBoardEntryOrder() {
+        guard let boardOrder = windowManager.rootOverlay?.viewModel.boardEntryOrder else {
+            return
+        }
+        // Player.board walks every entity, so it is only done while there is a
+        // weapon badge to draw; with the setting off the view model just
+        // clears itself.
+        let wanted = Settings.showBoardEntryOrder && isTraditionalHearthstoneMatch
+        boardOrder.onBoardStateUpdated(playerWeapon: wanted ? player.board.first { $0.isWeapon } : nil,
+                                       opponentWeapon: wanted ? opponent.board.first { $0.isWeapon } : nil,
+                                       game: self,
+                                       isContentVisible: isBoardEntryOrderContentVisible)
+    }
+
+    // OverlayWindow.IsContentVisible: the overlay is hidden while Hearthstone
+    // is in the background, if the user asked for that.
+    private var isBoardEntryOrderContentVisible: Bool {
+        !Settings.hideAllWhenGameInBackground || hearthstoneRunState.isActive
+    }
+
+    // HDT's OverlayWindow.OnPlayZoneStateChanged, fed by the PlayZoneWatcher
+    // off the main thread.
+    func onPlayZoneStateChanged(_ args: BoardStateArgs) {
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.boardEntryOrder
+                .onPlayZoneStateChanged(args, game: self,
+                                        isContentVisible: self.isBoardEntryOrderContentVisible)
         }
     }
 	
@@ -1188,6 +1222,7 @@ class Game: NSObject, PowerEventHandler {
     // swiftlint:enable large_tuple
     var joustReveals = 0
     var dredgeCounter = 0
+    var boardOrderCounter = 0
 
     var lastCardPlayed = 0
     var lastEntityChosenOnDiscover = 0
@@ -1705,6 +1740,7 @@ class Game: NSObject, PowerEventHandler {
         
         adventureOpponentId = nil
         dredgeCounter = 0
+        boardOrderCounter = 0
         
         triangulatePlayed = false
         

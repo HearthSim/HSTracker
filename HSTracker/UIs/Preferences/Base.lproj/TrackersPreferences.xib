@@ -22,6 +22,7 @@
                 <outlet property="highlightLastDrawn" destination="PL6-uo-7RN" id="uTk-hD-3zS"/>
                 <outlet property="opacity" destination="KBy-Iy-S6O" id="HNP-7K-Wm4"/>
                 <outlet property="removeCards" destination="Q3s-94-J32" id="FLy-Eg-f3R"/>
+                <outlet property="showBoardEntryOrder" destination="bEo-Or-Btn" id="bEo-Or-Out"/>
                 <outlet property="showExperienceCounter" destination="eYz-mj-UcC" id="zf7-cd-l4x"/>
                 <outlet property="showFlavorText" destination="7ps-Br-1Oh" id="hkm-br-Rt7"/>
                 <outlet property="showFloatingCard" destination="o0k-Kb-VAL" id="xCp-4x-8Ul"/>
@@ -365,11 +366,23 @@
                         <action selector="checkboxClicked:" target="-2" id="YzB-ch-a8l"/>
                     </connections>
                 </button>
+                <button toolTip="Draws a small number under each minion and weapon. Traditional Hearthstone only." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bEo-Or-Btn">
+                    <rect key="frame" x="18" y="-19" width="301" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show the order cards entered the board" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bEo-Or-Cel">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="bEo-Or-Act"/>
+                    </connections>
+                </button>
             </subviews>
             <edgeInsets key="edgeInsets" left="20" right="20" top="20" bottom="20"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="dj6-Ot-tpw" secondAttribute="trailing" constant="20" symbolic="YES" id="0jh-tg-Qbi"/>
                 <constraint firstAttribute="trailing" secondItem="7ps-Br-1Oh" secondAttribute="trailing" constant="20" symbolic="YES" id="1eg-U1-LOM"/>
+                <constraint firstItem="bEo-Or-Btn" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="bEo-Ld-Con"/>
+                <constraint firstAttribute="trailing" secondItem="bEo-Or-Btn" secondAttribute="trailing" constant="20" symbolic="YES" id="bEo-Tr-Con"/>
                 <constraint firstItem="aO1-IW-r7y" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="4XI-4t-b2X"/>
                 <constraint firstItem="xW7-1C-T20" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="5qz-GS-mkz"/>
                 <constraint firstItem="7ps-Br-1Oh" firstAttribute="leading" secondItem="51m-9V-RQO" secondAttribute="leading" constant="20" symbolic="YES" id="7MH-fo-zBP"/>
@@ -438,8 +451,10 @@
                 <integer value="1000"/>
                 <integer value="1000"/>
                 <integer value="1000"/>
+                <integer value="1000"/>
             </visibilityPriorities>
             <customSpacing>
+                <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
                 <real value="3.4028234663852886e+38"/>
