@@ -11,6 +11,7 @@ import Foundation
 struct BattlegroundsHeroPickStats: Decodable {
     var data: [BattlegroundsSingleHeroPickStats]
     var toast: BattlegroundsHeroPickToast
+    var hero_pick_ref: String?
     
     struct BattlegroundsSingleHeroPickStats: Decodable {
         var hero_dbf_id: Int

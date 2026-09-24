@@ -3180,6 +3180,11 @@ class Game: NSObject, PowerEventHandler {
             //throw new HeroPickingException("Invalid server response")
         }
 
+        // Echo the ref on subsequent requests (rerolls)
+        if let heroPickRef = stats?.hero_pick_ref {
+            _battlegroundsHeroPickStatsParams?.hero_pick_ref = heroPickRef
+        }
+
         return stats
     }
     
@@ -3241,7 +3246,7 @@ class Game: NSObject, PowerEventHandler {
                 return
             }
 
-            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
+            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll, hero_pick_ref: _battlegroundsHeroPickStatsParams.hero_pick_ref)
             return
         }
 
