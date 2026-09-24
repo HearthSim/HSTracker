@@ -1093,6 +1093,96 @@
         }
       }
     },
+    "WRa-teC-ell.title" : {
+      "comment" : "Class = \"NSButtonCell\"; title = \"Win rate against opponent class\"; ObjectID = \"WRa-teC-ell\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gewinnrate gegen die gegnerische Klasse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Win rate against opponent class"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porcentaje de victoria contra la clase del rival"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porcentaje de victoria contra la clase del oponente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taux de victoires contre la classe adverse"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasso di vittoria contro la classe dell'avversario"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相手のクラスに対する勝率"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상대 직업에 대한 승률"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Współczynnik zwycięstw przeciwko klasie przeciwnika"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taxa de vitórias contra a classe do oponente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доля побед против класса соперника"
+          }
+        },
+        "th-TH" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "อัตราชนะเมื่อพบคลาสของคู่ต่อสู้"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对阵对手职业的胜率"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對戰對手職業的勝率"
+          }
+        }
+      }
+    },
     "ZkO-13-FoB.title" : {
       "comment" : "Class = \"NSButtonCell\"; title = \"Enable setting opponent deck in non-friendly matches\"; ObjectID = \"ZkO-13-FoB\";",
       "extractionState" : "extracted_with_value",
