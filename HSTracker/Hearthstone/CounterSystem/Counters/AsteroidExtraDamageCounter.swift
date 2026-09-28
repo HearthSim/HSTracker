@@ -26,7 +26,7 @@ class AsteroidExtraDamageCounter: NumericCounter {
     }
 
     override func shouldShow() -> Bool {
-        return !game.isBattlegroundsMatch() && counter > 0
+        return game.isTraditionalHearthstoneMatch && counter > 0
     }
 
     override func getCardsToDisplay() -> [String] {

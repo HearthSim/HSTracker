@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class MercenariesPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.mercenaries
+    var preferencePaneIdentifier = PreferencePaneIdentifier.mercenaries
     
     var preferencePaneTitle = String.localizedString("Mercenaries", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-mercenaries")!
+    var preferencePaneIcon = NSImage(named: "settings-mercenaries")!
 
     @IBOutlet var showMercsOpponentHover: NSButton!
     @IBOutlet var showMercsPlayerHover: NSButton!
@@ -59,6 +58,6 @@ class MercenariesPreferences: PreferencePaneController, PreferencePane {
 
 // MARK: - Preferences
 
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let mercenaries = Self("mercenaries")
 }

@@ -27,7 +27,8 @@ class ImbueCounter: NumericCounter {
             CardIds.NonCollectible.Shaman.BlessingOfTheWind,
             CardIds.NonCollectible.Deathknight.Finality_BlessingOfTheInfinite,
             CardIds.NonCollectible.Rogue.Eventuality_BlessingOfTheBronze,
-            CardIds.Collectible.Neutral.MalorneTheWaywatcher
+            CardIds.Collectible.Neutral.MalorneTheWaywatcher,
+            CardIds.Collectible.Druid.HamuulRunetotem
         ]
     }
     

@@ -253,6 +253,13 @@ class Database {
             currentCard?.onlyGoldInGuide = intValue == 1
         case GameTag.bacon_evolution_card_id.rawValue:
             currentCard?.baconEvolutionCardId = intValue
+        case GameTag.bacon_subset_beast.rawValue, GameTag.bacon_subset_demon.rawValue, GameTag.bacon_subset_dragon.rawValue,
+             GameTag.bacon_subset_elementals.rawValue, GameTag.bacon_subset_mech.rawValue, GameTag.bacon_subset_murloc.rawValue,
+             GameTag.bacon_subset_naga.rawValue, GameTag.bacon_subset_pirate.rawValue, GameTag.bacon_subset_quillboar.rawValue,
+             GameTag.bacon_subset_undead.rawValue, GameTag.bacon_subset_aberration.rawValue:
+            if intValue > 0, let tag = GameTag(rawValue: id), let race = BattlegroundsDb.subsetTagRaces[tag] {
+                currentCard?.baconSubsetRaces.append(race)
+            }
         case GameTag.bacon_heropower_base_hero_id.rawValue:
             currentCard?.baconHeroPowerBaseHeroId = intValue
         case GameTag.kabal.rawValue, GameTag.grimy_goons.rawValue, GameTag.jade_lotus.rawValue, GameTag.protoss.rawValue, GameTag.terran.rawValue, GameTag.zerg.rawValue:

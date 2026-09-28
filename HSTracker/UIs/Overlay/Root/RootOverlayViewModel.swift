@@ -100,6 +100,10 @@ class RootOverlayViewModel: ObservableObject {
     // side and the Mercenaries ability strips hanging off them.
     let boardOverlay = BoardOverlayViewModel()
 
+    // HDT's GridOpponentBoardOrder, GridPlayerBoardOrder and the two weapon
+    // badges: the order everything on the board entered it in.
+    let boardEntryOrder = BoardEntryOrderViewModel()
+
     // HDT's MercAbility1/2/3, the three card renders it shows down the right
     // edge while a Mercenaries board minion is hovered.
     let mercenariesAbilityHover = MercenariesAbilityHoverViewModel()
@@ -162,6 +166,14 @@ class RootOverlayViewModel: ObservableObject {
         if let windowsLockedObserver {
             NotificationCenter.default.removeObserver(windowsLockedObserver)
         }
+    }
+
+    // HDT's OverlayWindow.OnBattlegroundsMinionPoolLoaded.
+    @MainActor
+    func onBattlegroundsMinionPoolLoaded() {
+        battlegroundsMinionsGuide.onMinionPoolChanged()
+        battlegroundsMinionPinning.onMinionPoolChanged()
+        battlegroundsCompsGuides.onMinionPoolChanged()
     }
 
     // On-screen frames (in RootOverlayView's own coordinate space) of every

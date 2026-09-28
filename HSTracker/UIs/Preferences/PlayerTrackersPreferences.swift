@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class PlayerTrackersPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.player_trackers
+    var preferencePaneIdentifier = PreferencePaneIdentifier.player_trackers
     
     var preferencePaneTitle = String.localizedString("Player", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-player")!
+    var preferencePaneIcon = NSImage(named: "settings-player")!
 
     @IBOutlet var showPlayerTracker: NSButton!
     @IBOutlet var showPlayerCardCount: NSButton!
@@ -127,6 +126,6 @@ class PlayerTrackersPreferences: PreferencePaneController, PreferencePane {
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let player_trackers = Self("player_trackers")
 }

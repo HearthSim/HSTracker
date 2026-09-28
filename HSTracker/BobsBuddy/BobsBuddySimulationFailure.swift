@@ -42,7 +42,7 @@ struct BobsBuddySimulationFailure {
     private static var reportedSignatures = Set<String>()
     private static let reportedSignaturesLock = NSLock()
 
-    /// The full text as thrown, kept for the Sentry event body
+    /// The full text as thrown, attached to the Sentry event
     let text: String
     /// The innermost .NET exception type, e.g. `System.NullReferenceException`
     let exceptionType: String
@@ -116,10 +116,13 @@ struct BobsBuddySimulationFailure {
         event.level = .error
         event.exceptions = [exception]
         event.fingerprint = ["bobsbuddy", exceptionType, failureFrame ?? "unknown"]
-        event.extra = ["exception": text]
 
+        let exceptionText = text
         let inputString = input?.unitestCopyableVersion() ?? ""
         SentrySDK.capture(event: event, block: { scope in
+            // An attachment rather than extra, because the project's data scrubbing rules
+            // replace the whole extra value with [Filtered]
+            scope.addAttachment(Attachment(data: exceptionText.data(using: .utf8) ?? Data(), filename: "exception.txt", contentType: "text/plain"))
             if inputString.count != 0 {
                 scope.addAttachment(Attachment(data: inputString.data(using: .utf8) ?? Data(), filename: "input.cs", contentType: "application/text"))
             }

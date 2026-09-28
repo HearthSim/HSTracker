@@ -1,5 +1,5 @@
 //
-//  ElementalsExtraStatsCounter.swift
+//  ElementalExtraStatsCounter.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 5/18/25.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ElementalsExtraStatsCounter: StatsCounter {
+class ElementalExtraStatsCounter: StatsCounter {
     override var isBattlegroundsCounter: Bool {
         return true
     }

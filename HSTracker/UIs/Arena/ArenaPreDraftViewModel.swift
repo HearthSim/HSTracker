@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Preferences
 
 /// Where the player is relative to starting a draft. Only the first two put the
 /// panel on screen.
@@ -309,7 +308,7 @@ final class ArenaPreDraftViewModel: ObservableObject {
     }
 
     func signIn() {
-        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.hsreplay)
+        AppDelegate.instance().openPreferences(pane: PreferencePaneIdentifier.hsreplay)
     }
 
     func refreshAccount() {

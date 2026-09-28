@@ -1,12 +1,12 @@
 //
-//  DemonFodderCounter.swift
+//  NextRefreshDemonFodderCounter.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 4/22/26.
 //  Copyright © 2026 Benjamin Michotte. All rights reserved.
 //
 
-class DemonFodderCounter: NumericCounter {
+class NextRefreshDemonFodderCounter: NumericCounter {
 
     override var isBattlegroundsCounter: Bool {
         return true

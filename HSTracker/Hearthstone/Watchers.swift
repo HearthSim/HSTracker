@@ -269,13 +269,16 @@ class Watchers {
     }
     
     // Mirrors HDT's Watchers.OnPlayZoneChange. In Battlegrounds the opposing
-    // play zone is Bob's shop; outside of it nothing consumes the board state
-    // here, so the fallback list isn't built on every tick.
+    // play zone is Bob's shop; outside of it nothing consumes the shop view,
+    // so the fallback list isn't built on every tick.
     private static func onPlayZoneChange(_ sender: PlayZoneWatcher, _ args: BoardStateArgs) {
         let game = AppDelegate.instance().coreManager.game
-        guard game.isBattlegroundsMatch() else { return }
-        game.handleShopBoardState(boardCards: args.opposing?.boardCards ?? [],
-                                  mousedOverSlot: args.opposing?.mousedOverSlot ?? -1)
+        if game.isBattlegroundsMatch() {
+            game.handleShopBoardState(boardCards: args.opposing?.boardCards ?? [],
+                                      mousedOverSlot: args.opposing?.mousedOverSlot ?? -1)
+        }
+
+        game.onPlayZoneStateChanged(args)
     }
 
     private static func onBigCardChange(_ sender: BigCardWatcher, _ args: BigCardArgs) {

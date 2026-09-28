@@ -51,6 +51,8 @@ protocol PowerEventHandler: AnyObject {
 	var lastCardPlayed: Int { get set }
     
     var lastEntityChosenOnDiscover: Int { get set }
+
+    var lastPlayBlockTime: LogDate? { get set }
 	
 	var playerUsedHeroPower: Bool { get set }
 	
@@ -241,6 +243,7 @@ protocol PowerEventHandler: AnyObject {
     func handlePlayerUnknownCardAddedToDeck()
     
     var dredgeCounter: Int { get set }
+    var boardOrderCounter: Int { get set }
     
     func handleOpponentSecretRemove(entity: Entity, cardId: String?, turn: Int)
     

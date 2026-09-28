@@ -57,6 +57,7 @@ struct BattlegroundsCardsGroupView: View {
                 // tavern spells do not.
                 MinionCardRow(card: card,
                               showInspiration: group.isInspirationEnabled && card.type == .minion,
+                              isDarkened: group.bannedDbfIds.contains(card.dbfId),
                               pinning: pinning,
                               rowHover: rowHover)
             }
@@ -176,7 +177,8 @@ struct BattlegroundsCardsGroupView: View {
     // lands in the second branch and titles itself "spells", not "Tavern Tier 0".
     private var groupTitle: String {
         if group.groupedByMinionType || (group.groupedByKeyword && group.minionType != .spells) {
-            return "Tavern Tier \(group.tier)"
+            // an unknown Dark Paradox is grouped under tier 0
+            return "Tavern Tier \(group.tier > 0 ? "\(group.tier)" : "?")"
         }
         // HDT titles this group from Battlegrounds_Spells - plural - while the
         // subtitle and the Card Types button use the singular GameTag_BGSpell.
@@ -231,6 +233,8 @@ struct MinionCardRow: View {
     let card: Card
     // AnimatedCard.Update's showTier7InspirationBtn.
     let showInspiration: Bool
+    // BattlegroundsCardTile's IsDarkened: a card the minion pool has banned.
+    var isDarkened = false
     @ObservedObject var pinning: BattlegroundsMinionPinningViewModel
     @ObservedObject var rowHover: RowHoverCoordinator
     /// See `OverlayThemeObserver`: these bars are drawn from the same theme the
@@ -259,6 +263,16 @@ struct MinionCardRow: View {
     private static let inspirationTrailing: CGFloat = 34
 
     private var isSpell: Bool { card.type == .battleground_spell }
+
+    // CardTileViewModel.IsDarkParadoxVariant: only this game's variant evolves
+    // from the generic card, which has no known tier or stats. HDT also checks
+    // BaconCard, which every card in the browser is.
+    private var isDarkParadoxVariant: Bool {
+        guard let darkParadox = Cards.any(byId: CardIds.NonCollectible.Neutral.DarkParadox) else {
+            return false
+        }
+        return card.baconEvolutionCardId == darkParadox.dbfId
+    }
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -298,6 +312,17 @@ struct MinionCardRow: View {
                 if isSpell { spellCoin }
             }
             .frame(height: Self.rowH)
+
+            if isDarkParadoxVariant {
+                DarkParadoxDot()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            }
+
+            // <Grid Background="#000000" Opacity="0.6" Visibility="{Binding IsDarkened, ...}"/>
+            // on top of the whole tile, below the AnimatedCard's buttons.
+            if isDarkened {
+                Color.black.opacity(0.6)
+            }
         }
         .frame(maxWidth: .infinity)
         .frame(height: Self.rowH)
@@ -506,5 +531,19 @@ enum BarThemeImages {
     // ClassicBar overrides to "Belwe Bd BT"; all other themes use "ChunkFive".
     static func cardNameFont(for theme: String = Settings.theme) -> String {
         theme == "classic" ? "Belwe Bd BT" : "ChunkFive"
+    }
+}
+
+// The Ellipse BattlegroundsCardTile.xaml and BattlegroundsTierButton.xaml both
+// put in their top-right corner (Margin="0,2,2,0") to mark this match's Dark
+// Paradox. WPF draws the stroke inside the ellipse's bounds, as strokeBorder does.
+struct DarkParadoxDot: View {
+    var body: some View {
+        Circle()
+            .fill(Color(hex: "#FF9F1C"))
+            .overlay(Circle().strokeBorder(Color(hex: "#141617"), lineWidth: 1))
+            .frame(width: 8, height: 8)
+            .padding(.top, 2)
+            .padding(.trailing, 2)
     }
 }

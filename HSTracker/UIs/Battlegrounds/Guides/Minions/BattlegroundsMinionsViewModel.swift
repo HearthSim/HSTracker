@@ -20,7 +20,8 @@ enum BattlegroundsMinionType: Hashable {
     case buddies   // HDT's (Race)(-2)
 
     // HDT's BattlegroundsMinionType.TribeImages, mapped onto HSTracker's
-    // `tribe_<name>` image sets. Race.invalid is "Other".
+    // `tribe_<name>` image sets. Race.invalid is "Other"; Race.all is the
+    // "All" filter and has its own tribe_all icon.
     var iconName: String {
         switch self {
         case .spells: return "tribe_spell"
@@ -113,6 +114,9 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         let groupedByMinionType: Bool  // true in type mode (groups by tier)
         let groupedByKeyword: Bool     // true in keyword mode (groups by tier)
         let cards: [Card]
+        // The cards the match's minion pool has banned, which HDT shows
+        // darkened by zeroing their Count.
+        var bannedDbfIds: Set<Int> = []
         // Carried per group exactly as HDT's CardGroup.IsInspirationEnabled is,
         // so the value a group renders with is the one that was live when the
         // group was built.
@@ -162,7 +166,19 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         }
     }
     private var isDuos = false
+    private var isPreLobby = false
     private var anomaly: String?
+
+    // Before a match there is no minion pool, only the assembled database.
+    private var db: BattlegroundsDb {
+        isPreLobby ? BattlegroundsDbSingleton.instance : BattlegroundsDbSingleton.current
+    }
+
+    // HDT's OnMinionPoolChanged: everything read off the database is computed,
+    // so republishing is enough to rebuild it from the pool.
+    func onMinionPoolChanged() {
+        objectWillChange.send()
+    }
     private var settingsCancellable: AnyCancellable?
     private var trialCancellable: AnyCancellable?
 
@@ -269,7 +285,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
 
     var unavailableRaces: [Race] {
         guard let available = availableRaces else { return [] }
-        return BattlegroundsDbSingleton.instance.races.filter {
+        return db.races.filter {
             !available.contains($0) && $0 != .invalid && $0 != .all
         }
     }
@@ -291,12 +307,24 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     // Mirrors HDT's TierButton: every tier 1-6 (plus 7 when shown) always gets a
     // button, with availability and fading carried as flags rather than by
     // omitting the tier from the list.
+    //
+    // HDT turned its TierButton into a view model it keeps and updates in
+    // place, so that the button under the mouse keeps its hover and the Dark
+    // Paradox tooltip. SwiftUI already keeps that state by the tier id, so these
+    // stay values rebuilt on every read.
     struct TierButton: Identifiable {
         let tier: Int
         let isActive: Bool
         let isAvailable: Bool
         let isFaded: Bool
+        // The match's Dark Paradox, on the tier it rolled.
+        let darkParadox: Card?
         var id: Int { tier }
+
+        var hasDarkParadox: Bool { darkParadox != nil }
+
+        // the open tier already lists the Dark Paradox
+        var showDarkParadoxTooltip: Bool { hasDarkParadox && !isActive }
     }
 
     var tierButtons: [TierButton] {
@@ -304,6 +332,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         if shouldShowTier7 {
             tiers.append(7)
         }
+        let darkParadox = db.darkParadox
+        let darkParadoxTier = db.darkParadoxTier
         return tiers.map { tier in
             TierButton(
                 tier: tier,
@@ -311,7 +341,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 isAvailable: availableTiers.contains(tier),
                 // Everything dims once the list is showing something other than
                 // this tier - either a different tier, or a type/keyword filter.
-                isFaded: (activeTier != nil && activeTier != tier) || isExtraFilterSelected
+                isFaded: (activeTier != nil && activeTier != tier) || isExtraFilterSelected,
+                darkParadox: darkParadoxTier == tier ? darkParadox : nil
             )
         }
     }
@@ -331,16 +362,18 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     }
 
     // Mirrors HDT's MinionTypeButtons: the lobby's races (or every known race
-    // out of match), with ALL dropped, the rest sorted by their displayed name,
+    // out of match) sorted by their displayed name, then "All" (ALL) and
     // "Other" (INVALID) forced to the end, and the Spells / Buddies sentinels
-    // appended after it.
+    // appended after them. ALL and INVALID are filtered out of the sort so they
+    // only ever appear in those fixed slots.
     var minionTypeButtons: [MinionTypeButton] {
-        var races = (availableRaces ?? Array(BattlegroundsDbSingleton.instance.races))
+        var races = (availableRaces ?? Array(db.races))
             .filter { $0 != .invalid && $0 != .all }
             .sorted {
                 BattlegroundsMinionType.raceName($0)
                     .localizedStandardCompare(BattlegroundsMinionType.raceName($1)) == .orderedAscending
             }
+        races.append(.all)
         races.append(.invalid)
 
         var types = races.map { BattlegroundsMinionType.race($0) }
@@ -367,16 +400,23 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     }
 
     var groups: [MinionGroup] {
+        var groups: [MinionGroup]
         if let tier = activeTier {
-            return groupsByTribe(tier: tier)
+            groups = groupsByTribe(tier: tier)
+        } else if let minionType = activeMinionType {
+            groups = groupsByTier(minionType: minionType)
+        } else if let keyword = activeKeyword {
+            groups = groupsByKeyword(keyword)
+        } else {
+            return []
         }
-        if let minionType = activeMinionType {
-            return groupsByTier(minionType: minionType)
+        let bannedDbfIds = db.bannedDbfIds
+        if !bannedDbfIds.isEmpty {
+            for index in groups.indices {
+                groups[index].bannedDbfIds = bannedDbfIds
+            }
         }
-        if let keyword = activeKeyword {
-            return groupsByKeyword(keyword)
-        }
-        return []
+        return groups
     }
 
     // MARK: - Lifecycle
@@ -411,6 +451,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     }
 
     func onMatchStart() {
+        isPreLobby = false
         updateLobby()
         clearFilters()
         updateInspirationEnabled()
@@ -428,6 +469,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     // before a lobby has been chosen. Only isDuos needs to be pushed explicitly,
     // from the pre-lobby's own game mode selection rather than a live match.
     func enterPreLobby(isDuos: Bool) {
+        isPreLobby = true
         clearFilters()
         availableRaces = nil
         self.isDuos = isDuos
@@ -499,8 +541,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
 
     private func groupsByTribe(tier: Int) -> [MinionGroup] {
         var result = [MinionGroup]()
-        for race in availableRaces ?? Array(BattlegroundsDbSingleton.instance.races) {
-            let cards = BattlegroundsDbSingleton.instance.getCards(tier, race, isDuos)
+        for race in availableRaces ?? Array(db.races) {
+            let cards = db.getCards(tier, race, isDuos)
             guard !cards.isEmpty else { continue }
             result.append(MinionGroup(
                 tier: tier,
@@ -513,7 +555,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             ))
         }
         if Settings.showTavernSpells {
-            let spells = BattlegroundsDbSingleton.instance.getSpells(tier, isDuos)
+            let spells = db.getSpells(tier, isDuos)
                 .sorted { a, b in a.cost == b.cost ? a.name < b.name : a.cost < b.cost }
             if !spells.isEmpty {
                 result.append(MinionGroup(tier: tier, minionType: .spells, keyword: nil,
@@ -535,17 +577,17 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             let cards: [Card]
             switch minionType {
             case .spells:
-                cards = BattlegroundsDbSingleton.instance.getSpells(tier, isDuos)
+                cards = db.getSpells(tier, isDuos)
                     .sorted { a, b in a.cost == b.cost ? a.name < b.name : a.cost < b.cost }
             case .buddies:
-                cards = BattlegroundsDbSingleton.instance.getBuddies(tier, isDuos)
+                cards = db.getBuddies(tier, isDuos)
                     .sorted { $0.name < $1.name }
             case .race(let race):
-                let main = BattlegroundsDbSingleton.instance.getCards(tier, race, isDuos)
+                let main = db.getCards(tier, race, isDuos)
                 // Neutrals (Race.ALL) play with every type, so they're folded in
                 // alongside - except when the selected type *is* ALL or Other.
                 let extra = (race != .all && race != .invalid)
-                    ? BattlegroundsDbSingleton.instance.getCards(tier, .all, isDuos)
+                    ? db.getCards(tier, .all, isDuos)
                     : []
                 cards = (main + extra).sorted { $0.name < $1.name }
             }
@@ -555,17 +597,33 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                                       cards: cards,
                                       isInspirationEnabled: isInspirationEnabled))
         }
+
+        if minionType == .race(.all), let darkParadox = unknownDarkParadox {
+            result.insert(MinionGroup(tier: 0, minionType: minionType, keyword: nil,
+                                      groupedByMinionType: true, groupedByKeyword: false,
+                                      cards: [darkParadox],
+                                      isInspirationEnabled: isInspirationEnabled), at: 0)
+        }
         return result
+    }
+
+    // outside of a match any game can roll a Dark Paradox, so its tier is never known
+    private var unknownDarkParadox: Card? {
+        let darkParadoxId = CardIds.NonCollectible.Neutral.DarkParadox
+        if !isPreLobby {
+            return db.darkParadox?.id == darkParadoxId ? db.darkParadox : nil
+        }
+        return Cards.any(byId: darkParadoxId)
     }
 
     // Mirrors HDT's ActiveMinionKeyword branch: one group per tier of matching
     // minions, then a single trailing group of matching spells across all tiers
     // (tier 0, so its header shows the keyword rather than a tavern tier).
     private func groupsByKeyword(_ keyword: BattlegroundsKeyword) -> [MinionGroup] {
-        let races = availableRaces ?? Array(BattlegroundsDbSingleton.instance.races)
+        let races = availableRaces ?? Array(db.races)
         var result = [MinionGroup]()
         for tier in groupTiers {
-            let cards = BattlegroundsDbSingleton.instance
+            let cards = db
                 .getCards(tier, keyword: keyword, races: races, isDuos)
                 .sorted { $0.name < $1.name }
             guard !cards.isEmpty else { continue }
@@ -578,7 +636,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
         // who turned tavern spells off shouldn't get them back via a keyword.
         // HDT has no such setting and always appends this group.
         if Settings.showTavernSpells {
-            let spells = BattlegroundsDbSingleton.instance
+            let spells = db
                 .getSpells(keyword: keyword, isDuos)
                 .sorted { a, b in a.cost == b.cost ? a.name < b.name : a.cost < b.cost }
             if !spells.isEmpty {

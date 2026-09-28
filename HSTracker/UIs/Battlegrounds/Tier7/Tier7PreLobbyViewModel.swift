@@ -8,7 +8,6 @@
 
 import Foundation
 import AppKit
-import Preferences
 
 // Not gated on the SwiftUI baseline: ConstructedMulliganPreLobbyWidgetViewModel
 // reuses both of these as-is, the same way HDT's own Constructed widget reuses
@@ -136,11 +135,11 @@ class Tier7PreLobbyViewModel: ObservableObject {
     }
 
     func showSettings() {
-        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.battlegrounds)
+        AppDelegate.instance().openPreferences(pane: PreferencePaneIdentifier.battlegrounds)
     }
 
     func signIn() {
-        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.hsreplay)
+        AppDelegate.instance().openPreferences(pane: PreferencePaneIdentifier.hsreplay)
     }
 
     func subscribeNow() {

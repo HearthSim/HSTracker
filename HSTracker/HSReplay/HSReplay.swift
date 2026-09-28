@@ -47,6 +47,8 @@ struct HSReplay {
     static let constructedMulliganGuideV2 = "\(baseApiUrl)/mulligan_v2/overlay/"
     static let constructedMulliganGuideV2Status = "\(baseApiUrl)/mulligan_v2/status/"
     static let tier7TrinketPickStats = "\(baseApiUrl)/battlegrounds/trinket_pick/"
+    // HsReplayClient.PostBattlegroundsTavernPoolObservation, which sends no credentials
+    static let battlegroundsTavernPoolObservationsUrl = "\(baseApiUrl)/battlegrounds/tavern_pool/observations/"
     // Outfinder keyword -> card-id map behind the related-cards summary chips and the pool
     // browser's keyword filter. Path taken from HSReplay-API-Client's
     // OAuthClient.DataQueries.DiscoverPoolKeywordsUrl.

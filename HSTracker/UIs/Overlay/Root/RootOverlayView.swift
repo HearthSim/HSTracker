@@ -604,6 +604,9 @@ struct RootOverlayView: View {
             OpponentHandMarkersView(viewModel: viewModel.opponentHandMarkers,
                                     canvasSize: geometry.size)
             BoardOverlayView(viewModel: viewModel.boardOverlay, canvasSize: geometry.size)
+            // The board entry order badges, which HDT declares right after
+            // the two board grids.
+            BoardEntryOrderView(viewModel: viewModel.boardEntryOrder, canvasSize: geometry.size)
             // The MercAbility stack, which HDT declares immediately before
             // the two board grids on its own canvas.
             MercenariesAbilityHoverView(viewModel: viewModel.mercenariesAbilityHover,

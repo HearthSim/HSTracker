@@ -44,6 +44,9 @@ class EntityInfo {
         set { _latestCardId = newValue }
     }
     var deckIndex = 0
+    // The order the entity entered PLAY in, counted across both sides for
+    // the board entry order overlay.
+    var boardOrder: Int?
     var inGraveyardAtStartOfGame = false
     var extraInfo: (any ICardExtraInfo)?
     var forged = false

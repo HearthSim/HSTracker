@@ -11,7 +11,7 @@ import Foundation
 class SpellsPlayedForNagasCounter: NumericCounter {
     override var isBattlegroundsCounter: Bool { true }
     override var cardIdToShowInUI: String? { CardIds.NonCollectible.Neutral.Thaumaturgist }
-    override var localizedName: String { String.localizedString("Counter_PlayedSpells", comment: "") }
+    override var localizedName: String { String.localizedString("Counter_PlayedSpellsForNagas", comment: "") }
     override var relatedCards: [String] {
         return [
             CardIds.NonCollectible.Neutral.Thaumaturgist,

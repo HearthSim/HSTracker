@@ -38,6 +38,19 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
     // landing at the same time) - mirrors HDT's SemaphoreSlim(1,1) guard.
     private let updateLock = NSLock()
 
+    // HDT's OnMinionPoolChanged, which re-raises each guide's CoreCards and
+    // AddonCards. These view models are structs that work out card
+    // availability when they are built, so they are rebuilt instead.
+    @MainActor
+    func onMinionPoolChanged() {
+        func rebuild(_ comp: BattlegroundsCompGuideViewModel) -> BattlegroundsCompGuideViewModel {
+            BattlegroundsCompGuideViewModel(comp.compGuide, isPreLobby: comp.isPreLobby)
+        }
+        compsByTier = compsByTier?.mapValues { $0.map(rebuild) }
+        comps = comps?.map(rebuild)
+        selectedComp = selectedComp.map(rebuild)
+    }
+
     func onMatchStart() async {
         await MainActor.run {
             if isPreLobby {

@@ -255,6 +255,8 @@ final class Settings {
     static var showMulliganToast: Bool
     @UserDefault(key: Settings.show_flavor_text, defaultValue: true)
     static var showFlavorText: Bool
+    @UserDefault(key: Settings.show_board_entry_order, defaultValue: false)
+    static var showBoardEntryOrder: Bool
     @UserDefault(key: Settings.enable_mulligan_guide, defaultValue: true)
     static var enableMulliganGuide: Bool
     @UserDefault(key: Settings.enable_mulligan_gv2, defaultValue: true)
@@ -464,6 +466,11 @@ final class Settings {
     static var hidePlayerSideboards: Bool
     @UserDefault(key: Settings.player_counters, defaultValue: true)
     static var showPlayerCounters: Bool
+    // Per-counter, per-side visibility overrides, read and written through
+    // CounterVisibilitySettings. Sparse: only counters the user has actually customised
+    // get an entry, so a newly added counter needs no migration.
+    @UserDefault(key: Settings.counter_visibility_overrides, defaultValue: [:])
+    static var counterVisibilityOverrides: [String: [String: Int]]
     @UserDefault(key: Settings.player_related_cards, defaultValue: true)
     static var showPlayerRelatedCards
     // Per-card overrides for the opponent's "Related Cards" list, read and written
@@ -903,6 +910,7 @@ extension Settings {
     static let show_experience_counter = "show_experience_counter"
     static let show_mulligan_toast = "show_mulligan_toast"
     static let show_flavor_text = "show_flavor_text"
+    static let show_board_entry_order = "show_board_entry_order"
     static let enable_mulligan_guide = "enable_mulligan_guide"
     static let enable_mulligan_gv2 = "enable_mulligan_gv2"
     static let show_mulligan_guide_pre_lobby = "show_mulligan_guide_pre_lobby"
@@ -927,6 +935,7 @@ extension Settings {
     static let show_battlegrounds_guides_pre_lobby = "show_battlegrounds_guides_pre_lobby"
     static let show_battlegrounds_meta_snapshot = "show_battlegrounds_meta_snapshot"
     static let related_card_visibility_overrides = "related_card_visibility_overrides"
+    static let counter_visibility_overrides = "counter_visibility_overrides"
     static let show_battlecry_deathrattle_on_tiers = "show_battlecry_deathrattle_on_tiers"
     static let show_tavern_spells = "show_tavern_spells"
     static let show_tavern_triples = "show_tavern_triples"

@@ -43,7 +43,7 @@ class RelatedCardVisibilitySettingsTests: HSTrackerTests {
     // MARK: - Resolve
 
     func testResolveOverrideWinsAndAutoFallsBackToTheHeuristic() {
-        let cases: [(RelatedCardVisibility, Bool, Bool)] = [
+        let cases: [(CounterVisibility, Bool, Bool)] = [
             (.auto, true, true),
             (.auto, false, false),
             (.enabled, true, true),
@@ -84,7 +84,7 @@ class RelatedCardVisibilitySettingsTests: HSTrackerTests {
 
         XCTAssertEqual(settings.getOpponent(cardId), .enabled)
         XCTAssertEqual(Settings.relatedCardVisibilityOverrides.count, 1)
-        XCTAssertEqual(Settings.relatedCardVisibilityOverrides[cardId], RelatedCardVisibility.enabled.rawValue)
+        XCTAssertEqual(Settings.relatedCardVisibilityOverrides[cardId], CounterVisibility.enabled.rawValue)
     }
 
     func testSetBackToAutoRemovesTheEntry() {
@@ -109,7 +109,7 @@ class RelatedCardVisibilitySettingsTests: HSTrackerTests {
         settings.setOpponent(cardId, .enabled)
         // An entry this build knows nothing about, e.g. written by a newer version.
         var overrides = Settings.relatedCardVisibilityOverrides
-        overrides["FROM_THE_FUTURE"] = RelatedCardVisibility.disabled.rawValue
+        overrides["FROM_THE_FUTURE"] = CounterVisibility.disabled.rawValue
         Settings.relatedCardVisibilityOverrides = overrides
         settings.invalidate()
 
@@ -118,7 +118,7 @@ class RelatedCardVisibilitySettingsTests: HSTrackerTests {
         XCTAssertEqual(settings.getOpponent(cardId), .auto)
         XCTAssertEqual(Settings.relatedCardVisibilityOverrides.count, 1)
         XCTAssertEqual(Settings.relatedCardVisibilityOverrides["FROM_THE_FUTURE"],
-                       RelatedCardVisibility.disabled.rawValue)
+                       CounterVisibility.disabled.rawValue)
     }
 
     // MARK: - Catalog
@@ -199,7 +199,7 @@ class RelatedCardVisibilitySettingsTests: HSTrackerTests {
         let representative = RelatedCardCatalog.getVariantIds(arfusOriginal)[0]
         let other = representative == arfusOriginal ? arfusCore : arfusOriginal
 
-        Settings.relatedCardVisibilityOverrides = [other: RelatedCardVisibility.enabled.rawValue]
+        Settings.relatedCardVisibilityOverrides = [other: CounterVisibility.enabled.rawValue]
         settings.invalidate()
 
         XCTAssertEqual(settings.getOpponent(representative), .enabled)

@@ -56,6 +56,15 @@ final class LogReaderManager {
     public static let timeZone = TimeZone.current
     public static let calendar = Calendar.current
 
+    /// The stretches of the current game a Semi-Stable Portal's Rewind took
+    /// back. Their lines never happened as far as the game is concerned, so
+    /// they are skipped when the log is read again after the rewind.
+    var ignoredTimeRanges: [ClosedRange<LogDate>] = []
+
+    let logPath: String
+
+    private let rewoundEntityCreations = RewoundEntityCreationFilter()
+
     private(set) var running = false
     private var stopped = false
     private var queue: DispatchQueue?
@@ -67,6 +76,7 @@ final class LogReaderManager {
     
 	init(logPath: String, coreManager: CoreManager) {
         self.coreManager = coreManager
+        self.logPath = logPath
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
 		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
 		arenaHandler = ArenaHandler(with: coreManager)
@@ -121,8 +131,14 @@ final class LogReaderManager {
                 var processMap = [LogDate: [LogLine]]()
 
                 for reader in readers {
+                    if stopped {
+                        break
+                    }
                     let loglines = reader.collect()
                     for line in loglines {
+                        if stopped {
+                            break
+                        }
                         var lineList = processMap[line.time] ?? [LogLine]()
                         lineList.append(line)
                         processMap[line.time] = lineList
@@ -148,6 +164,12 @@ final class LogReaderManager {
             }
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
+    }
+
+    /// Makes the worker drop the rest of the lines it has collected, without
+    /// waiting for it. Safe to call from the worker itself, unlike stop().
+    func requestStop() {
+        stopped = true
     }
 
 	func stop(eraseLogFile: Bool) {
@@ -187,6 +209,18 @@ final class LogReaderManager {
 	}
 	
 	private func processLine(line: LogLine) {
+        // skip rewound lines, but keep the entities they created in the uploaded log:
+        // a rewind does not un-create them and later lines still reference them.
+        if ignoredTimeRanges.contains(where: { $0.contains(line.time) }) {
+            if rewoundEntityCreations.keepInPowerLog(line) {
+                coreManager.game.add(powerLog: line)
+            }
+            return
+        }
+
+        rewoundEntityCreations.reset()
+        coreManager.game.gameTime = line.time
+
         switch line.namespace {
         case .power:
             if line.content.hasPrefix("GameState.") {

@@ -1,5 +1,5 @@
 //
-//  ShopBuffStatsCounter.swift
+//  ElementalTavernBuffStatsCounter.swift
 //  HSTracker
 //
 //  Created by Francisco Moraes on 5/18/25.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ShopBuffStatsCounter: StatsCounter {
+class ElementalTavernBuffStatsCounter: StatsCounter {
     override var isBattlegroundsCounter: Bool {
         return true
     }

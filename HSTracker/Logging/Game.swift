@@ -290,6 +290,10 @@ class Game: NSObject, PowerEventHandler {
                 return
             }
 
+            if self.gameTime == nil {
+                return
+            }
+
             if Settings.showOpponentTracker &&
                 (!self.isBattlegroundsMatch() && !self.isMercenariesMatch() && self.currentGameType != .gt_unknown) &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
@@ -378,6 +382,10 @@ class Game: NSObject, PowerEventHandler {
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self, let tracker = self.windowManager.rootOverlay?.viewModel.playerTracker else {
+                return
+            }
+
+            if self.gameTime == nil {
                 return
             }
             if Settings.showPlayerTracker &&
@@ -871,6 +879,40 @@ class Game: NSObject, PowerEventHandler {
                 board.isShown = false
                 board.clearAbilities()
             }
+            self.updateBoardEntryOrder()
+        }
+    }
+
+    // The board entry order part of HDT's OverlayWindow.UpdateBoardState,
+    // which runs after every log batch whatever the board grids' own gate.
+    // Main thread only.
+    private func updateBoardEntryOrder() {
+        guard let boardOrder = windowManager.rootOverlay?.viewModel.boardEntryOrder else {
+            return
+        }
+        // Player.board walks every entity, so it is only done while there is a
+        // weapon badge to draw; with the setting off the view model just
+        // clears itself.
+        let wanted = Settings.showBoardEntryOrder && isTraditionalHearthstoneMatch
+        boardOrder.onBoardStateUpdated(playerWeapon: wanted ? player.board.first { $0.isWeapon } : nil,
+                                       opponentWeapon: wanted ? opponent.board.first { $0.isWeapon } : nil,
+                                       game: self,
+                                       isContentVisible: isBoardEntryOrderContentVisible)
+    }
+
+    // OverlayWindow.IsContentVisible: the overlay is hidden while Hearthstone
+    // is in the background, if the user asked for that.
+    private var isBoardEntryOrderContentVisible: Bool {
+        !Settings.hideAllWhenGameInBackground || hearthstoneRunState.isActive
+    }
+
+    // HDT's OverlayWindow.OnPlayZoneStateChanged, fed by the PlayZoneWatcher
+    // off the main thread.
+    func onPlayZoneStateChanged(_ args: BoardStateArgs) {
+        DispatchQueue.main.async {
+            self.windowManager.rootOverlay?.viewModel.boardEntryOrder
+                .onPlayZoneStateChanged(args, game: self,
+                                        isContentVisible: self.isBoardEntryOrderContentVisible)
         }
     }
 	
@@ -1064,6 +1106,8 @@ class Game: NSObject, PowerEventHandler {
     var buildNumber: Int = 0
     var playerIDNameMapping = SynchronizedDictionary<Int, String>()
     var playerIdsByPlayerName = SynchronizedDictionary<String, Int>()
+    // Whether this game's Power.log has told us the Hearthstone build yet
+    var parsedBuildNumber = false
     
     var choicesById = SynchronizedDictionary<Int, IHsChoice>()
     var choicesByTaskList = SynchronizedDictionary<Int, [IHsChoice]>()
@@ -1079,6 +1123,10 @@ class Game: NSObject, PowerEventHandler {
     private var powerLog: [LogLine] = []
     func add(powerLog: LogLine) {
         self.powerLog.append(powerLog)
+    }
+
+    func clearPowerLog() {
+        self.powerLog = []
     }
     
     var playedCards: [PlayedCard] = []
@@ -1174,9 +1222,16 @@ class Game: NSObject, PowerEventHandler {
     // swiftlint:enable large_tuple
     var joustReveals = 0
     var dredgeCounter = 0
+    var boardOrderCounter = 0
 
     var lastCardPlayed = 0
     var lastEntityChosenOnDiscover = 0
+    var lastPlayBlockTime: LogDate?
+    /// HDT's `GameTime.Time`: the time of the last log line read, nil from a
+    /// reset until the log reader reads the next one - while there is nothing
+    /// in the game worth drawing. Unlike HDT's it does not start out empty, so
+    /// the active deck still shows before Hearthstone has logged anything.
+    var gameTime: LogDate? = LogDate(date: Date.distantPast)
     var gameEnded = true
     internal private(set) var currentDeck: PlayingDeck?
 
@@ -1596,8 +1651,9 @@ class Game: NSObject, PowerEventHandler {
         })
     }
 
-    func reset() {
+    func reset(updateUI: Bool = true) {
         logger.verbose("Reseting Game")
+        gameTime = nil
         currentTurn = 0
         hasValidDeck = false
         gameId = UUID.init().uuidString
@@ -1626,6 +1682,7 @@ class Game: NSObject, PowerEventHandler {
 		
         lastCardPlayed = 0
         lastEntityChosenOnDiscover = 0
+        lastPlayBlockTime = nil
         
         currentEntityHasCardId = false
         playerUsedHeroPower = false
@@ -1644,6 +1701,7 @@ class Game: NSObject, PowerEventHandler {
         
         playerIDNameMapping.removeAll()
         playerIdsByPlayerName.removeAll()
+        parsedBuildNumber = false
         choicesById.removeAll()
         choicesByTaskList.removeAll()
 
@@ -1655,9 +1713,11 @@ class Game: NSObject, PowerEventHandler {
         opponent.reset()
         activeEffects.reset()
         relatedCardsManager.reset()
-        updateSecretTracker(cards: [])
         resetPlayerResourcesWidgets()
-        windowManager.hideGameTrackers()
+        if updateUI {
+            updateSecretTracker(cards: [])
+            windowManager.hideGameTrackers()
+        }
 		
 		_spectator = nil
         _availableRaces = nil
@@ -1680,6 +1740,7 @@ class Game: NSObject, PowerEventHandler {
         
         adventureOpponentId = nil
         dredgeCounter = 0
+        boardOrderCounter = 0
         
         triangulatePlayed = false
         
@@ -2067,6 +2128,7 @@ class Game: NSObject, PowerEventHandler {
 		
         handleEndGame()
         self.powerLog = []
+        AppDelegate.instance().coreManager?.handleGameEnd()
 
         isReconnect = false
         secretsManager?.reset()
@@ -3157,6 +3219,11 @@ class Game: NSObject, PowerEventHandler {
             //throw new HeroPickingException("Invalid server response")
         }
 
+        // Echo the ref on subsequent requests (rerolls)
+        if let heroPickRef = stats?.hero_pick_ref {
+            _battlegroundsHeroPickStatsParams?.hero_pick_ref = heroPickRef
+        }
+
         return stats
     }
     
@@ -3218,7 +3285,7 @@ class Game: NSObject, PowerEventHandler {
                 return
             }
 
-            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
+            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll, hero_pick_ref: _battlegroundsHeroPickStatsParams.hero_pick_ref)
             return
         }
 
@@ -3295,6 +3362,55 @@ class Game: NSObject, PowerEventHandler {
         return false
     }
     
+    // the game only requests the pool from the server once the match has initialized
+    private func loadBattlegroundsMinionPool() async {
+        for _ in 0 ..< 60 {
+            if isInMenu {
+                return
+            }
+            if let pool = BattlegroundsDbSingleton.tryLoadMinionPool() {
+                await MainActor.run {
+                    self.windowManager.rootOverlay?.viewModel.onBattlegroundsMinionPoolLoaded()
+                }
+                postBattlegroundsTavernPoolObservation(pool)
+                return
+            }
+            await Task.sleep(milliseconds: 500)
+        }
+        logger.warning("Battlegrounds minion pool was not available, falling back to the assembled database")
+    }
+
+    // HDT gates this on Config.GoogleAnalytics, its usage statistics switch;
+    // HSTracker's is isTelemetryEnabled.
+    private func postBattlegroundsTavernPoolObservation(_ pool: MirrorBattlegroundsMinionPool) {
+        if !AppDelegate.isTelemetryEnabled || spectator {
+            return
+        }
+
+        guard let remoteConfig = RemoteConfig.data?.battlegrounds_tavern_pool, !(remoteConfig.disabled ?? false),
+              Sampling.shouldSample(remoteConfig.sampling ?? 0) else {
+            return
+        }
+
+        let parameters = BattlegroundsTavernPoolObservationParams(
+            game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue,
+            battlegrounds_rating: currentBattlegroundsRating,
+            player_region: currentRegion != .unknown ? Region.toBnetRegion(region: currentRegion) : nil,
+            minion_types: (availableRaces ?? []).map { Race.lookup($0) }.sorted(),
+            anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity),
+            deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity),
+            hearthstone_build: buildNumber > 0 ? buildNumber : nil,
+            tavern_guide_pool: pool.cards.map { entry in
+                BattlegroundsTavernPoolObservationParams.TavernGuidePoolEntry(
+                    dbf_id: entry.dbfId,
+                    tier: entry.tier,
+                    card_type: entry.cardType,
+                    minion_types: entry.minionTypes.map { $0.intValue },
+                    banned: entry.banned)
+            })
+        HSReplayAPI.postBattlegroundsTavernPoolObservation(parameters: parameters)
+    }
+
     @MainActor
     private func handleBattlegroundsStart() async {
         Watchers.battlegroundsLeaderboardWatcher.run()
@@ -3302,6 +3418,9 @@ class Game: NSObject, PowerEventHandler {
         OpponentDeadForTracker.reset()
         await MainActor.run {
             self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.reset()
+        }
+        Task.detached {
+            await self.loadBattlegroundsMinionPool()
         }
         var heroes = [Entity]()
         for _ in 0 ..< 10 {

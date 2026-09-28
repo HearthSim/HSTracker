@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class GeneralPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.general
+    var preferencePaneIdentifier = PreferencePaneIdentifier.general
 
     var preferencePaneTitle = String.localizedString("General", comment: "")
 
-    var toolbarItemIcon = NSImage(named: "settings-general")!
+    var preferencePaneIcon = NSImage(named: "settings-general")!
 
     @IBOutlet var notifyGameStart: NSButton!
     @IBOutlet var notifyTurnStart: NSButton!
@@ -65,6 +64,6 @@ class GeneralPreferences: PreferencePaneController, PreferencePane {
 
 }
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let general = Self("general")
 }

@@ -18,7 +18,8 @@ class MinionsDiedThisTurnCounter: NumericCounter {
 
     override var relatedCards: [String] {
         return [
-            CardIds.Collectible.Invalid.RemnantOfRage
+            CardIds.Collectible.Invalid.RemnantOfRage,
+            CardIds.Collectible.Druid.VolcanicLumberer
         ]
     }
 

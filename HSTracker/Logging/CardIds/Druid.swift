@@ -245,6 +245,9 @@ extension CardIds.Collectible {
         static let Symbiosis = "EDR_273"
         static let WardOfEarth = "EDR_060"
         static let WorthyExpedition = "ULD_136"
+        static let CrystalStag = "DAL_799"
+        static let KnightOfTheWildWONDERS = "WON_003"
+        static let FrostsaberMatriarch = "AV_291"
     }
 }
 

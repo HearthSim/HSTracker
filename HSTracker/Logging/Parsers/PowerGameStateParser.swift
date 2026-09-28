@@ -751,7 +751,9 @@ class PowerGameStateParser: LogEventParser {
             
             blockStart(type: blockType, cardId: cardId, target: target, trigger: triggerKeyword)
 
-            if matches.count > 0 && (blockType == "TRIGGER" || blockType == "POWER") {
+            if matches.count > 0 && blockType == "PLAY" {
+                eventHandler.lastPlayBlockTime = logLine.time
+            } else if matches.count > 0 && (blockType == "TRIGGER" || blockType == "POWER") {
                 let player = eventHandler.entities.values
                     .filter { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }.sorted(by: { $0.id < $1.id }).first
                 let opponent = eventHandler.entities.values
@@ -1474,6 +1476,10 @@ class PowerGameStateParser: LogEventParser {
                                             CardIds.NonCollectible.Warrior.FirePlumesHeart_SulfurasToken ] {
                                     eventHandler.opponent.predictUniqueCardInDeck(cardId: id, isCreated: true)
                                 }
+                            }
+                        case CardIds.NonCollectible.Neutral.SemiStablePortal_RewindTimelineToken:
+                            if let lastPlayBlockTime = eventHandler.lastPlayBlockTime {
+                                AppDelegate.instance().coreManager.handleRewind(playTime: lastPlayBlockTime, rewindTime: logLine.time)
                             }
                         case CardIds.Collectible.Druid.SkyMotherAviana:
                             let createdByAviana = FakeCard(CardIds.Collectible.Druid.SkyMotherAviana)

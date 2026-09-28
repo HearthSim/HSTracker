@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class TrackersPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.trackers
+    var preferencePaneIdentifier = PreferencePaneIdentifier.trackers
     
     var preferencePaneTitle = String.localizedString("Trackers", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-trackers")!
+    var preferencePaneIcon = NSImage(named: "settings-trackers")!
 
     @IBOutlet var highlightCardsInHand: NSButton!
     @IBOutlet var highlightLastDrawn: NSButton!
@@ -35,6 +34,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
     @IBOutlet var showExperienceCounter: NSButton!
     @IBOutlet var showMulliganToast: NSButton!
     @IBOutlet var showFlavorText: NSButton!
+    @IBOutlet var showBoardEntryOrder: NSButton!
     @IBOutlet var enableMulliganGuide: NSButton!
     @IBOutlet var enableMulliganGV2: NSButton!
     @IBOutlet var showMulliganGuidePreLobby: NSButton!
@@ -71,6 +71,7 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
         showExperienceCounter.state = Settings.showExperienceCounter ? .on : .off
         showMulliganToast.state = Settings.showMulliganToast ? .on : .off
         showFlavorText.state = Settings.showFlavorText ? .on : .off
+        showBoardEntryOrder.state = Settings.showBoardEntryOrder ? .on : .off
 
         theme.selectItem(at: themes.firstIndex(of: Settings.theme) ?? 0)
         allowFullscreen.state = Settings.canJoinFullscreen ? .on : .off
@@ -152,6 +153,8 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
             Settings.showMulliganToast = showMulliganToast.state == .on
         } else if sender == showFlavorText {
             Settings.showFlavorText = showFlavorText.state == .on
+        } else if sender == showBoardEntryOrder {
+            Settings.showBoardEntryOrder = showBoardEntryOrder.state == .on
         } else if sender == enableMulliganGuide {
             Settings.enableMulliganGuide = enableMulliganGuide.state == .on
             let game = AppDelegate.instance().coreManager.game
@@ -181,6 +184,6 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let trackers = Self("trackers")
 }

@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Preferences
 
 class OpponentTrackersPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.opponent_trackers
+    var preferencePaneIdentifier = PreferencePaneIdentifier.opponent_trackers
     
     var preferencePaneTitle = String.localizedString("Opponent", comment: "")
     
-    var toolbarItemIcon = NSImage(named: "settings-opponent")!
+    var preferencePaneIcon = NSImage(named: "settings-opponent")!
 
     @IBOutlet var showOpponentTracker: NSButton!
     @IBOutlet var showCardHuds: NSButton!
@@ -111,6 +110,6 @@ class OpponentTrackersPreferences: PreferencePaneController, PreferencePane {
 }
 
 // MARK: - Preferences
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let opponent_trackers = Self("opponent_trackers")
 }

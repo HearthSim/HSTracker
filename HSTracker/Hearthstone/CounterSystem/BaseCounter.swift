@@ -14,8 +14,30 @@ class BaseCounter: NSObject {
 
     // Abstract properties
     var localizedName: String {
-        return Cards.by(cardId: cardIdToShowInUI)?.name ?? ""
+        return cardDisplayName ?? fallbackDisplayName
     }
+
+    /// Whether the counter's portrait card is missing from the card database, which leaves
+    /// `localizedName` with nothing better than the type name unless a subclass names itself.
+    var usesFallbackDisplayName: Bool {
+        return cardDisplayName == nil
+    }
+
+    private var cardDisplayName: String? {
+        guard let name = Cards.by(cardId: cardIdToShowInUI)?.name, !name.isEmpty else {
+            return nil
+        }
+        return name
+    }
+
+    private var fallbackDisplayName: String {
+        let name = counterId
+        let suffix = "Counter"
+        return name.hasSuffix(suffix) && name.count > suffix.count
+            ? String(name.dropLast(suffix.count))
+            : name
+    }
+
     var cardIdToShowInUI: String? {
         return nil
     }
@@ -47,6 +69,34 @@ class BaseCounter: NSObject {
     
     var isBattlegroundsCounter: Bool {
         return false
+    }
+
+    /// The key the counter's visibility override is stored under: its type name, as in HDT.
+    class var counterId: String {
+        return String(describing: self)
+    }
+
+    var counterId: String {
+        return type(of: self).counterId
+    }
+
+    var isAvailableInCurrentGameMode: Bool {
+        return isBattlegroundsCounter ? game.isBattlegroundsMatch() : game.isTraditionalHearthstoneMatch
+    }
+
+    var visibilityOverride: CounterVisibility {
+        return CounterVisibilitySettings.instance.get(counterId, isPlayer: isPlayerCounter)
+    }
+
+    /// Final visibility for this counter: the game-mode gate, then the user's override, then
+    /// the counter's own heuristic.
+    func isVisible() -> Bool {
+        if !isAvailableInCurrentGameMode {
+            return false
+        }
+        return CounterVisibilitySettings.resolve(visibilityOverride) {
+            shouldShow() || mirrorsPlayerDeckKnowledge
+        }
     }
 
     func shouldShow() -> Bool {
@@ -137,19 +187,22 @@ class BaseCounter: NSObject {
     final let _alwaysAvailableCards = [ CardIds.NonCollectible.Neutral.BoonofBeetles_BeetleToken1, CardIds.NonCollectible.Neutral.BloodGem1, CardIds.NonCollectible.Neutral.TwilightHatchling_TwilightWhelpToken ]
 
     private var _availableCardIds: Set<Int>?
+    private weak var _availableCardIdsDb: BattlegroundsDb?
     
     private func getAvailableCardIds() -> Set<Int>? {
-        if let availableCardIds = _availableCardIds {
+        let db = BattlegroundsDbSingleton.current
+        if let availableCardIds = _availableCardIds, _availableCardIdsDb === db {
             return availableCardIds
         }
         guard let availableRaces = game.availableRaces else {
             return nil
         }
         let currentRaces = Set<Race>(availableRaces) + [ .all, .invalid ]
-        let availableCards = BattlegroundsDbSingleton.instance.getCardsByRaces(currentRaces, game.isBattlegroundsDuosMatch()) + BattlegroundsDbSingleton.instance.getSpells(game.isBattlegroundsDuosMatch())
+        let availableCards = db.getCardsByRaces(currentRaces, game.isBattlegroundsDuosMatch()) + db.getSpells(game.isBattlegroundsDuosMatch())
         
         let availableCardIds = Set<Int>(availableCards.compactMap({ $0.dbfId }))
         _availableCardIds = availableCardIds
+        _availableCardIdsDb = db
         return availableCardIds
     }
     

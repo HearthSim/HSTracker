@@ -366,7 +366,32 @@ class MonoHelper {
             cl.initialize()
         }
     }
-    
+
+    // Starting the runtime takes several seconds, so it happens in the background once the
+    // trackers are up rather than holding the splash screen. Nothing may call into mono until
+    // this is set, and it stays unset if Bob's Buddy failed to load.
+    private static let readyLock = NSLock()
+    private static var _isReady = false
+
+    static var isReady: Bool {
+        readyLock.lock()
+        defer { readyLock.unlock() }
+        return _isReady
+    }
+
+    static func start() {
+        guard load() else {
+            logger.error("Failed to load BobsBuddy")
+            return
+        }
+        initialize()
+
+        readyLock.lock()
+        _isReady = true
+        readyLock.unlock()
+        logger.info("Bob's Buddy is ready")
+    }
+
     static func load() -> Bool {
         #if !HSTTEST
         guard let path = Bundle.main.resourceURL else {

@@ -7,7 +7,6 @@
 //
 
 import AppKit
-import Preferences
 import SwiftUI
 
 /// The settings behind where the deck trackers and the secret helper sit on the
@@ -19,11 +18,21 @@ import SwiftUI
 /// move, which is what HDT's `ElementSorter` is, and there is nothing to gain
 /// from expressing that in a xib.
 class OverlayLayoutPreferences: PreferencePaneController, PreferencePane {
-    var preferencePaneIdentifier = Preferences.PaneIdentifier.overlay_layout
+    var preferencePaneIdentifier = PreferencePaneIdentifier.overlay_layout
 
     var preferencePaneTitle = String.localizedString("Overlay_Layout", comment: "")
 
-    var toolbarItemIcon = NSImage(named: "settings-overlay-layout")!
+    var preferencePaneIcon = NSImage(named: "settings-overlay-layout")!
+
+    var preferencePaneSearchText: [String] {
+        ["Options_Overlay_General_Label_Reset", "Options_Overlay_General_Button_Reset",
+         "Options_Overlay_Player_Header", "Options_Overlay_Opponent_Header",
+         "Options_Overlay_Player_Label_Scaling", "Options_Overlay_Player_Label_Opacity",
+         "Options_Overlay_Player_CheckBox_CenterVertically", "Overlay_Layout_Section_Order",
+         "Secret_Helper", "Options_Overlay_Opponent_Label_SecretScaling"]
+            .map { String.localizedString($0, comment: "") }
+            + DeckPanel.allCases.map(\.localizedName)
+    }
 
     override func makeContentView() -> NSView? {
         let hosting = NSHostingView(rootView: OverlayLayoutPreferencesView())
@@ -32,7 +41,7 @@ class OverlayLayoutPreferences: PreferencePaneController, PreferencePane {
     }
 }
 
-extension Preferences.PaneIdentifier {
+extension PreferencePaneIdentifier {
     static let overlay_layout = Self("overlay_layout")
 }
 

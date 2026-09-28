@@ -246,6 +246,7 @@ extension Entity: NSCopying {
         e.info.turn = info.turn
         e.info.turnPlayed = info.turnPlayed
         e.info.deckIndex = info.deckIndex
+        e.info.boardOrder = info.boardOrder
         e.info.inGraveyardAtStartOfGame = info.inGraveyardAtStartOfGame
         e.info.guessedCardState = info.guessedCardState
         e.info.pendingStartOfGameReveal = info.pendingStartOfGameReveal

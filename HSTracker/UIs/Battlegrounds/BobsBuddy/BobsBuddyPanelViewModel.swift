@@ -9,7 +9,6 @@
 import Foundation
 import AppKit
 import SwiftUI
-import Preferences
 
 // What BobsBuddyInvoker drives the panel through. It is a protocol, and not
 // gated on the SwiftUI baseline, because the invoker isn't either: the view
@@ -353,7 +352,7 @@ class BobsBuddyPanelViewModel: ObservableObject, BobsBuddyDisplay {
 
     // The cog's MouseBinding: GlobalCommands.ShowSettings("Battlegrounds").
     func showSettings() {
-        AppDelegate.instance().openPreferences(pane: Preferences.PaneIdentifier.battlegrounds)
+        AppDelegate.instance().openPreferences(pane: PreferencePaneIdentifier.battlegrounds)
     }
 
     // The Hyperlink under the introduction.
