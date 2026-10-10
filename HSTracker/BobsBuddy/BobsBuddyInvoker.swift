@@ -1116,9 +1116,16 @@ class BobsBuddyInvoker {
             return nil
         }
 
-        // Deliberately the base card id. A Deity is only ever Golden through Mask of
-        // Ancient Ones, which the sigil applies itself from the trinket.
         let deity = sim.minionFactory.createFromCardid(id: card.id, player: player)
+
+        // Mask of Ancient Ones sets bacon_evolution_card_id to the premium Deity dbf id,
+        // and it stays premium even after the trinket is gone (e.g., Buttons' Growing
+        // Collection is replaced by another hero power). HDT looks the id up in
+        // Cards.TripleToNormalCardIds, which HearthDb builds from the normal card's
+        // bacon_triple_upgrade_minion_id.
+        if isTriple(card) {
+            deity.golden = true
+        }
 
         // These are the Deity's current total stats, not a bonus on top of the printed
         // ones: they start at 1/1 when the sigil is created and grow with every "Give
@@ -1133,6 +1140,13 @@ class BobsBuddyInvoker {
         deity.maxHealth = health
 
         return deity
+    }
+
+    private static func isTriple(_ card: Card) -> Bool {
+        if card.baconTripledBaseMinionId > 0 {
+            return true
+        }
+        return Cards.cards.first { $0.baconTripleUpgradeMinionId == card.dbfId } != nil
     }
 
     static func getTrinketFromEntity(factory: TrinketFactoryProxy, player: Bool, entity: Entity) -> TrinketProxy {
