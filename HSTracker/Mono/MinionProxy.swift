@@ -56,7 +56,7 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
     var taunt: Bool
 
     @MonoPrimitiveProperty(property: "div", owner: MinionProxy.self)
-    var div: Bool
+    var div: Int32
 
     @MonoPrimitiveProperty(property: "cleave", owner: MinionProxy.self)
     var cleave: Bool
