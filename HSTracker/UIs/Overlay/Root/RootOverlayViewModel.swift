@@ -52,6 +52,7 @@ class RootOverlayViewModel: ObservableObject {
     let battlegroundsHeroPicking = BattlegroundsHeroPickingViewModel()
     let battlegroundsQuestPicking = BattlegroundsQuestPickingViewModel()
     let battlegroundsTrinketPicking = BattlegroundsTrinketPickingViewModel()
+    let battlegroundsHeroPowerPicking = BattlegroundsHeroPowerPickingViewModel()
     let tier7PreLobby = Tier7PreLobbyViewModel()
 
     // HDT's MercenariesTaskListVM, shared by its MercenariesTaskListButton and

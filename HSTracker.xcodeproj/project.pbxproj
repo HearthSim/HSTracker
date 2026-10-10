@@ -130,6 +130,7 @@
 		2564D9545FB2C18D546F55A2 /* FaceCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A025D73C9F13F33AF3902D8C /* FaceCollector.swift */; };
 		25A0710DC133A31D8114E9A8 /* DeckOfLunacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74150158F4C7F4213EAA85FF /* DeckOfLunacy.swift */; };
 		25AD2A07B64615910DB2F076 /* VanessaTheRingleader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD015AEDF627E82A3264ECBF /* VanessaTheRingleader.swift */; };
+		25B9E3E06EE3988C95E9EA5B /* BattlegroundsHeroPowerPickingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3FE11A91E3F1730718CC90 /* BattlegroundsHeroPowerPickingView.swift */; };
 		25EC1D0AD046FE503C009FC0 /* CenarionWard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEDCB84D7C706E78A0E2A93 /* CenarionWard.swift */; };
 		2605808C5BBF20F2508EB53A /* GnawingGreenfin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253D92303E3E743A4077156C /* GnawingGreenfin.swift */; };
 		26CC19BBE4654365996943D0 /* YseraUnleashed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C6D1869C0389139FDEE7D2 /* YseraUnleashed.swift */; };
@@ -739,6 +740,7 @@
 		B4743CFE3D39BD3CAF6816AD /* ShakuTheCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DEC7A341DD25FB24A44950 /* ShakuTheCollector.swift */; };
 		B4C89D7722E664660F790816 /* WaveOfNostalgia.swift in Sources */ = {isa = PBXBuildFile; fileRef = F154E9600E2BE56BB15B20E2 /* WaveOfNostalgia.swift */; };
 		B52EB25A4A90950135FF00A0 /* SilvermoonPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467766111996039F461A90E2 /* SilvermoonPortal.swift */; };
+		B54E9B985FD16EDCA0C739DD /* BattlegroundsHeroPowerPickingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C238DA7BA11A13746EF651E /* BattlegroundsHeroPowerPickingViewModel.swift */; };
 		B56A385636D88B473A1CACC7 /* InfinitizeTheMaxitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC4120E52A3CEA40EF73727 /* InfinitizeTheMaxitude.swift */; };
 		B5CA2F2E418B79D902A8307A /* WitchsCauldron.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA8A2C264D0025AFA8301B5 /* WitchsCauldron.swift */; };
 		B5F41432DBCD5E76BC3480BB /* TortollanForager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F41C2F06EACEBB0F3DE082 /* TortollanForager.swift */; };
@@ -1662,6 +1664,7 @@
 		BBC4AAAA8B8965F5F15FB75A /* StonehillDefender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2EB1C5515BF9D20E70FA73 /* StonehillDefender.swift */; };
 		BBF2E7A65BC80A7CB96DAC8A /* MountedRaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E30F8430F7A21C20D2DAE3 /* MountedRaptor.swift */; };
 		BC2E75A2E91A8E02C604FFBD /* CalamitysGrasp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B9482C286F8B7B903E76DE /* CalamitysGrasp.swift */; };
+		BC5CDAE5C8447BBE9274BD0F /* BattlegroundsSingleHeroPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8DB2BAB35F03B7D4AD03D3 /* BattlegroundsSingleHeroPowerView.swift */; };
 		BC69E89F6497109882E1D581 /* Pilfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64766C6620143BC34DCA04BB /* Pilfer.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
@@ -2121,6 +2124,7 @@
 		3E3CE34C81FE6C9ECFDB87FC /* SuspiciousAlchemist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuspiciousAlchemist.swift; sourceTree = "<group>"; };
 		3F2A4FF926052CBD025051CC /* FontOfPower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontOfPower.swift; sourceTree = "<group>"; };
 		3F2D5A00B9AAFE41DA7B3EC9 /* Outlander.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Outlander.swift; sourceTree = "<group>"; };
+		3F3FE11A91E3F1730718CC90 /* BattlegroundsHeroPowerPickingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPowerPickingView.swift; sourceTree = "<group>"; };
 		3FD72DBD69AD2DBB959746F9 /* SaddleUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaddleUp.swift; sourceTree = "<group>"; };
 		3FFFB554B9B63CEDBBCFC221 /* MaelstromPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaelstromPortal.swift; sourceTree = "<group>"; };
 		404D998CC0545A53F5D2E71D /* GurubashiHypemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GurubashiHypemon.swift; sourceTree = "<group>"; };
@@ -2549,7 +2553,9 @@
 		8A9B9E1AC8648652ADDC1C91 /* ColdSnap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColdSnap.swift; sourceTree = "<group>"; };
 		8BA49FA76D8468C4FE24CE19 /* Mulch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mulch.swift; sourceTree = "<group>"; };
 		8C0C90C7C194AD4CC20C16A9 /* BigBadVoodoo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigBadVoodoo.swift; sourceTree = "<group>"; };
+		8C238DA7BA11A13746EF651E /* BattlegroundsHeroPowerPickingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroPowerPickingViewModel.swift; sourceTree = "<group>"; };
 		8D194F657D745419E28F6F31 /* PrismaticElemental.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrismaticElemental.swift; sourceTree = "<group>"; };
+		8E8DB2BAB35F03B7D4AD03D3 /* BattlegroundsSingleHeroPowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleHeroPowerView.swift; sourceTree = "<group>"; };
 		8F036ACC2B4B39865836A3B0 /* WorgenRoadie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorgenRoadie.swift; sourceTree = "<group>"; };
 		8F0737B228A6B39C3E6592A6 /* TwistedPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwistedPack.swift; sourceTree = "<group>"; };
 		8F312ECA20F321EE7498BC65 /* Jumpscare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jumpscare.swift; sourceTree = "<group>"; };
@@ -4547,6 +4553,7 @@
 				B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */,
 				B8AC9A1F293D42510047F438 /* Tier7 */,
 				B89899412CA251F70011B184 /* TrinketPicking */,
+				CC8939B5412DF540D005C09D /* HeroPowerPicking */,
 			);
 			path = Battlegrounds;
 			sourceTree = "<group>";
@@ -6570,6 +6577,17 @@
 				DD4A2B3C4D5E6F708192A3B7 /* BattlegroundsMinionsExtraFiltersView.swift */,
 			);
 			path = Minions;
+			sourceTree = "<group>";
+		};
+		CC8939B5412DF540D005C09D /* HeroPowerPicking */ = {
+			isa = PBXGroup;
+			children = (
+				8C238DA7BA11A13746EF651E /* BattlegroundsHeroPowerPickingViewModel.swift */,
+				8E8DB2BAB35F03B7D4AD03D3 /* BattlegroundsSingleHeroPowerView.swift */,
+				3F3FE11A91E3F1730718CC90 /* BattlegroundsHeroPowerPickingView.swift */,
+			);
+			name = HeroPowerPicking;
+			path = HeroPowerPicking;
 			sourceTree = "<group>";
 		};
 		DC3023F67A002FF55103D7D4 /* Comps */ = {
@@ -8807,6 +8825,9 @@
 				B8A1F2042FD20001000A0204 /* ConstructedMulliganSingleCardStatsView.swift in Sources */,
 				B8A1F2062FD20001000A0206 /* ConstructedMulliganSingleCardHeaderView.swift in Sources */,
 				B8A1F2082FD20001000A0208 /* ConstructedMulliganOverlayMessageView.swift in Sources */,
+				B54E9B985FD16EDCA0C739DD /* BattlegroundsHeroPowerPickingViewModel.swift in Sources */,
+				BC5CDAE5C8447BBE9274BD0F /* BattlegroundsSingleHeroPowerView.swift in Sources */,
+				25B9E3E06EE3988C95E9EA5B /* BattlegroundsHeroPowerPickingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

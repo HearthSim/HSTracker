@@ -7670,6 +7670,94 @@
         }
       }
     },
+    "BattlegroundsHeroPicking_VisibilityToggle_Hide" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HIDE HERO STATS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CACHER L'OVERLAY DE HÉROS"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영웅 오버레이 숨기기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OCULTAR OVERLAY DO HERÓI"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "СКРЫТЬ ИНТЕРФЕЙС ГЕРОЯ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏英雄内嵌"
+          }
+        }
+      }
+    },
+    "BattlegroundsHeroPicking_VisibilityToggle_Show" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HELDEN-OVERLAY ANZEIGEN"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SHOW HERO STATS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AFFICHER L'OVERLAY DE HÉROS"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영웅 오버레이 보기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MOSTRAR OVERLAY DO HERÓI"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ПОКАЗЫВАТЬ ИНТЕРФЕЙС ГЕРОЯ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示英雄内嵌"
+          }
+        }
+      }
+    },
     "BattlegroundsMinions_TavernTier" : {
       "extractionState" : "manual",
       "localizations" : {

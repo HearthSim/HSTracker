@@ -2375,6 +2375,7 @@ class Game: NSObject, PowerEventHandler {
             windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
             windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
             windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+            windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.reset()
             // GameEventHandler's IsBattlegroundsMatch branch clears the trial
             // once the match it was activated for is over, so the next game
             // has to spend a trial of its own rather than riding this token.
@@ -2690,6 +2691,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
                 self.windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
                 self.windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+                self.windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.reset()
                 self.hideBattlegroundsHeroPanel()
                 self.hideBattlegroundsTimewarpPanel()
                 self.updateBattlegroundsSessionPanel()
@@ -2722,9 +2724,13 @@ class Game: NSObject, PowerEventHandler {
         // GameEventHandler's opponent-turn branch: shopping is over, so the
         // Inspiration panel freezes the board it will keep sending for the rest
         // of this turn. Solo only, as in HDT - a duos board changes hands.
-        if player == .opponent && !isInMenu && isBattlegroundsSoloMatch() {
-            DispatchQueue.main.async {
-                self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingEnd()
+        if player == .opponent && !isInMenu && isBattlegroundsMatch() {
+            windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.reset()
+
+            if isBattlegroundsSoloMatch() {
+                DispatchQueue.main.async {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsInspiration.onShoppingEnd()
+                }
             }
         }
 
@@ -3203,7 +3209,7 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    private func getBattlegroundsHeroPickStats(paramsReady: Task<Void, Never>? = nil) async -> BattlegroundsHeroPickStats? {
+    private func getBattlegroundsHeroPickStats(paramsReady: Task<Void, Never>? = nil, parameters: BattlegroundsHeroPickStatsParams? = nil) async -> BattlegroundsHeroPickStats? {
         if spectator {
             return nil
         }
@@ -3226,7 +3232,7 @@ class Game: NSObject, PowerEventHandler {
             await paramsReady.value
         }
 
-        let parameters = getBattlegroundsHeroPickParams()
+        let parameters = parameters ?? getBattlegroundsHeroPickParams()
 
         // Avoid using a trial when we can't get the api params anyway.
         guard let parameters else {
@@ -3343,6 +3349,14 @@ class Game: NSObject, PowerEventHandler {
     
     private func getBattlegroundsHeroPickParams() -> BattlegroundsHeroPickStatsParams? {
         return _battlegroundsHeroPickStatsParams
+    }
+
+    func getBattlegroundsHeroPowerPickParams(heroDbfId: Int, heroPowerDbfIds: [Int]) -> BattlegroundsHeroPickStatsParams? {
+        guard let availableRaces else {
+            return nil
+        }
+
+        return BattlegroundsHeroPickStatsParams(hero_dbf_ids: [heroDbfId], hero_power_dbf_ids: heroPowerDbfIds, minion_types: availableRaces.compactMap { x in Race.allCases.firstIndex(of: x) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: currentBattlegroundsRating, is_reroll: false, hero_pick_ref: _battlegroundsHeroPickStatsParams?.hero_pick_ref)
     }
     
     private var _battlegroundsHeroPickState: BattlegroundsHeroPickState?
@@ -4167,6 +4181,12 @@ class Game: NSObject, PowerEventHandler {
                 let offered = offeredEntities.filter { x in x.isHeroPower }
                 let heroPowerIds = (player.board.filter({ x in x.isHeroPower }) + offered).compactMap({ x in x.card.id })
                 battlegroundsMinionsOnHeroPowers(heroPowerIds)
+
+                if entities[choice.sourceEntityId]?.cardId == CardIds.NonCollectible.Neutral.AdventureTavernBrawl {
+                    Task.detached {
+                        await self.handleBattlegroundsFinleyChoice(offered)
+                    }
+                }
             }
         }
         player.offeredEntityIds = choice.offeredEntityIds ?? [Int]()
@@ -4203,6 +4223,31 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             self.windowManager.rootOverlay?.viewModel.battlegroundsMinionsGuide.onQuests(quests)
         }
+    }
+
+    private func handleBattlegroundsFinleyChoice(_ offeredHeroPowers: [Entity]) async {
+        guard let heroDbfId = player.hero?.card.dbfId else {
+            return
+        }
+
+        let heroPowerDbfIds = offeredHeroPowers.map { x in x.card.dbfId }
+
+        guard let parameters = getBattlegroundsHeroPowerPickParams(heroDbfId: heroDbfId, heroPowerDbfIds: heroPowerDbfIds) else {
+            return
+        }
+
+        // HDT shows the disabled and error messages from here, but the panel is
+        // only visible once there are stats to show, so neither is ever seen.
+        guard let stats = await getBattlegroundsHeroPickStats(parameters: parameters) else {
+            return
+        }
+
+        // the choice was completed while the stats were loading
+        if !offeredHeroPowers.all({ x in player.offeredEntityIds.contains(x.id) }) {
+            return
+        }
+
+        windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.setHeroPowerStats(heroPowerDbfIds: heroPowerDbfIds, stats: stats.data, parameters: stats.toast.parameters, minMmr: stats.toast.min_mmr, anomalyAdjusted: stats.toast.anomaly_adjusted ?? false)
     }
 
     @MainActor
@@ -4312,6 +4357,7 @@ class Game: NSObject, PowerEventHandler {
 
     func setChoicesVisible(_ choicesVisible: Bool, _ isShopChoice: Bool, _ cardIds: [String]?) {
         windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.choicesVisible = choicesVisible
+        windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.choicesVisible = choicesVisible
         OverlayOpacityMask.trace("setChoicesVisible visible=\(choicesVisible)"
                                  + " shop=\(isShopChoice)"
                                  + " cards=\(cardIds ?? [String]())"
@@ -4568,6 +4614,7 @@ class Game: NSObject, PowerEventHandler {
             if isBattlegroundsMatch() {
                 windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
                 windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+                windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.reset()
                 if source?[.bacon_is_magic_item_discover] ?? 0 > 0 {
                     let chosenTrinketIds = (self.player.trinkets + chosen).compactMap({ x in x.cardId })
                     battlegroundsMinionsOnTrinkets(chosenTrinketIds)

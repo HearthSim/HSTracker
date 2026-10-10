@@ -10,6 +10,9 @@ import Foundation
 
 struct BattlegroundsHeroPickStatsParams: Codable {
     var hero_dbf_ids: [Int]
+    // The dbf ids of the hero powers offered by Sir Finley's start of game choice. Only used
+    // when hero_dbf_ids is just Sir Finley. Stats are then keyed by these hero power dbf ids.
+    var hero_power_dbf_ids: [Int]?
     var minion_types: [Int]
     var anomaly_dbf_id: Int?
     var deity_dbf_id: Int?

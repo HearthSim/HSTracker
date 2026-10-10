@@ -372,6 +372,11 @@ struct RootOverlayView: View {
                 BattlegroundsTrinketPickingView(viewModel: viewModel.battlegroundsTrinketPicking,
                                                 canvasWidth: canvasWidth)
 
+                // Sir Finley's hero power choice, declared right after the
+                // trinket picker on HDT's canvas.
+                BattlegroundsHeroPowerPickingView(viewModel: viewModel.battlegroundsHeroPowerPicking,
+                                                  canvasWidth: canvasWidth)
+
                 // The trinket/quest discovery guide trigger used to be
                 // declared here, but its card (positioned by
                 // Game.setTrinketGuidesTrigger to sit under the

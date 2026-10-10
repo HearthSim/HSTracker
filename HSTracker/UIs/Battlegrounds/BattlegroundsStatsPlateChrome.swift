@@ -33,13 +33,17 @@ struct BattlegroundsStatsPlateChrome: View {
         // The trinket plate: the same drawing with the panels pushed 39pt down,
         // 243x100 of content fitted into a Grid of exactly that size.
         case trinketPlate
+        // BattlegroundsSingleHeroPower.xaml: laid out like the trinket plate,
+        // but its panels are plain rounded rectangles with a circle around the
+        // hero power cut out of them (CombinedGeometry Exclude).
+        case heroPowerPlate
 
         // The bounds of the drawing itself, which is what a DrawingImage sizes
         // itself to - not the (larger) ClipGeometry either XAML declares.
         var canvasSize: CGSize {
             switch self {
             case .heroHeader: return CGSize(width: 243, height: 61)
-            case .trinketPlate: return CGSize(width: 243, height: 100)
+            case .trinketPlate, .heroPowerPlate: return CGSize(width: 243, height: 100)
             }
         }
 
@@ -47,7 +51,7 @@ struct BattlegroundsStatsPlateChrome: View {
         var panelOffsetY: CGFloat {
             switch self {
             case .heroHeader: return 0
-            case .trinketPlate: return 39
+            case .trinketPlate, .heroPowerPlate: return 39
             }
         }
     }
@@ -111,9 +115,19 @@ private struct PlateDrawing: Shape {
         switch piece {
         case .tierBox: Self.tierBox(&path)
         case .tierBoxOutline: Self.tierBoxOutline(&path)
-        case .leftPanel: Self.leftPanel(&path)
+        case .leftPanel:
+            if layout == .heroPowerPlate {
+                Self.heroPowerPanel(&path, left: true)
+            } else {
+                Self.leftPanel(&path)
+            }
         case .leftPanelCap: Self.leftPanelCap(&path)
-        case .rightPanel: Self.rightPanel(&path)
+        case .rightPanel:
+            if layout == .heroPowerPlate {
+                Self.heroPowerPanel(&path, left: false)
+            } else {
+                Self.rightPanel(&path)
+            }
         case .rightPanelCap: Self.rightPanelCap(&path)
         }
         if piece.isPanel, layout.panelOffsetY != 0 {
@@ -157,6 +171,51 @@ private struct PlateDrawing: Shape {
                       control1: CGPoint(x: 73.4888, y: 51.434), control2: CGPoint(x: 65.914, y: 56.6721))
         path.addCurve(to: CGPoint(x: 58.0589, y: 60.5),
                       control1: CGPoint(x: 61.1843, y: 60.0026), control2: CGPoint(x: 59.6436, y: 60.5))
+        path.closeSubpath()
+    }
+
+    // The hero power plate's LeftStatsBox/RightStatsBox: RectangleGeometry
+    // Rect="0.5,0.5,88,60" (or "154.5,0.5,88,60") with RadiusX/Y="3.5", minus
+    // the StatsCutout EllipseGeometry Center="121.5,138.7" Radius="98.67".
+    // The circle only ever bites the panel's inner bottom corner, so the
+    // outline is the rounded rectangle with that corner replaced by the arc
+    // between where the circle crosses the inner edge and the bottom edge.
+    private static let cutoutCenter = CGPoint(x: 121.5, y: 138.7)
+    private static let cutoutRadius: CGFloat = 98.67
+
+    private static func heroPowerPanel(_ path: inout Path, left: Bool) {
+        let rect = CGRect(x: left ? 0.5 : 154.5, y: 0.5, width: 88, height: 60)
+        let r: CGFloat = 3.5
+        let c = cutoutCenter
+        let radius = cutoutRadius
+        let innerX = left ? rect.maxX : rect.minX
+        let outerX = left ? rect.minX : rect.maxX
+        // where the circle crosses the inner edge and the bottom edge
+        let edgeY = c.y - sqrt(radius * radius - (innerX - c.x) * (innerX - c.x))
+        let bottomDx = sqrt(radius * radius - (rect.maxY - c.y) * (rect.maxY - c.y))
+        let bottomX = left ? c.x - bottomDx : c.x + bottomDx
+
+        func arcPoints(from start: CGPoint, to end: CGPoint) -> [CGPoint] {
+            let a1 = atan2(start.y - c.y, start.x - c.x)
+            let a2 = atan2(end.y - c.y, end.x - c.x)
+            let steps = 24
+            return (1...steps).map { i in
+                let a = a1 + (a2 - a1) * CGFloat(i) / CGFloat(steps)
+                return CGPoint(x: c.x + radius * cos(a), y: c.y + radius * sin(a))
+            }
+        }
+
+        // Starts on the bottom edge where the cutout ends, then runs round the
+        // outer corners and down the inner edge to the cutout.
+        path.move(to: CGPoint(x: bottomX, y: rect.maxY))
+        path.addArc(tangent1End: CGPoint(x: outerX, y: rect.maxY), tangent2End: CGPoint(x: outerX, y: rect.minY), radius: r)
+        path.addArc(tangent1End: CGPoint(x: outerX, y: rect.minY), tangent2End: CGPoint(x: innerX, y: rect.minY), radius: r)
+        path.addArc(tangent1End: CGPoint(x: innerX, y: rect.minY), tangent2End: CGPoint(x: innerX, y: rect.maxY), radius: r)
+        let edgePoint = CGPoint(x: innerX, y: edgeY)
+        path.addLine(to: edgePoint)
+        for point in arcPoints(from: edgePoint, to: CGPoint(x: bottomX, y: rect.maxY)) {
+            path.addLine(to: point)
+        }
         path.closeSubpath()
     }
 

@@ -265,6 +265,7 @@ class Watchers {
     
     private static func onBattlegroundsTeammateBoardStateChange(_ sender: BattlegroundsTeammateBoardStateWatcher, _ args: BattlegroundsTeammateBoardStateArgs) {
         AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.isViewingTeammate = args.isViewingTeammate
+        AppDelegate.instance().coreManager.game.windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.isViewingTeammate = args.isViewingTeammate
         // rest is not used
     }
     

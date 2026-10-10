@@ -20,6 +20,7 @@ struct BattlegroundsHeroPickStats: Decodable {
         var avg_placement: Double?
         var placement_distribution: [Double]?
         var first_place_comp_popularity: [BattlegroundsComposition]?
+        var armor: Int?
     }
     
     struct BattlegroundsHeroPickToast: Decodable {

@@ -212,6 +212,9 @@ class BattlegroundsPreferences: PreferencePaneController, PreferencePane {
             game.updateTier7PreLobbyVisibility()
         } else if sender == showHeroPicking {
             Settings.showBattlegroundsHeroPicking = sender.state == .on
+            if game.isBattlegroundsMatch() {
+                game.windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.statsVisibility = sender.state == .on
+            }
         } else if sender == showQuestPicking {
             Settings.showBattlegroundsQuestPicking = sender.state == .on
             if game.isBattlegroundsMatch() {

@@ -352,6 +352,7 @@ final class CoreManager: NSObject {
         wm.rootOverlay?.viewModel.battlegroundsHeroPicking.reset()
         wm.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
         wm.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
+        wm.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.reset()
         wm.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.reset()
         wm.rootOverlay?.viewModel.mulliganGuide.reset()
         wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
