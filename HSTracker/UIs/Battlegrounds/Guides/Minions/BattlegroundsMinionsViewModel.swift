@@ -171,7 +171,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
 
     // Before a match there is no minion pool, only the assembled database.
     private var db: BattlegroundsDb {
-        isPreLobby ? BattlegroundsDbSingleton.instance : BattlegroundsDbSingleton.current
+        isPreLobby ? BattlegroundsDbSingleton.get(isDuos: isDuos) : BattlegroundsDbSingleton.current
     }
 
     // HDT's OnMinionPoolChanged: everything read off the database is computed,

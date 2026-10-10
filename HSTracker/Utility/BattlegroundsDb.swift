@@ -9,10 +9,13 @@
 import Foundation
 
 class BattlegroundsDbSingleton {
-    static let instance: BattlegroundsDb = {
-        let result = BattlegroundsDb.init()
-        return result
-    }()
+    private static let solos = BattlegroundsDb.fromLiveMetaPeriod(isDuos: false)
+    private static let duos = BattlegroundsDb.fromLiveMetaPeriod(isDuos: true)
+
+    /// The assembled database for the game mode, kept up to date with its live meta period.
+    static func get(isDuos: Bool) -> BattlegroundsDb {
+        return isDuos ? duos : solos
+    }
 
     private static var minionPoolDb: (gameId: String, db: BattlegroundsDb)?
 
@@ -20,7 +23,7 @@ class BattlegroundsDbSingleton {
     static var current: BattlegroundsDb {
         guard let poolDb = minionPoolDb, let game = AppDelegate.instance().coreManager?.game,
               !game.isInMenu, game.isBattlegroundsMatch(), poolDb.gameId == game.gameId else {
-            return instance
+            return get(isDuos: AppDelegate.instance().coreManager?.game.isBattlegroundsDuosMatch() ?? false)
         }
         return poolDb.db
     }
@@ -33,7 +36,7 @@ class BattlegroundsDbSingleton {
         guard let pool = MirrorHelper.getBattlegroundsMinionPool(), !pool.cards.isEmpty else {
             return nil
         }
-        let db = BattlegroundsDb.fromMinionPool(pool, fallback: instance)
+        let db = BattlegroundsDb.fromMinionPool(pool, fallback: get(isDuos: game.isBattlegroundsDuosMatch()))
         minionPoolDb = (gameId, db)
         if let darkParadox = db.darkParadox {
             logger.info("Dark Paradox in the minion pool: \(darkParadox.id) (tier \(darkParadox.techLevel))")
@@ -73,11 +76,17 @@ class BattlegroundsDb {
         return card.dbfId == darkParadox.dbfId || card.baconEvolutionCardId == darkParadox.dbfId
     }
     
-    fileprivate convenience init() {
-        self.init(RemoteConfig.battlegroundsLiveMetaPeriod)
-        RemoteConfig.battlegroundsLiveMetaPeriodLoaded = { [weak self] metaPeriod in
-            self?.update(metaPeriod)
+    fileprivate static func fromLiveMetaPeriod(isDuos: Bool) -> BattlegroundsDb {
+        let db = BattlegroundsDb(RemoteConfig.battlegroundsLiveMetaPeriod(isDuos: isDuos))
+        let loaded: (MetaPeriod?) -> Void = { [weak db] metaPeriod in
+            db?.update(metaPeriod)
         }
+        if isDuos {
+            RemoteConfig.battlegroundsDuosLiveMetaPeriodLoaded = loaded
+        } else {
+            RemoteConfig.battlegroundsLiveMetaPeriodLoaded = loaded
+        }
+        return db
     }
 
     // HDT's internal BattlegroundsDb(MetaPeriod?), which exists so the database

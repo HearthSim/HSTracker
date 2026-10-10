@@ -141,28 +141,39 @@ class RemoteConfig {
     static var data: ConfigData?
     static var mercenaries: [Mercenary]?
     static var liveSecrets: LiveSecrets?
-    // The season currently being played. Replaces both the tag overrides, which
-    // had a feed of their own, and the full list of meta periods that had to be
-    // sorted by start date to find this one.
+    // The season currently being played, per game mode. Replaces both the tag
+    // overrides, which had a feed of their own, and the full list of meta
+    // periods that had to be sorted by start date to find this one.
     static var battlegroundsLiveMetaPeriod: MetaPeriod?
-    // Mirrors HDT's DataLoader.Loaded event for that one loader: the only
-    // subscriber is BattlegroundsDb, which has to rebuild itself whenever the
-    // overrides change under it.
+    static var battlegroundsDuosLiveMetaPeriod: MetaPeriod?
+    // Mirrors HDT's DataLoader.Loaded event for those loaders: the only
+    // subscribers are the two BattlegroundsDbs, which have to rebuild
+    // themselves whenever the overrides change under them.
     static var battlegroundsLiveMetaPeriodLoaded: ((MetaPeriod?) -> Void)?
+    static var battlegroundsDuosLiveMetaPeriodLoaded: ((MetaPeriod?) -> Void)?
+
+    static func battlegroundsLiveMetaPeriod(isDuos: Bool) -> MetaPeriod? {
+        return isDuos ? battlegroundsDuosLiveMetaPeriod : battlegroundsLiveMetaPeriod
+    }
 
     private static var url = "https://hsdecktracker.net/config.json"
     private static var mercsUrl = "https://api.hearthstonejson.com/v1/latest/enUS/mercenaries.json"
     private static var secretsUrl = "https://hsreplay.net/api/v1/live/secrets/"
-    // The live meta period is region specific, so the region the player is on is
-    // attached whenever it is known - HDT builds the same query string lazily, since the
-    // region is not settled yet when the loader is created.
-    private static var battlegroundsLiveMetaPeriodUrl: String {
-        let url = "https://hsreplay.net/api/v1/battlegrounds/meta_periods/live/"
-        let region = AppDelegate.instance().coreManager?.game.currentRegion ?? .unknown
-        guard region != .unknown else {
-            return url
+    // The live meta period is specific to the game mode, the region and the
+    // Hearthstone build, so the latter two are attached whenever they are known -
+    // HDT builds the same query string lazily, since neither is settled yet when
+    // the loader is created.
+    private static func battlegroundsLiveMetaPeriodUrl(_ gameType: BnetGameType) -> String {
+        var query = ["game_type=\("\(gameType)".uppercased())"]
+        let game = AppDelegate.instance().coreManager?.game
+        let region = game?.currentRegion ?? .unknown
+        if region != .unknown {
+            query.append("region=\(Region.toBnetRegion(region: region))")
         }
-        return "\(url)?region=\(Region.toBnetRegion(region: region))"
+        if let build = game?.buildNumber, build > 0 {
+            query.append("hearthstone_build=\(build)")
+        }
+        return "https://hsreplay.net/api/v1/battlegrounds/meta_periods/live/?\(query.joined(separator: "&"))"
     }
 
     static func checkRemoteConfig(splashscreen: Splashscreen) {
@@ -204,11 +215,15 @@ class RemoteConfig {
                   assignment: { self.liveSecrets = $0 },
                   errorMessage: "live secrets configuration")
 
-        // 4. Fetch the live meta period
-        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl,
+        // 4. Fetch the live meta periods
+        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl(.bgt_battlegrounds),
                   decodeType: MetaPeriod.self,
-                  assignment: { self.setBattlegroundsLiveMetaPeriod($0) },
+                  assignment: { self.setBattlegroundsLiveMetaPeriod($0, isDuos: false) },
                   errorMessage: "battlegrounds live meta period")
+        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl(.bgt_battlegrounds_duo),
+                  decodeType: MetaPeriod.self,
+                  assignment: { self.setBattlegroundsLiveMetaPeriod($0, isDuos: true) },
+                  errorMessage: "battlegrounds duos live meta period")
 
         dispatchGroup.notify(queue: .main) {
             logger.info("All remote configurations loaded.")
@@ -217,19 +232,29 @@ class RemoteConfig {
         }
     }
 
-    // HDT's Remote.BattlegroundsLiveMetaPeriod.Load(), called again whenever the
+    // HDT's Remote.BattlegroundsLiveMetaPeriod.Load() and
+    // BattlegroundsDuosLiveMetaPeriod.Load(), called again whenever the
     // Battlegrounds lobby is entered: a season can roll over while the app is
     // running, and with it the tag overrides everything below reads.
     static func loadBattlegroundsLiveMetaPeriod() {
-        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl,
+        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl(.bgt_battlegrounds),
                   decodeType: MetaPeriod.self,
-                  assignment: { self.setBattlegroundsLiveMetaPeriod($0) },
+                  assignment: { self.setBattlegroundsLiveMetaPeriod($0, isDuos: false) },
                   errorMessage: "battlegrounds live meta period")
+        fetchData(url: RemoteConfig.battlegroundsLiveMetaPeriodUrl(.bgt_battlegrounds_duo),
+                  decodeType: MetaPeriod.self,
+                  assignment: { self.setBattlegroundsLiveMetaPeriod($0, isDuos: true) },
+                  errorMessage: "battlegrounds duos live meta period")
     }
 
-    private static func setBattlegroundsLiveMetaPeriod(_ metaPeriod: MetaPeriod?) {
-        battlegroundsLiveMetaPeriod = metaPeriod
-        battlegroundsLiveMetaPeriodLoaded?(metaPeriod)
+    private static func setBattlegroundsLiveMetaPeriod(_ metaPeriod: MetaPeriod?, isDuos: Bool) {
+        if isDuos {
+            battlegroundsDuosLiveMetaPeriod = metaPeriod
+            battlegroundsDuosLiveMetaPeriodLoaded?(metaPeriod)
+        } else {
+            battlegroundsLiveMetaPeriod = metaPeriod
+            battlegroundsLiveMetaPeriodLoaded?(metaPeriod)
+        }
     }
 
     // Safely decode and assign data. `completion` runs whether the fetch
