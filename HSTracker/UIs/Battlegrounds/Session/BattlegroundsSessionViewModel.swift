@@ -20,6 +20,18 @@ import SwiftUI
 // That is why the two columns are exposed as generic A/B label+value pairs
 // rather than HDT's BgRatingStart/BgRatingCurrent.
 class BattlegroundsSessionViewModel: ObservableObject {
+    private var accountObservers = [NSObjectProtocol]()
+
+    init() {
+        for event in [Events.hsreplay_account_data_updated, Events.hsreplay_logged_out] {
+            accountObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: event), object: nil, queue: nil) { [weak self] _ in
+                Task {
+                    await self?.updateCompositionStatsVisibility()
+                }
+            })
+        }
+    }
+
     // MARK: - Minion types
 
     @Published var availableMinionTypes = [Race]()
