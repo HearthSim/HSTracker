@@ -91,9 +91,18 @@ class Game: NSObject, PowerEventHandler {
     var _mulliganGuideParams: MulliganGuideParams?
     var _mulliganV2Params: MulliganV2Params?
 
-    // Mulligan G-V2 (HDT) is Standard Ranked/Friendly only.
+    // HDT's IsMulliganGV2BrawlOverride: the remote config can turn the V2 guide
+    // on for Tavern Brawl, which is then asked about as if it were Ranked Standard.
+    var isMulliganGV2BrawlOverride: Bool {
+        currentGameType == .gt_tavernbrawl && (RemoteConfig.data?.mulligan_gv2?.enable_tavern_brawl ?? false)
+    }
+
+    // Mulligan G-V2 (HDT) is Standard Ranked/Friendly only (plus the brawl
+    // override) - Wild and the rest fall back to the V1 guide.
     var isV2Mulligan: Bool {
-        (currentGameType == .gt_ranked || currentGameType == .gt_vs_friend)
+        isMulliganGV2BrawlOverride
+            || (currentFormatType == .ft_standard
+                && (currentGameType == .gt_ranked || currentGameType == .gt_vs_friend))
     }
 
     private var mulliganLivePollingActive = false
@@ -2861,7 +2870,7 @@ class Game: NSObject, PowerEventHandler {
     // back with a win rate on hardly any card - HDT never asks for one.
     var isMulliganGuideMatch: Bool {
         return currentGameType == .gt_ranked || currentGameType == .gt_casual
-            || currentGameType == .gt_vs_friend || isArenaMatch
+            || currentGameType == .gt_vs_friend || isArenaMatch || isMulliganGV2BrawlOverride
     }
     
     // Mirrors HDT's GameV2.IsBattlegroundsHeroPickingDone: the player's own
@@ -4785,7 +4794,18 @@ class Game: NSObject, PowerEventHandler {
         let starLevel = playerMedalInfo?.starLevel ?? 0
         let starsPerWin = playerMedalInfo?.starsPerWin ?? 0
 
-        _mulliganV2Params = MulliganV2Params(deckstring: activeDeck.shortid, player_class: activeDeck.playerClass.rawValue.uppercased(), deck_cards: deckCards, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_region: Region.toBnetRegion(region: currentRegion), player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, game_type: BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat).rawValue, format_type: currentFormatType.rawValue, offered_cards: offeredCards, mulligan_state: Mulligan.input.rawValue)
+        // A brawl deck is sent as a Ranked Standard one, deckstring included -
+        // HDT's asRankedStandard.
+        let asRankedStandard = isMulliganGV2BrawlOverride
+        var deckstring = activeDeck.shortid
+        if asRankedStandard, let deck = DeckSerializer.deserialize(input: deckstring) {
+            deck.format = .ft_standard
+            deckstring = DeckSerializer.serialize(deck: deck) ?? deckstring
+        }
+        let gameType = asRankedStandard ? BnetGameType.bgt_ranked_standard : BnetGameType.getBnetGameType(gameType: currentGameType, format: currentFormat)
+        let formatType = asRankedStandard ? FormatType.ft_standard : currentFormatType
+
+        _mulliganV2Params = MulliganV2Params(deckstring: deckstring, player_class: activeDeck.playerClass.rawValue.uppercased(), deck_cards: deckCards, opponent_class: opponentClass.rawValue.uppercased(), player_initiative: playerEntity?[.first_player] == 1 ? "FIRST" : "COIN", player_region: Region.toBnetRegion(region: currentRegion), player_star_level: starLevel > 0 ? starLevel : nil, player_star_multiplier: starsPerWin > 0 ? starsPerWin : nil, game_type: gameType.rawValue, format_type: formatType.rawValue, offered_cards: offeredCards, mulligan_state: Mulligan.input.rawValue)
     }
 
     func getMulliganV2Params() -> MulliganV2Params? {
@@ -4818,10 +4838,15 @@ class Game: NSObject, PowerEventHandler {
         // check already confirmed has coverage worth spending a trial on.
         var token: String?
         if !userOwnsPremium {
-            guard let gameType = BnetGameType(rawValue: parameters.game_type),
-                  let preLobbyViewModel = mulliganGuidePreLobbyViewModel,
-                  preLobbyViewModel.isDeckAvailableForMulliganGuide(gameType: gameType, deckstring: parameters.deckstring) else {
-                return nil
+            // The pre-lobby only runs in the constructed lobby, so there is no
+            // deck status cached for a brawl deck - let the request through and
+            // let the response decide.
+            if !isMulliganGV2BrawlOverride {
+                guard let gameType = BnetGameType(rawValue: parameters.game_type),
+                      let preLobbyViewModel = mulliganGuidePreLobbyViewModel,
+                      preLobbyViewModel.isDeckAvailableForMulliganGuide(gameType: gameType, deckstring: parameters.deckstring) else {
+                    return nil
+                }
             }
             guard let acc = MirrorHelper.getAccountId() else {
                 return nil

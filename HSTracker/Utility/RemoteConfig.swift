@@ -100,6 +100,9 @@ struct ConfigData: Codable {
     struct MulliganGuideData: Codable {
         var disabled: Bool
     }
+    struct MulliganGV2Data: Codable {
+        var enable_tavern_brawl: Bool?
+    }
     var news: NewsData?
     var collection_banner: CollectionBannerData?
     var battlegrounds_short_names: [CardShortName]?
@@ -108,6 +111,7 @@ struct ConfigData: Codable {
     var battlegrounds_tavern_pool: BattlegroundsTavernPoolData?
     var arenasmith: ArenasmithData?
     var mulligan_guide: MulliganGuideData?
+    var mulligan_gv2: MulliganGV2Data?
     var sales: SalesData?
     //swiftlint:disable inclusive_language
     var draw_card_blacklist: [CardInfo]?
