@@ -593,6 +593,12 @@ class PowerGameStateParser: LogEventParser {
                     BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
                         .updateOffensiveSacrificeEnchantment(creatorId)
                 }
+
+                // A revealed Defensive Sacrifice from a Deathrattle indicates CREATOR has this Dark Gift.
+                if createdEntity.cardId == CardIds.NonCollectible.Neutral.DefensiveSacrificeToken4 {
+                    BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                        .updateDefensiveSacrificeEnchantment(creatorId)
+                }
             }
             if eventHandler.triangulatePlayed, let tag = GameTag(rawString: tag) {
                 if tag == GameTag.linked_entity {

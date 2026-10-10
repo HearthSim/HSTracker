@@ -1054,6 +1054,7 @@ extension CardIds.NonCollectible {
         static let GolemancyToken3 = "BG36_MidGameEffect_000t61e2"
         static let SoulFermenter = "BG35_MagicItem_732"
         static let OffensiveSacrificeEnchantmentToken3 = "BG36_MidGameEffect_000te3"
+        static let DefensiveSacrificeToken4 = "BG36_MidGameEffect_000t2e3"
         // The Deity Sigil: the objective that carries the Deity a player will summon.
         static let SecretDeityDnt = "BG_OldGod"
         // The Deities a sigil can awaken as, and the generic Aberration art the counter
