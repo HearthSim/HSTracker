@@ -565,6 +565,15 @@ class PowerGameStateParser: LogEventParser {
             tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+            if tag == "CREATOR", let creatorId = Int(value), let createdEntity = eventHandler.entities[currentEntityId],
+               let currentBlock, currentBlock.type == "TRIGGER", currentBlock.triggerKeyword == "DEATHRATTLE",
+               eventHandler.currentGameMode == .battlegrounds {
+                // A revealed Golemancy enchantment on a summoned Golem indicates CREATOR has Golemancy Dark Gift.
+                if createdEntity.cardId == CardIds.NonCollectible.Neutral.GolemancyToken3 {
+                    BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                        .updateGolemancyEnchantment(creatorId)
+                }
+            }
             if eventHandler.triangulatePlayed, let tag = GameTag(rawString: tag) {
                 if tag == GameTag.linked_entity {
                     addKnownCardId(eventHandler: eventHandler, cardId: "", count: 3, copyOfCardId: value)

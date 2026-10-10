@@ -2097,6 +2097,54 @@ class BobsBuddyInvoker {
         }
     }
 
+    /// Attaches a Dark Gift enchantment that was missing at combat setup to the minion holding
+    /// `sourceEntityId`, unless it already has one or copies deathrattles (whose revealed
+    /// enchantment may come from the copied minion instead).
+    private func attachMissingDarkGift(sourceEntityId: Int, cardId: String, enchantmentClass: OpaquePointer?, ignore: (MinionProxy) -> Bool = { _ in false }) {
+        guard let input, updateRevealedEntityValidStates, let enchantmentClass else {
+            return
+        }
+
+        MonoHelper.withMonoThread {
+            guard let minion = boardMinion(input, gameId: sourceEntityId) else {
+                return
+            }
+
+            // Do not proceed if the Dark Gift was already captured
+            if MonoList<MonoHandle>(minion.enchantments).contains(where: { e in MonoHelper.isInstance(obj: e, klass: enchantmentClass) }) {
+                return
+            }
+
+            if ignore(minion) {
+                return
+            }
+
+            if let copiesDeathrattles = ICopiesDeathrattlesProxy._class, MonoHelper.isInstance(obj: minion, klass: copiesDeathrattles) {
+                return
+            }
+
+            let enchantment = SimulatorProxy().enchantmentFactory.create(cardId: cardId, controlledByPlayer: minion.controlledByPlayer)
+            if enchantment.get() == nil {
+                return
+            }
+
+            enchantment.enchantmentUpdatedDuringCombat = true
+            minion.attachEnchantment(enchantment: enchantment)
+
+            tryRerun()
+        }
+    }
+
+    func updateGolemancyEnchantment(_ sourceEntityId: Int) {
+        attachMissingDarkGift(sourceEntityId: sourceEntityId, cardId: GolemancyProxy.cardId, enchantmentClass: GolemancyProxy._class) { minion in
+            // Ignore minions whose innate Deathrattle summons a Golem with the same enchantment
+            guard let darkParadox9 = DarkParadox9Proxy._class else {
+                return false
+            }
+            return MonoHelper.isInstance(obj: minion, klass: darkParadox9)
+        }
+    }
+
     func updateTrinketEnchantment(_ enchantmentEntity: Entity, _ trinketEntityId: Int, _ isPlayerTrinket: Bool) {
         guard let input, updateRevealedEntityValidStates else {
             return

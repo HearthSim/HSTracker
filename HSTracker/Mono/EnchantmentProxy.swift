@@ -21,7 +21,7 @@ class EnchantmentProxy: MonoHandle, MonoClassInitializer {
             
             EnchantmentProxy._constructor = MonoHelper.getMethod(EnchantmentProxy._class, ".ctor", 3)
             
-            initializeProperties(properties: [ "ScriptDataNum1", "ScriptDataNum2" ])
+            initializeProperties(properties: [ "ScriptDataNum1", "ScriptDataNum2", "EnchantmentUpdatedDuringCombat" ])
         }
     }
     
@@ -58,4 +58,20 @@ class EnchantmentProxy: MonoHandle, MonoClassInitializer {
     
     @MonoPrimitiveProperty(property: "ScriptDataNum2", owner: EnchantmentProxy.self)
     var scriptDataNum2: Int32
+
+    @MonoPrimitiveProperty(property: "EnchantmentUpdatedDuringCombat", owner: EnchantmentProxy.self)
+    var enchantmentUpdatedDuringCombat: Bool
+}
+
+class GolemancyProxy: MonoClassInitializer {
+    static var _class: OpaquePointer?
+    static var _members = [String: OpaquePointer]()
+
+    static let cardId = "BG36_MidGameEffect_000t61e"
+
+    static func initialize() {
+        if GolemancyProxy._class == nil {
+            GolemancyProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "Golemancy")
+        }
+    }
 }

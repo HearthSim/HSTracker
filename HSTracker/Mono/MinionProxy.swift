@@ -192,3 +192,14 @@ class MinionProxy: MonoHandle, MonoClassInitializer {
         return MonoHelper.getBool(obj: self, method: MinionProxy._isMech)
     }
 }
+
+class DarkParadox9Proxy: MonoClassInitializer {
+    static var _class: OpaquePointer?
+    static var _members = [String: OpaquePointer]()
+
+    static func initialize() {
+        if DarkParadox9Proxy._class == nil {
+            DarkParadox9Proxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Minions.Dual", name: "DarkParadox9")
+        }
+    }
+}
