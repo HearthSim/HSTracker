@@ -3182,8 +3182,7 @@ class Game: NSObject, PowerEventHandler {
             return nil
         }
 
-        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
-        if !userOwnsTier7 && (Tier7Trial.remainingTrials ?? 0) == 0 {
+        if !Tier7Trial.isAvailable {
             return nil
         }
 
@@ -3196,18 +3195,12 @@ class Game: NSObject, PowerEventHandler {
             return nil
         }
 
-        // Use a trial if we can
-        var token: String?
-        if !userOwnsTier7 {
-            if let acc = MirrorHelper.getAccountId() {
-                token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
-            }
-            if token == nil {
-                // FIXME: add
-                //throw new HeroPickingException("Unable to get trial token")
-                return nil
-            }
+        guard let access = await Tier7Trial.getAccess() else {
+            // FIXME: add
+            //throw new HeroPickingException("Unable to start Tier7 trial")
+            return nil
         }
+        let token = access.trialToken
 
 #if(DEBUG)
         logger.debug("Fetching Battlegrounds Hero Pick stats with parameters=\(parameters)...")
@@ -3217,7 +3210,7 @@ class Game: NSObject, PowerEventHandler {
 
         let isDuos = isBattlegroundsDuosMatch()
         
-        let stats = (token != nil && !userOwnsTier7) ?
+        let stats = token != nil ?
             // trial
             isDuos ? await HSReplayAPI.getTier7DuosHeroPickStats(token: token, parameters: parameters) : await HSReplayAPI.getTier7HeroPickStats(token: token, parameters: parameters) :
             // tier 7
@@ -4213,12 +4206,12 @@ class Game: NSObject, PowerEventHandler {
             return nil
         }
         
-        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
-        if !userOwnsTier7 && Tier7Trial.token == nil {
+        // trinkets are offered after the mulligan, so this only continues a trial from hero picking
+        guard let access = await Tier7Trial.getAccess() else {
             return nil
         }
         
-        if let token = Tier7Trial.token {
+        if let token = access.trialToken {
             return await HSReplayAPI.getTier7TrinketPickStats(token: token, parameters: requestParams)
         } else {
             return await HSReplayAPI.getTier7TrinketPickStats(parameters: requestParams)

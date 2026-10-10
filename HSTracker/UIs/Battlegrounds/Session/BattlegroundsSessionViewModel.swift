@@ -372,7 +372,9 @@ class BattlegroundsSessionViewModel: ObservableObject {
             return nil
         }
 
-        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
+        if !Tier7Trial.isAvailable {
+            return nil
+        }
 
         var counter = 0
         while game.availableRaces == nil && counter < 5 {
@@ -385,24 +387,17 @@ class BattlegroundsSessionViewModel: ObservableObject {
 
         let compParams = BattlegroundsCompStatsParams(minion_types: availableRaces.compactMap { x in Race.allCases.firstIndex(of: x) }, game_language: Settings.hearthstoneLanguage?.rawValue ?? "enUS")
 
-        var token: String?
-
-        if !userOwnsTier7 {
-            let acc = MirrorHelper.getAccountId()
-
-            if let acc {
-                token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
-
-                if token == nil {
-                    throw CompositionStatsException("Unable to get trial token")
-                }
+        guard let access = await Tier7Trial.getAccess() else {
+            if (game.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {
+                return nil
             }
+            throw CompositionStatsException("Unable to start Tier7 trial")
         }
 
         // At this point the user either owns tier7 or has an active trial!
 
         var compStats: BattlegroundsCompStats?
-        if let token {
+        if let token = access.trialToken {
             compStats = await HSReplayAPI.getTier7CompStats(token: token, parameters: compParams)
         } else {
             compStats = await HSReplayAPI.getTier7CompStats(parameters: compParams)

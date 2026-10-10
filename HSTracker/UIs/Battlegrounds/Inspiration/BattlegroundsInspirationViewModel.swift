@@ -169,12 +169,7 @@ final class BattlegroundsInspirationViewModel: ObservableObject {
     }
 
     private func makeRequest(keyDbfIds: [Int], boardDbfIds: [Int]) async -> BattlegroundsInspiration? {
-        let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
-        // HDT bails on `RemainingTrials == 0` alone, which also blocks the
-        // request when the trial being spent is the one already active for this
-        // match - the exact case the panel is most likely to be opened in. The
-        // extra token check keeps an active trial working.
-        if !userOwnsTier7 && (Tier7Trial.remainingTrials ?? 0) == 0 && Tier7Trial.token == nil {
+        if !Tier7Trial.isAvailable {
             return nil
         }
 
@@ -197,17 +192,12 @@ final class BattlegroundsInspirationViewModel: ObservableObject {
             lineup_dbf_ids: boardDbfIds
         )
 
-        if userOwnsTier7 {
+        guard let access = await Tier7Trial.getAccess() else {
+            logger.error("Inspiration: unable to start Tier7 trial")
+            return nil
+        }
+        guard let token = access.trialToken else {
             return await HSReplayAPI.getBattlegroundsInspiration(parameters: parameters)
-        }
-
-        guard let acc = MirrorHelper.getAccountId() else {
-            logger.error("Inspiration: unable to get account id for trial token")
-            return nil
-        }
-        guard let token = await Tier7Trial.activate(hi: acc.hi.int64Value, lo: acc.lo.int64Value) else {
-            logger.error("Inspiration: unable to get trial token")
-            return nil
         }
         return await HSReplayAPI.getBattlegroundsInspiration(token: token, parameters: parameters)
     }
