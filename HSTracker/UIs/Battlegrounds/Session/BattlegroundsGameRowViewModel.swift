@@ -65,7 +65,7 @@ class BattlegroundsGameRowViewModel: ObservableObject, Identifiable, Equatable {
         }
 
         mmrDelta = gameItem.seasonReset ? gameItem.ratingAfter : gameItem.ratingAfter - gameItem.rating
-        let signal = mmrDelta > 0 ? "+" : ""
+        let signal = mmrDelta >= 0 ? "+" : ""
         let unknownDelta = abs(mmrDelta) > Self.maxPlausibleMMRDelta || friendlyGame
         mmrDeltaText = unknownDelta ? "-" : "\(signal)\(mmrDelta)"
 
