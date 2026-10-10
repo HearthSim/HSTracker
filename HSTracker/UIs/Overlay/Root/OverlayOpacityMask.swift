@@ -72,6 +72,17 @@ class OverlayOpacityMask: ObservableObject {
     }
 
     func addMaskedRegion(_ key: String, _ region: CGRect) {
+        // RegionDrawer normalizes by the Hearthstone window's size, which is
+        // still zero until the window has been found - right after launching
+        // into a running game - and makes every coordinate 0/0. The mask places
+        // its cut-outs with .position(), and a NaN there trips an AppKit
+        // assertion on macOS 12 (Sentry HSTRACKER-33C), so such a region is
+        // dropped; the next update for the same key recomputes it.
+        guard region.minX.isFinite && region.minY.isFinite
+                && region.width.isFinite && region.height.isFinite else {
+            OverlayOpacityMask.trace("add \(key) \(region) (not finite, dropped)")
+            return
+        }
         OverlayOpacityMask.trace("add \(key) \(region)")
         maskedRegions[key, default: [CGRect]()].append(region)
 
