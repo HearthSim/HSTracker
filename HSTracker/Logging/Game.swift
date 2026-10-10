@@ -213,7 +213,14 @@ class Game: NSObject, PowerEventHandler {
         return gameEntity?[.bacon_buddy_enabled] ?? 0 > 0
     }
     
-    var battlegroundsLobbyInfo: MirrorBattlegroundsLobbyInfo?
+    private var _battlegroundsLobbyInfo: MirrorBattlegroundsLobbyInfo?
+
+    // Set from the BattlegroundsLobbyInfoWatcher thread and read by the log
+    // reader at game end; see battlegroundsStateLock.
+    var battlegroundsLobbyInfo: MirrorBattlegroundsLobbyInfo? {
+        get { battlegroundsStateLock.around { _battlegroundsLobbyInfo } }
+        set { battlegroundsStateLock.around { _battlegroundsLobbyInfo = newValue } }
+    }
 	
 	// MARK: - PowerEventHandler protocol
 	
@@ -1312,8 +1319,14 @@ class Game: NSObject, PowerEventHandler {
         return MirrorHelper.getMercenariesMapInfo()
     }
     
+    // The race caches and battlegroundsLobbyInfo are read from the log reader,
+    // the watchers, the main thread and detached tasks while reset() and the
+    // lobby info watcher replace them, so every access goes through this lock
+    // (Sentry HSTRACKER-33J, HSTRACKER-33P). The mirror read stays outside it.
+    private let battlegroundsStateLock = UnfairLock()
+
     private var _availableRaces: [Race]?
-    
+
     private var _unavailableRaces: [Race]?
     
     var adventureOpponentId: String?
@@ -1322,36 +1335,36 @@ class Game: NSObject, PowerEventHandler {
     var hideBattlegroundsTurn = false
     
     var availableRaces: [Race]? {
-        if _availableRaces == nil {
-            if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
-                let newRaces = races.compactMap({ x in x.intValue > 0 ? Race.allCases[safeIndex: x.intValue] : nil })
-                logger.info("Battlegrounds available races: \(newRaces) - from mirror \(races)")
-                if newRaces.count > 0 && newRaces.count == races.count {
-                    _availableRaces = newRaces
-                    return _availableRaces
-                }
+        if let cached = battlegroundsStateLock.around({ _availableRaces }) {
+            return cached
+        }
+        if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
+            let newRaces = races.compactMap({ x in x.intValue > 0 ? Race.allCases[safeIndex: x.intValue] : nil })
+            logger.info("Battlegrounds available races: \(newRaces) - from mirror \(races)")
+            if newRaces.count > 0 && newRaces.count == races.count {
+                battlegroundsStateLock.around { _availableRaces = newRaces }
+                return newRaces
             }
         }
-        return _availableRaces
+        return nil
     }
-    
+
     var unavailableRaces: [Race]? {
-        if _unavailableRaces == nil {
-            if let races = availableRaces, races.count > 0 && races[0] != .invalid {
-                var newRaces = [Race]()
-                for race in Database.battlegroundRaces where !races.contains(race) {
-                    newRaces.append(race)
-                }
-                if newRaces.count > 0 {
-                    logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
-                    _unavailableRaces = newRaces
-                    return _unavailableRaces
-                } else {
-                    return nil
-                }
+        if let cached = battlegroundsStateLock.around({ _unavailableRaces }) {
+            return cached
+        }
+        if let races = availableRaces, races.count > 0 && races[0] != .invalid {
+            var newRaces = [Race]()
+            for race in Database.battlegroundRaces where !races.contains(race) {
+                newRaces.append(race)
+            }
+            if newRaces.count > 0 {
+                logger.info("Battlegrounds unavailable races: \(newRaces) - all races \(races)")
+                battlegroundsStateLock.around { _unavailableRaces = newRaces }
+                return newRaces
             }
         }
-        return _unavailableRaces
+        return nil
     }
 
     var battlegroundsRatingInfo: MirrorBattlegroundRatingInfo? {
@@ -1746,8 +1759,10 @@ class Game: NSObject, PowerEventHandler {
         }
 		
 		_spectator = nil
-        _availableRaces = nil
-        _unavailableRaces = nil
+        battlegroundsStateLock.around {
+            _availableRaces = nil
+            _unavailableRaces = nil
+        }
         _brawlInfo = nil
         _battlegroundsBoardState?.reset()
         _battlegroundsDeityState?.reset()

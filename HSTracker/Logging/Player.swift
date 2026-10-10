@@ -148,7 +148,15 @@ final class Player {
     /// `Player.GodfreyCards` tracks them: each burn creates a new hidden entity in
     /// the void and separately reveals which entity it copied, and the two arrive
     /// from different log lines, so they are paired up as they come in.
-    var godfreyCards: [GodfreyOverdrawnCard] = []
+    var godfreyCards: [GodfreyOverdrawnCard] {
+        godfreyLock.around { _godfreyCards }
+    }
+
+    // The log reader adds and returns burns while the main thread prunes the
+    // list on every tracker update (Sentry HSTRACKER-348), so every access to
+    // it goes through godfreyLock.
+    private var _godfreyCards: [GodfreyOverdrawnCard] = []
+    private let godfreyLock = UnfairLock()
 
     var hasCoin: Bool {
         return hand.any { $0.isTheCoin }
@@ -268,7 +276,9 @@ final class Player {
         isPlayingWhizbang = false
         beatrixCardIds.removeAll()
         beatrixCopiedCard = nil
-        godfreyCards.removeAll()
+        godfreyLock.around {
+            _godfreyCards.removeAll()
+        }
     }
 
     // MARK: - Godfrey the Betrayer
@@ -278,34 +288,40 @@ final class Player {
 
     /// The TRIGGER_VISUAL block that burns a card creates the void entity first.
     func addGodfreyNewEntityId(_ entityId: Int) {
-        godfreyCards.append(GodfreyOverdrawnCard(newEntityId: entityId))
+        godfreyLock.around {
+            _godfreyCards.append(GodfreyOverdrawnCard(newEntityId: entityId))
+        }
     }
 
     /// The BURNED_CARD metadata that follows names the entity it was copied from.
     /// It pairs with the first burn still missing one; a copy arriving with no
     /// pending burn starts its own entry.
     func addGodfreyCopiedEntityId(_ entityId: Int) {
-        if let index = godfreyCards.firstIndex(where: { $0.copiedEntityId == nil }) {
-            godfreyCards[index].copiedEntityId = entityId
-        } else {
-            godfreyCards.append(GodfreyOverdrawnCard(copiedEntityId: entityId))
+        godfreyLock.around {
+            if let index = _godfreyCards.firstIndex(where: { $0.copiedEntityId == nil }) {
+                _godfreyCards[index].copiedEntityId = entityId
+            } else {
+                _godfreyCards.append(GodfreyOverdrawnCard(copiedEntityId: entityId))
+            }
         }
     }
 
     func returnGodfreyCard(newEntityId: Int, copiedEntityId: Int) {
-        guard let index = godfreyCards.firstIndex(where: {
-            $0.newEntityId == newEntityId || (copiedEntityId > 0 && $0.copiedEntityId == copiedEntityId)
-        }) else {
-            return
-        }
-        // The opponent's returned entity is not revealed, so the user should not learn which card
-        // left the void. Keep showing all candidates until the entity is revealed, unless there
-        // is no ambiguity.
-        if isLocalPlayer || godfreyCards.count == 1 {
-            markReturnedGodfreyCard(godfreyCards[index])
-            godfreyCards.remove(at: index)
-        } else {
-            godfreyCards[index].returnedToHand = true
+        godfreyLock.around {
+            guard let index = _godfreyCards.firstIndex(where: {
+                $0.newEntityId == newEntityId || (copiedEntityId > 0 && $0.copiedEntityId == copiedEntityId)
+            }) else {
+                return
+            }
+            // The opponent's returned entity is not revealed, so the user should not learn which card
+            // left the void. Keep showing all candidates until the entity is revealed, unless there
+            // is no ambiguity.
+            if isLocalPlayer || _godfreyCards.count == 1 {
+                markReturnedGodfreyCard(_godfreyCards[index])
+                _godfreyCards.remove(at: index)
+            } else {
+                _godfreyCards[index].returnedToHand = true
+            }
         }
     }
 
@@ -327,22 +343,24 @@ final class Player {
     /// resolved. Called on every tracker update, as HDT calls it from
     /// Core.UpdatePlayerCards / UpdateOpponentCards.
     func getGodfreyCardIdsToDisplay() -> [Int] {
-        godfreyCards.removeAll { card in
-            guard card.returnedToHand, let newEntityId = card.newEntityId,
-                  let entity = game.entities[newEntityId] else {
-                return false
+        godfreyLock.around {
+            _godfreyCards.removeAll { card in
+                guard card.returnedToHand, let newEntityId = card.newEntityId,
+                      let entity = game.entities[newEntityId] else {
+                    return false
+                }
+                return entity.hasCardId
             }
-            return entity.hasCardId
-        }
-        // If every remaining card has returned to hand, the void is empty.
-        if godfreyCards.count > 0 && godfreyCards.allSatisfy({ $0.returnedToHand }) {
-            // A single remaining candidate is no longer ambiguous.
-            if godfreyCards.count == 1 {
-                markReturnedGodfreyCard(godfreyCards[0])
+            // If every remaining card has returned to hand, the void is empty.
+            if _godfreyCards.count > 0 && _godfreyCards.allSatisfy({ $0.returnedToHand }) {
+                // A single remaining candidate is no longer ambiguous.
+                if _godfreyCards.count == 1 {
+                    markReturnedGodfreyCard(_godfreyCards[0])
+                }
+                _godfreyCards.removeAll()
             }
-            godfreyCards.removeAll()
+            return _godfreyCards.compactMap { $0.copiedEntityId }
         }
-        return godfreyCards.compactMap { $0.copiedEntityId }
     }
     
     var currentMana: Int {
