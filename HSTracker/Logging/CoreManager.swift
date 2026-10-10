@@ -60,9 +60,15 @@ final class CoreManager: NSObject {
             NotificationManager.showNotification(type: .restartRequired)
         }
         
-        let logPath = MirrorHelper.getLogSessionDir()
-        logReaderManager = LogReaderManager(logPath: logPath, coreManager: self)
-        
+        // A placeholder until startTracking() creates the real one: it is never
+        // started, and its stop() is a no-op while not running. Reading the log
+        // directory here instead was the app's first mirror call whenever
+        // Hearthstone was already up, which set HearthMirror up on the main
+        // thread during launch and could hang it for a minute (Sentry
+        // HSTRACKER-MB, HSTRACKER-1Q3). With the game not running the path
+        // was already empty.
+        logReaderManager = LogReaderManager(logPath: "", coreManager: self)
+
         game.windowManager.rootOverlay?.viewModel.playerCounters.setCounters(game.counterManager)
         game.windowManager.rootOverlay?.viewModel.opponentCounters.setCounters(game.counterManager)
         game.windowManager.rootOverlay?.viewModel.playerActiveEffects.setActiveEffects(game.activeEffects)
