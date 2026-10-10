@@ -1054,6 +1054,8 @@ extension CardIds.NonCollectible {
         static let GolemancyToken3 = "BG36_MidGameEffect_000t61e2"
         static let SoulFermenter = "BG35_MagicItem_732"
         static let AdventureTavernBrawl = "TB_BaconShop_HP_057"
+        static let SirFinleyMrrggltonTavernBrawl1 = "TB_BaconShop_HERO_40"
+        static let GennWorgenKing = "BG35_HERO_001"
         static let OffensiveSacrificeEnchantmentToken3 = "BG36_MidGameEffect_000te3"
         static let DefensiveSacrificeToken4 = "BG36_MidGameEffect_000t2e3"
         // The Deity Sigil: the objective that carries the Deity a player will summon.

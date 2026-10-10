@@ -262,6 +262,8 @@ class Database {
             }
         case GameTag.bacon_heropower_base_hero_id.rawValue:
             currentCard?.baconHeroPowerBaseHeroId = intValue
+        case GameTag.hero_power.rawValue:
+            currentCard?.heroPowerDbfId = intValue
         case GameTag.kabal.rawValue, GameTag.grimy_goons.rawValue, GameTag.jade_lotus.rawValue, GameTag.protoss.rawValue, GameTag.terran.rawValue, GameTag.zerg.rawValue:
             if intValue > 0 {
                 currentCard?.faction = GameTag(rawValue: id)

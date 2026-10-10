@@ -504,6 +504,7 @@ enum GameTag: Int, CaseIterable, Codable {
     gametag_3809 = 3809,
     gametag_3873 = 3873,
     bacon_locked_mulligan_hero = 3877,
+    additional_hero_power_index = 3919,
     rewind = 3934,
     gametag_3962 = 3962,
     tavern_spell_attack_increase = 3989,

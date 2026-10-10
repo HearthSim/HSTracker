@@ -18,18 +18,13 @@ struct HeroGuideView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if let hero = viewModel.selectedHero {
-                header(hero)
+            if let heroes = viewModel.heroes, !heroes.isEmpty {
+                // One card per hero, the picked hero first and then those of
+                // its current hero powers, scrolled together.
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        if hero.isGuidePublished {
-                            guideContent(hero)
-                        } else {
-                            Text("No guide available")
-                                .font(.system(size: 11))
-                                .foregroundColor(.white.opacity(0.6))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 30)
+                    VStack(alignment: .leading, spacing: 9) {
+                        ForEach(Array(heroes.enumerated()), id: \.offset) { _, hero in
+                            heroCard(hero)
                         }
                     }
                 }
@@ -46,6 +41,31 @@ struct HeroGuideView: View {
         // "#3f4346", Padding 9. Its bottom edge is also what separates this
         // panel from QuestGuideView below it - that view draws no top edge.
         .guidesPanelBorder(isBottomRounded: !hasQuests)
+    }
+
+    // The ItemTemplate's Border: BorderBrush="#4F565B" BorderThickness="1"
+    // CornerRadius="3" Background="#292d30", holding the header and the guide
+    // (Background="#2e3235", CornerRadius="0,0,3,3").
+    private func heroCard(_ hero: BattlegroundsHeroGuideViewModel) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            header(hero)
+            VStack(alignment: .leading, spacing: 0) {
+                if hero.isGuidePublished {
+                    guideContent(hero)
+                } else {
+                    Text("No guide available")
+                        .font(.system(size: 11))
+                        .foregroundColor(.white.opacity(0.6))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 30)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color(hex: "#2e3235"))
+        }
+        .background(Color(hex: "#292d30"))
+        .clipShape(RoundedRectangle(cornerRadius: 3))
+        .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color(hex: "#4F565B"), lineWidth: 1))
     }
 
     private func header(_ hero: BattlegroundsHeroGuideViewModel) -> some View {

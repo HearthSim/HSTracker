@@ -25,7 +25,13 @@ struct BattlegroundsHeroGuideTrigger: Equatable {
 
 final class BattlegroundsHeroGuidesViewModel: ObservableObject {
     @Published var heroGuides: [Int: BattlegroundsHeroGuide]?
-    @Published var selectedHero: BattlegroundsHeroGuideViewModel?
+    // The picked hero's guide, followed by the guides of the heroes the current
+    // hero powers come from (e.g. after Sir Finley's choice).
+    @Published var heroes: [BattlegroundsHeroGuideViewModel]?
+
+    var isHeroSelected: Bool {
+        return !(heroes?.isEmpty ?? true)
+    }
 
     // Non-nil only while the game has a hero picking tooltip up - see
     // BattlegroundsHeroGuideTriggerView, which draws over it.
@@ -73,13 +79,29 @@ final class BattlegroundsHeroGuidesViewModel: ObservableObject {
 
         await MainActor.run {
             self.heroGuides = Dictionary(uniqueKeysWithValues: data.map { ($0.hero, $0) })
-            self.resolveSelectedHero()
+            self.updateHeroes()
         }
     }
 
     func selectHero(dbfId: Int?) {
         pickedHeroDbfId = dbfId
-        resolveSelectedHero()
+        updateHeroes()
+    }
+
+    private var heroPowerDbfIds = [Int]()
+
+    // these guides are only about choosing a hero power, so the chosen hero's guide replaces them
+    private static let replaceableHeroes: Set<String> = [
+        CardIds.NonCollectible.Neutral.SirFinleyMrrggltonTavernBrawl1,
+        CardIds.NonCollectible.Neutral.GennWorgenKing
+    ]
+
+    // Main thread only, as the @Published write demands.
+    func onHeroPowers(_ heroPowers: [Entity]) {
+        heroPowerDbfIds = heroPowers
+            .sorted { $0[.additional_hero_power_index] < $1[.additional_hero_power_index] }
+            .map { $0.card.dbfId }
+        updateHeroes()
     }
 
     // Unlike reset(), the fetched guide dict isn't lobby-specific (favorable
@@ -99,22 +121,41 @@ final class BattlegroundsHeroGuidesViewModel: ObservableObject {
     }
 
     func onMatchEnd() {
-        selectedHero = nil
+        heroes = nil
         pickedHeroDbfId = nil
+        heroPowerDbfIds = []
     }
 
     func reset() {
         heroGuides = nil
-        selectedHero = nil
+        heroes = nil
         pickedHeroDbfId = nil
+        heroPowerDbfIds = []
     }
 
-    private func resolveSelectedHero() {
-        guard let dbfId = pickedHeroDbfId, let baseHero = Cards.getBattlegroundsHeroFromDbfid(dbfId: dbfId) else {
-            selectedHero = nil
+    private func updateHeroes() {
+        // The hero id can be a skin, so this resolves the base hero.
+        guard let dbfId = pickedHeroDbfId, let pickedHero = Cards.getBattlegroundsHeroFromDbfid(dbfId: dbfId) else {
             return
         }
-        let guide = heroGuides?[baseHero.dbfId]
-        selectedHero = BattlegroundsHeroGuideViewModel(heroCard: baseHero, heroGuide: guide)
+
+        // some heroes' own hero power points at another hero (e.g. Genn's points at Sir Finley)
+        let ownHeroPower = pickedHero.heroPowerDbfId
+        var heroDbfIds = [Int]()
+        for heroDbfId in [pickedHero.dbfId] + heroPowerDbfIds.map({ heroPower in
+            heroPower == ownHeroPower
+                ? pickedHero.dbfId
+                : Cards.by(dbfId: heroPower, collectible: false)?.baconHeroPowerBaseHeroId ?? 0
+        }) where heroDbfId > 0 && !heroDbfIds.contains(heroDbfId) {
+            heroDbfIds.append(heroDbfId)
+        }
+
+        if heroDbfIds.count > 1 && Self.replaceableHeroes.contains(pickedHero.id) {
+            heroDbfIds.removeFirst()
+        }
+
+        heroes = heroDbfIds
+            .compactMap { dbfId in Cards.by(dbfId: dbfId, collectible: false) }
+            .map { card in BattlegroundsHeroGuideViewModel(heroCard: card, heroGuide: heroGuides?[card.dbfId]) }
     }
 }

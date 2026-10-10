@@ -104,6 +104,8 @@ final class Card {
     // to, which is how a hero guide is resolved from the hero power Hearthstone
     // shows in its hero picking tooltip.
     var baconHeroPowerBaseHeroId = 0
+    // HERO_POWER - the dbf id of a hero's own hero power.
+    var heroPowerDbfId = 0
     var baconCard = false
 
     // SwiftUI identity for views that load this card's render once, from
@@ -501,6 +503,7 @@ extension Card: NSCopying {
         copy.baconEvolutionCardId = self.baconEvolutionCardId
         copy.baconSubsetRaces = self.baconSubsetRaces
         copy.baconHeroPowerBaseHeroId = self.baconHeroPowerBaseHeroId
+        copy.heroPowerDbfId = self.heroPowerDbfId
         copy.faction = self.faction
         copy.spellSchool = self.spellSchool
         copy.tag4058 = self.tag4058

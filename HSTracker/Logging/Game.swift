@@ -2704,9 +2704,11 @@ class Game: NSObject, PowerEventHandler {
                     self.onBattlegroundsShoppingStart()
                     OpponentDeadForTracker.shoppingStarted(game: self)
                     BobsBuddyInvoker.instance(gameId: self.gameId, turn: self.turnNumber() - 1)?.startShopping()
-                    let heroPowerIds = self.player.board.filter { x in x.isHeroPower }.compactMap { x in x.cardId }
+                    let heroPowers = self.player.board.filter { x in x.isHeroPower }
+                    let heroPowerIds = heroPowers.compactMap { x in x.cardId }
                     let trinketIds = self.player.trinkets.compactMap({ x in x.cardId })
                     self.battlegroundsMinionsOnHeroPowers(heroPowerIds)
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onHeroPowers(heroPowers)
                     self.battlegroundsMinionsOnTrinkets(trinketIds)
                     // From here until combat, the board the Inspiration panel
                     // sends alongside a key minion is the live one.
@@ -4620,8 +4622,11 @@ class Game: NSObject, PowerEventHandler {
                     battlegroundsMinionsOnTrinkets(chosenTrinketIds)
                 }
                 // the entity of a chosen hero power is only created after the choice completes, concat the chosen one
-                let chosenHeroPowerIds = player.board.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id }) + chosen.filter({ x in x.isHeroPower }).compactMap({ x in x.card.id })
-                battlegroundsMinionsOnHeroPowers(chosenHeroPowerIds)
+                let chosenHeroPowers = player.board.filter({ x in x.isHeroPower }) + chosen.filter({ x in x.isHeroPower })
+                battlegroundsMinionsOnHeroPowers(chosenHeroPowers.compactMap({ x in x.card.id }))
+                DispatchQueue.main.async {
+                    self.windowManager.rootOverlay?.viewModel.battlegroundsHeroGuides.onHeroPowers(chosenHeroPowers)
+                }
                 
                 // quest choice
                 if let chosenEntity = chosen.first {
