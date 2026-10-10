@@ -151,13 +151,17 @@ class Game: NSObject, PowerEventHandler {
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
         if currentMode == .bacon || isBattlegroundsMatch() {
-            if flag {
-                windowManager.rootOverlay?.viewModel.tier7PreLobby.onFocus()
+            if flag, let tier7PreLobby = windowManager.rootOverlay?.viewModel.tier7PreLobby {
+                DispatchQueue.main.async {
+                    tier7PreLobby.onFocus()
+                }
             }
             updateBattlegroundsSessionVisibility()
         }
-        if flag {
-            windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.onFocus()
+        if flag, let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
+            DispatchQueue.main.async {
+                widgetVm.onFocus()
+            }
         }
     }
 	
@@ -964,11 +968,17 @@ class Game: NSObject, PowerEventHandler {
         }
     }
         
+    // Called from the BaconWatcher thread. The @Published writes have to happen on
+    // main: setting them here deadlocked against main-thread writes to the same
+    // view model, each side holding the lock the other one wanted (HSTRACKER-2XR).
     func setBaconState(_ mode: SelectedBattlegroundsGameMode, _ isAnyOpen: Bool) {
-        windowManager.rootOverlay?.viewModel.tier7PreLobby.battlegroundsGameMode = mode
-        windowManager.rootOverlay?.viewModel.tier7PreLobby.isModalOpen = !queueEvents.isInQueue && isAnyOpen
+        let isModalOpen = !queueEvents.isInQueue && isAnyOpen
         windowManager.rootOverlay?.viewModel.battlegroundsSession.battlegroundsGameMode = mode
         DispatchQueue.main.async {
+            if let tier7PreLobby = self.windowManager.rootOverlay?.viewModel.tier7PreLobby {
+                tier7PreLobby.battlegroundsGameMode = mode
+                tier7PreLobby.isModalOpen = isModalOpen
+            }
             self.updateTier7PreLobbyVisibility()
             self.updateBattlegroundsGuidesPreLobbyVisibility()
         }
@@ -2036,8 +2046,10 @@ class Game: NSObject, PowerEventHandler {
         
         windowManager.rootOverlay?.viewModel.linkOpponentDeck.isFriendlyMatch = isFriendlyMatch
         
-        if isBattlegroundsMatch() && currentGameMode == .spectator {
-            windowManager.rootOverlay?.viewModel.tier7PreLobby.reset()
+        if isBattlegroundsMatch() && currentGameMode == .spectator, let tier7PreLobby = windowManager.rootOverlay?.viewModel.tier7PreLobby {
+            DispatchQueue.main.async {
+                tier7PreLobby.reset()
+            }
         }
         
         if isFriendlyMatch {
@@ -5096,15 +5108,19 @@ class Game: NSObject, PowerEventHandler {
         }
 
         if let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
-            widgetVm.isModalOpen = isModalOpen
-            widgetVm.visualsFormatType = vft
+            DispatchQueue.main.async {
+                widgetVm.isModalOpen = isModalOpen
+                widgetVm.visualsFormatType = vft
+            }
         }
     }
 
     func setConstructedQueue(_ inQueue: Bool) {
         mulliganGuidePreLobbyViewModel?.isInQueue = inQueue
         if let widgetVm = windowManager.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget {
-            widgetVm.isInQueue = inQueue
+            DispatchQueue.main.async {
+                widgetVm.isInQueue = inQueue
+            }
         }
     }
     

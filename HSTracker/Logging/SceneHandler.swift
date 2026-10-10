@@ -131,7 +131,10 @@ class SceneHandler {
         }
         
         if from == .bacon {
-            game.windowManager.rootOverlay?.viewModel.tier7PreLobby.invalidateUserState()
+            let tier7PreLobby = game.windowManager.rootOverlay?.viewModel.tier7PreLobby
+            DispatchQueue.main.async {
+                tier7PreLobby?.invalidateUserState()
+            }
         }
 
         if to == .draft {

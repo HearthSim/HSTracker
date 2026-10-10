@@ -22,6 +22,7 @@ enum RefreshSubscriptionState: Int {
 
 // Port of HDT's Tier7PreLobbyViewModel
 // (Controls/Overlay/Battlegrounds/Tier7/Tier7PreLobbyViewModel.cs).
+@MainActor
 class Tier7PreLobbyViewModel: ObservableObject {
     // HDT drives this panel's presence with _tier7PreLobbyBehavior.Show()/Hide()
     // rather than a view-model flag; on the RootOverlay canvas there is no
@@ -38,16 +39,15 @@ class Tier7PreLobbyViewModel: ObservableObject {
     @Published var isAuthenticated: Bool?
     @Published var username: String?
     @Published var refreshAccountEnabled = true
-    @Published var isCollapsed: Bool
+    @Published var isCollapsed = Settings.tier7OverlayCollapsed
     @Published private var possiblySubscribed = false
 
     private var _isUpdatingAccount = false
 
-    private var accountObservers = [NSObjectProtocol]()
+    // Only ever written from the nonisolated init, before anything else can see self.
+    private nonisolated(unsafe) var accountObservers = [NSObjectProtocol]()
 
-    init() {
-        isCollapsed = Settings.tier7OverlayCollapsed
-
+    nonisolated init() {
         for event in [Events.hsreplay_account_data_updated, Events.hsreplay_logged_out] {
             accountObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: event), object: nil, queue: nil) { [weak self] _ in
                 Task { @MainActor in

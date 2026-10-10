@@ -356,7 +356,6 @@ final class CoreManager: NSObject {
         wm.rootOverlay?.viewModel.mulliganGuidePreLobby.viewModel.reset()
         wm.rootOverlay?.viewModel.mulliganGuide.reset()
         wm.rootOverlay?.viewModel.mulliganGuideV2.reset()
-        wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
         wm.rootOverlay?.viewModel.mulliganGuideTrialsExhausted.isShown = false
         MulliganGuideTrial.clear()
         // HDT clears both trials side by side when Hearthstone exits
@@ -367,6 +366,7 @@ final class CoreManager: NSObject {
         Tier7Trial.clear()
         DispatchQueue.main.async {
             wm.rootOverlay?.viewModel.battlegroundsSession.setShown(false)
+            wm.rootOverlay?.viewModel.constructedMulliganPreLobbyWidget.reset()
             if let tier7PreLobby = wm.rootOverlay?.viewModel.tier7PreLobby, tier7PreLobby.isShown {
                 tier7PreLobby.isShown = false
                 tier7PreLobby.reset()
