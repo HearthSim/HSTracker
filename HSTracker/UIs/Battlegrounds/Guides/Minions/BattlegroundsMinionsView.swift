@@ -323,8 +323,9 @@ private struct MinionsViewTierButton: View {
             }
             .frame(width: badgeSize, height: badgeSize)
             // Outside the 0.905 scaled grid, so it sits in the button's own
-            // corner rather than the badge's.
-            .overlay(darkParadoxDot, alignment: .topTrailing)
+            // corner rather than the badge's, but fades with the badge's
+            // IconOpacity like the grid both now share.
+            .overlay(darkParadoxDot.opacity(badgeOpacity), alignment: .topTrailing)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
