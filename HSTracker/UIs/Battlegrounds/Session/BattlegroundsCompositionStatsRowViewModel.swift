@@ -35,7 +35,7 @@ class BattlegroundsCompositionStatsRowViewModel: ViewModel {
         return _firstPlacePercent
     }
     var avgPlacement: String {
-        return String(format: "%.2f", _avgPlacement)
+        return String(format: "%.2f", locale: Language.culture, _avgPlacement)
     }
     
     var avgPlacementColor: String {

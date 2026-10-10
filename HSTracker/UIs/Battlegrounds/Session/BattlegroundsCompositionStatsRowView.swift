@@ -97,7 +97,7 @@ struct BattlegroundsCompositionStatsBarView: View {
             .frame(width: Self.width, height: Self.height)
 
             // percentageText.Text = $"{newPercent:0.0}%"
-            Text(verbatim: String(format: "%.1f%%", percent))
+            Text(verbatim: String(format: "%.1f%%", locale: Language.culture, percent))
                 .chunkFive(size: 13)
                 .outlinedText()
                 .fixedSize()
