@@ -97,6 +97,100 @@ class BattlegroundsUtils {
         BattlegroundsKeyword(locKey: "Battlegrounds_Browser_Filter_Lockbox", englishName: "Lockbox", mechanic: nil, requiredRace: .pirate)
     ]
 
+    private static let availableRacesTimeout: TimeInterval = 15
+
+    private static let pendingRacesWaitLock = NSLock()
+    // HDT's _gameplayCancellation: bumped when gameplay is left, which ends
+    // every wait still in flight instead of letting it run into the next game.
+    private static var gameplayGeneration = 0
+    private static var pendingRacesWait: (gameId: String, task: Task<[Race]?, Error>)?
+
+    // The memory read can come up empty right after the game starts, so keep
+    // trying for a while (nil if it keeps failing, CancellationError once the
+    // game is over so callers can stop quietly). game.availableRaces caches
+    // the result for the game, which reset() replaces along with its gameId.
+    static func waitForAvailableRaces() async throws -> [Race]? {
+        let game = AppDelegate.instance().coreManager.game
+        let generation = pendingRacesWaitLock.withLock { gameplayGeneration }
+        let gameId = game.gameId
+
+        if game.isInMenu {
+            throw CancellationError()
+        }
+
+        // another caller may have read them since the shared wait's last attempt
+        if let races = game.availableRaces {
+            return races
+        }
+
+        let task: Task<[Race]?, Error> = pendingRacesWaitLock.withLock {
+            // a finished wait is not reused, so a caller after a timeout gets a fresh attempt
+            if let pending = pendingRacesWait, pending.gameId == gameId {
+                return pending.task
+            }
+            let task = Task<[Race]?, Error> {
+                defer {
+                    pendingRacesWaitLock.withLock {
+                        if pendingRacesWait?.gameId == gameId {
+                            pendingRacesWait = nil
+                        }
+                    }
+                }
+                return try await waitForAvailableRaces(
+                    read: { game.availableRaces },
+                    isSameGame: { isCurrentGame(gameId) && pendingRacesWaitLock.withLock { gameplayGeneration } == generation },
+                    timeout: availableRacesTimeout,
+                    initialDelay: 0.25)
+            }
+            pendingRacesWait = (gameId, task)
+            return task
+        }
+
+        let races = try await task.value
+
+        if !isCurrentGame(gameId) || pendingRacesWaitLock.withLock({ gameplayGeneration }) != generation {
+            throw CancellationError()
+        }
+
+        return races
+    }
+
+    // leaving gameplay ends every wait still in flight, instead of letting them run into the next game
+    static func cancelAvailableRacesWaits() {
+        let cancelled: Task<[Race]?, Error>? = pendingRacesWaitLock.withLock {
+            gameplayGeneration += 1
+            let task = pendingRacesWait?.task
+            pendingRacesWait = nil
+            return task
+        }
+        cancelled?.cancel()
+    }
+
+    private static func isCurrentGame(_ gameId: String) -> Bool {
+        let game = AppDelegate.instance().coreManager.game
+        return !game.isInMenu && game.gameId == gameId
+    }
+
+    static func waitForAvailableRaces(read: () -> [Race]?, isSameGame: () -> Bool, timeout: TimeInterval, initialDelay: TimeInterval) async throws -> [Race]? {
+        let start = Date()
+        var delay = initialDelay
+        let maxDelay: TimeInterval = 2
+        while true {
+            try Task.checkCancellation()
+            if let races = read() {
+                return races
+            }
+            if !isSameGame() {
+                throw CancellationError()
+            }
+            if Date().timeIntervalSince(start) >= timeout {
+                return nil
+            }
+            try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            delay = min(delay * 2, maxDelay)
+        }
+    }
+
     static func getAvailableKeywords(availableRaces: [Race]?) -> [BattlegroundsKeyword] {
         guard let availableRaces else {
             return availableKeywords

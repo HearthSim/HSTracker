@@ -149,19 +149,11 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
             return
         }
 
-        // game.availableRaces reads live from a game-memory mirror and returns
-        // nil until that read settles - right at match start it's reliably nil
-        // for roughly a second, so checking it once here would error out on
-        // every first load (and only succeed on Retry, once the mirror had time
-        // to catch up). Poll briefly instead of failing on the first nil.
-        let game = AppDelegate.instance().coreManager.game
-        var races: [Race]?
-        for _ in 0..<10 {
-            if let r = game.availableRaces {
-                races = r
-                break
-            }
-            await Task.sleep(milliseconds: 300)
+        let races: [Race]?
+        do {
+            races = try await BattlegroundsUtils.waitForAvailableRaces()
+        } catch {
+            return
         }
         guard let races else {
             logger.error("Unable to get available races")

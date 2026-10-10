@@ -3167,7 +3167,15 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
-    private func getBattlegroundsHeroPickStats() async -> BattlegroundsHeroPickStats? {
+    private var initialBattlegroundsHeroPickRequest: Task<Void, Never>?
+
+    private func cacheInitialBattlegroundsHeroPickParams(_ heroDbfIds: [Int]) async {
+        if let availableRaces = try? await BattlegroundsUtils.waitForAvailableRaces() {
+            cacheBattlegroundsHeroPickParams(heroDbfIds, availableRaces)
+        }
+    }
+
+    private func getBattlegroundsHeroPickStats(paramsReady: Task<Void, Never>? = nil) async -> BattlegroundsHeroPickStats? {
         if spectator {
             return nil
         }
@@ -3184,6 +3192,10 @@ class Game: NSObject, PowerEventHandler {
 
         if !Tier7Trial.isAvailable {
             return nil
+        }
+
+        if let paramsReady {
+            await paramsReady.value
         }
 
         let parameters = getBattlegroundsHeroPickParams()
@@ -3237,16 +3249,22 @@ class Game: NSObject, PowerEventHandler {
 
         // refresh the offered heroes
         snapshotBattlegroundsOfferedHeroes(heroes)
-        cacheBattlegroundsHeroPickParams(true)
 
-        defer {
-            battlegroundsHeroPickingLatch -= 1
-        }
-        
         battlegroundsHeroPickingLatch += 1
         let latchOut = battlegroundsHeroPickingLatch
-        var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
-        battlegroundsHeroPickStats = await getBattlegroundsHeroPickStats()
+
+        // reroll params build on the initial params and echo the ref from its response
+        if let initialRequest = initialBattlegroundsHeroPickRequest {
+            await initialRequest.value
+        }
+
+        // another reroll has happened while waiting, leave the request to that one
+        if latchOut != battlegroundsHeroPickingLatch {
+            return
+        }
+
+        cacheBattlegroundsHeroRerollParams()
+        let battlegroundsHeroPickStats = await getBattlegroundsHeroPickStats()
 
         // another task has updated them since (fast reroll)
         if latchOut != battlegroundsHeroPickingLatch {
@@ -3258,8 +3276,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        if let stats = battlegroundsHeroPickStats {
-            let heroIds = heroes.sorted(by: { (a, b) -> Bool in return a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
+        if let stats = battlegroundsHeroPickStats, let heroIds = battlegroundsHeroPickState.offeredHeroDbfIds {
             DispatchQueue.main.async { [self] in
                 self.showBattlegroundsHeroPickingStats(heroIds.compactMap({ dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}), stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
                 self.showBattlegroundsHeroPanel(heroIds, self.isBattlegroundsDuosMatch(), stats.toast.parameters)
@@ -3280,26 +3297,20 @@ class Game: NSObject, PowerEventHandler {
     
     private var _battlegroundsHeroPickStatsParams: BattlegroundsHeroPickStatsParams?
     
-    func cacheBattlegroundsHeroPickParams(_ isReroll: Bool) {
-        if let _battlegroundsHeroPickStatsParams {
-            // Already set? Probably a reroll - just update the hero dbf ids
-            guard let newHeroDbfIds = battlegroundsHeroPickState.offeredHeroDbfIds else {
-                return
-            }
+    func cacheBattlegroundsHeroPickParams(_ heroDbfIds: [Int], _ availableRaces: [Race]) {
+        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: false)
+    }
 
-            self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll, hero_pick_ref: _battlegroundsHeroPickStatsParams.hero_pick_ref)
+    func cacheBattlegroundsHeroRerollParams() {
+        guard let _battlegroundsHeroPickStatsParams else {
             return
         }
 
-        guard let availableRaces else {
+        guard let newHeroDbfIds = battlegroundsHeroPickState.offeredHeroDbfIds else {
             return
         }
 
-        guard let heroDbfIds = battlegroundsHeroPickState.offeredHeroDbfIds else {
-            return
-        }
-
-        _battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: heroDbfIds, minion_types: availableRaces.compactMap { x in Int(Race.allCases.firstIndex(of: x)!) }, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: isReroll)
+        self._battlegroundsHeroPickStatsParams = BattlegroundsHeroPickStatsParams(hero_dbf_ids: newHeroDbfIds, minion_types: _battlegroundsHeroPickStatsParams.minion_types, anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: gameEntity), deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: gameEntity), game_language: "\(Settings.hearthstoneLanguage ?? .enUS)", battlegrounds_rating: battlegroundsRatingInfo?.rating.intValue, is_reroll: true, hero_pick_ref: _battlegroundsHeroPickStatsParams.hero_pick_ref)
     }
     
     private func getBattlegroundsHeroPickParams() -> BattlegroundsHeroPickStatsParams? {
@@ -3317,8 +3328,9 @@ class Game: NSObject, PowerEventHandler {
         return state
     }
     
-    func snapshotBattlegroundsOfferedHeroes(_ heroes: [Entity]) {
-        _ = battlegroundsHeroPickState.snapshotOfferedHeroes(heroes)
+    @discardableResult
+    func snapshotBattlegroundsOfferedHeroes(_ heroes: [Entity]) -> [Int] {
+        return battlegroundsHeroPickState.snapshotOfferedHeroes(heroes)
     }
     @discardableResult
     func snapshotBattlegroundsHeroPick() -> Int? {
@@ -3435,12 +3447,6 @@ class Game: NSObject, PowerEventHandler {
 
         await Task.sleep(milliseconds: 500)
         
-        var counter = 0
-        while availableRaces == nil && counter < 5 {
-            await Task.sleep(milliseconds: 500)
-            counter += 1
-        }
-        
         updateBattlegroundsSessionPanel()
         
         if isBattlegroundsDuosMatch() {
@@ -3451,12 +3457,12 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
-        snapshotBattlegroundsOfferedHeroes(heroes)
-        cacheBattlegroundsHeroPickParams(false)
+        var heroIds = snapshotBattlegroundsOfferedHeroes(heroes)
+        let heroPickParamsTask = Task { await self.cacheInitialBattlegroundsHeroPickParams(heroIds) }
+        initialBattlegroundsHeroPickRequest = heroPickParamsTask
 
-        let heroIds = heroes.sorted(by: { (a, b) -> Bool in a.zonePosition < b.zonePosition }).compactMap { x in x.card.dbfId }
-            
-        async let statsTask = getBattlegroundsHeroPickStats()
+        let statsTask = Task { await self.getBattlegroundsHeroPickStats(paramsReady: heroPickParamsTask) }
+        initialBattlegroundsHeroPickRequest = Task { _ = await statsTask.value }
                 
         // Wait for the mulligan to be ready. Unlike the constructed guides, the
         // hero panel is put up from here whether or not the pick is still open -
@@ -3467,8 +3473,16 @@ class Game: NSObject, PowerEventHandler {
         
         var battlegroundsHeroPickStats: BattlegroundsHeroPickStats?
         
-        let (finalResults, _) = await (statsTask, waitAndAppear)
+        let (finalResults, _) = await (statsTask.value, waitAndAppear)
         battlegroundsHeroPickStats = finalResults
+
+        // the game ended while the params were waiting for races
+        if isInMenu {
+            return
+        }
+
+        // the stats were requested for the initial heroes, some may have been rerolled since
+        heroIds = battlegroundsHeroPickState.offeredHeroDbfIds ?? heroIds
             
         var toastParams: [String: String]?
             

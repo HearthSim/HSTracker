@@ -298,8 +298,40 @@ class BattlegroundsSessionViewModel: ObservableObject {
     // HDT's UpdateMinionTypes.
     private func updateMinionTypes() {
         let game = AppDelegate.instance().coreManager.game
+        let availableRaces = game.availableRaces
+        setMinionTypes(availableRaces)
+        if availableRaces == nil && game.isBattlegroundsMatch() && !game.isInMenu {
+            Task {
+                await setMinionTypesOnceReadable()
+            }
+        }
+    }
+
+    private func setMinionTypesOnceReadable() async {
+        do {
+            if try await BattlegroundsUtils.waitForAvailableRaces() == nil {
+                return
+            }
+        } catch {
+            return
+        }
+
+        let game = AppDelegate.instance().coreManager.game
+        // the match is over, so leave the recap to the menu's own updates
+        if game.isInMenu {
+            return
+        }
+
+        // read again rather than use the result, so a newer game only ever gets its own races
+        await MainActor.run {
+            setMinionTypes(game.availableRaces)
+        }
+    }
+
+    private func setMinionTypes(_ races: [Race]?) {
+        let game = AppDelegate.instance().coreManager.game
         let allRaces = Database.battlegroundRaces.filter { $0 != .invalid && $0 != .all }
-        let availableRaces = game.availableRaces ?? allRaces
+        let availableRaces = races ?? allRaces
         let unavailableRaces = allRaces.filter { !availableRaces.contains($0) }
 
         let validMinionTypes = unavailableRaces.count >= 5 && unavailableRaces.count != allRaces.count
@@ -353,11 +385,15 @@ class BattlegroundsSessionViewModel: ObservableObject {
     }
 
     private func getBattlegroundsCompStats() async throws -> BattlegroundsCompStats? {
-        if isDuos {
+        let game = AppDelegate.instance().coreManager.game
+
+        if !game.isBattlegroundsMatch() {
             return nil
         }
 
-        let game = AppDelegate.instance().coreManager.game
+        if isDuos {
+            return nil
+        }
 
         if game.spectator {
             return nil
@@ -376,12 +412,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
             return nil
         }
 
-        var counter = 0
-        while game.availableRaces == nil && counter < 5 {
-            await Task.sleep(milliseconds: 500)
-            counter += 1
-        }
-        guard let availableRaces = game.availableRaces else {
+        guard let availableRaces = try await BattlegroundsUtils.waitForAvailableRaces() else {
             throw CompositionStatsException("Unable to get available races")
         }
 
@@ -447,6 +478,8 @@ class BattlegroundsSessionViewModel: ObservableObject {
                 await setBattlegroundsCompositionStatsViewModel(compStats.data.first_place_comps_lobby_races)
                 await showCompositionStats()
             }
+        } catch is CancellationError {
+            return
         } catch {
             await handleCompStatsError(error)
         }

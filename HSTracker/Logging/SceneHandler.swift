@@ -73,6 +73,7 @@ class SceneHandler {
                 overlay?.arenaPreDraft.reset()
             }
         } else if from == .gameplay {
+            BattlegroundsUtils.cancelAvailableRacesWaits()
             game.updateBattlegroundsSessionVisibility()
             Watchers.battlegroundsTeammateBoardStateWatcher.stop()
             Watchers.battlegroundsLobbyInfoWatcher.stop()
