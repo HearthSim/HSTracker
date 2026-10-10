@@ -168,6 +168,9 @@ class Game: NSObject, PowerEventHandler {
 	func setSelfActivated(flag: Bool) {
 		self.selfAppActive = flag
         self.updateTrackers()
+        if currentMode == .bacon || isBattlegroundsMatch() {
+            updateBattlegroundsSessionVisibility()
+        }
 	}
     
     func getBattlegroundsBoardStateFor(id: Int) -> BoardSnapshot? {
@@ -269,7 +272,16 @@ class Game: NSObject, PowerEventHandler {
             // do not show gui while spectating
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
                 // do not show gui while game is in background
-                !((Settings.hideAllWhenGameInBackground || Settings.hideAllWhenGameInBackground) && !self.hearthstoneRunState.isActive)
+                isGameInForeground
+    }
+
+    /// Whether the overlay should be up as far as hideAllWhenGameInBackground is
+    /// concerned. HSTracker itself being active counts as the game being in the
+    /// foreground: a click on the overlay can activate HSTracker, which sends
+    /// Hearthstone to the background, and hiding the overlay then would take it
+    /// down out from under the click.
+    var isGameInForeground: Bool {
+        !Settings.hideAllWhenGameInBackground || hearthstoneRunState.isActive || selfAppActive
     }
     
     var shouldShowTracker: Bool {
@@ -524,8 +536,7 @@ class Game: NSObject, PowerEventHandler {
 
             panel.reloadSettings()
             panel.isShown = Settings.showSecretHelper && !self.gameEnded &&
-                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) && !isBattlegroundsMatch()
+                self.isGameInForeground && !isBattlegroundsMatch()
         }
     }
     
@@ -614,9 +625,7 @@ class Game: NSObject, PowerEventHandler {
     func updateRootOverlay() {
         DispatchQueue.main.async { [self] in
             guard let win = windowManager.rootOverlay else { return }
-            let hsActive = hearthstoneRunState.isActive
-
-            if (Settings.hideAllWhenGameInBackground && hsActive) || !Settings.hideAllWhenGameInBackground {
+            if isGameInForeground {
                 let frame = SizeHelper.overHearthstoneFrame()
                 let isFullscreen = SizeHelper.hearthstoneWindow.isFullscreen()
                 let fullscreenChanged = rootOverlayLastFullscreenState != nil && rootOverlayLastFullscreenState != isFullscreen
@@ -704,8 +713,7 @@ class Game: NSObject, PowerEventHandler {
             let leftViaScene = SceneHandler.scene != nil && SceneHandler.scene != .gameplay
             let isBG = self.isBattlegroundsMatch() && !self.isInMenu && !leftViaScene && !self.gameEnded
             let show = isBG && Settings.showBobsBuddy &&
-                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) && !self.hideBobsBuddy
+                self.isGameInForeground && !self.hideBobsBuddy
             self.windowManager.rootOverlay?.viewModel.bobsBuddy.isShown = show
         }
     }
@@ -889,7 +897,7 @@ class Game: NSObject, PowerEventHandler {
                 return
             }
             let show = (!self.isMercenariesMatch() && Settings.showFlavorText) || (self.isMercenariesMatch())
-            if !self.isInMenu && show || (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+            if !self.isInMenu && show || (self.isMulliganDone() || self.isMercenariesMatch()) && !self.gameEnded && self.isGameInForeground {
                 board.isShown = true
                 // OverlayWindow.IsGameOver, which collapses every slot
                 // rather than hiding the grids.
@@ -923,7 +931,7 @@ class Game: NSObject, PowerEventHandler {
     // OverlayWindow.IsContentVisible: the overlay is hidden while Hearthstone
     // is in the background, if the user asked for that.
     private var isBoardEntryOrderContentVisible: Bool {
-        !Settings.hideAllWhenGameInBackground || hearthstoneRunState.isActive
+        isGameInForeground
     }
 
     // HDT's OverlayWindow.OnPlayZoneStateChanged, fed by the PlayZoneWatcher
@@ -950,8 +958,7 @@ class Game: NSObject, PowerEventHandler {
             // game to keep the button clear of Hearthstone's "Back" button.
             tasks.isInMenu = self.isInMenu
             let show = Settings.showMercsTasks && tasks.isRequested
-                && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground)
+                && self.isGameInForeground
             tasks.isButtonShown = show
             if !show {
                 tasks.isListShown = false
@@ -1108,7 +1115,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func updateBattlegroundsSessionVisibility(_ isFriendsListOpen: Bool = false) {
-        let show = isRunning && ((Settings.hideAllWhenGameInBackground && hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) && Settings.showSessionRecap
+        let show = isRunning && isGameInForeground && Settings.showSessionRecap
                 && (
                     (
                         // Scene is not transitioning
