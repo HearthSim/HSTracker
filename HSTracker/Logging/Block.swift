@@ -30,6 +30,10 @@ class Block {
     var isTradeableAction = false
     
     var hideShowEntities = false
+
+    // Entities revealed by a Soul Fermenter resummon, with only the tags from their SHOW_ENTITY lines,
+    // taken before later effects in the same block change these values
+    var soulFermenterRevealedEntities = [Entity]()
    
     init(parent: Block?, id: Int, type: String?, cardId: String?, target: String?, trigger: String?) {
         self.parent = parent

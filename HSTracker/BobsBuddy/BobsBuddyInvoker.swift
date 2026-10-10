@@ -2145,6 +2145,39 @@ class BobsBuddyInvoker {
         }
     }
 
+    func updateSoulFermenterSavedMinions(_ trinketEntityId: Int, _ resummonedEntities: [Entity]) {
+        guard let input, updateRevealedEntityValidStates, let soulFermenterClass = SoulFermenterProxy._class else {
+            return
+        }
+
+        MonoHelper.withMonoThread {
+            let players = team(input, friendly: true) + team(input, friendly: false)
+            func soulFermenters(_ player: PlayerProxy) -> [TrinketProxy] {
+                return MonoList<TrinketProxy>(player.trinkets).filter { t in MonoHelper.isInstance(obj: t, klass: soulFermenterClass) }
+            }
+            guard let side = players.first(where: { p in soulFermenters(p).contains { t in t.game_id == trinketEntityId } }),
+                  let soulFermenter = soulFermenters(side).first(where: { t in t.game_id == trinketEntityId }),
+                  !soulFermenter.trinketUpdatedDuringCombat else {
+                return
+            }
+
+            // Each soul Fermenter accounts for up to 3 minions from THIS combat
+            let extraCount = resummonedEntities.count - 3 * soulFermenters(side).count
+            if extraCount <= 0 {
+                return
+            }
+
+            let simulator = SimulatorProxy()
+            let extraSavedMinions = SoulFermenterProxy(obj: soulFermenter.get()).extraSavedMinions
+            for savedEntity in resummonedEntities.prefix(extraCount) {
+                MonoHelper.addToList(list: extraSavedMinions, element: BobsBuddyInvoker.getMinionFromEntity(sim: simulator, player: soulFermenter.controlledByPlayer, entity: savedEntity, attachedEntities: []))
+            }
+            soulFermenter.trinketUpdatedDuringCombat = true
+
+            tryRerun()
+        }
+    }
+
     func updateTrinketEnchantment(_ enchantmentEntity: Entity, _ trinketEntityId: Int, _ isPlayerTrinket: Bool) {
         guard let input, updateRevealedEntityValidStates else {
             return

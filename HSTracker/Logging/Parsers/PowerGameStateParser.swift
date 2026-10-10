@@ -454,6 +454,14 @@ class PowerGameStateParser: LogEventParser {
                 }
                 entity.info.latestCardId = cardId
                 if type == "SHOW_ENTITY" {
+                    // Snapshot what a Soul Fermenter resummon reveals, before later effects in the block change the tags
+                    if let soulFermenterBlock = currentBlock, soulFermenterBlock.type == "TRIGGER", soulFermenterBlock.cardId == CardIds.NonCollectible.Neutral.SoulFermenter {
+                        let revealed = Entity(id: entityId)
+                        revealed.cardId = cardId
+                        revealed.info.latestCardId = cardId
+                        soulFermenterBlock.soulFermenterRevealedEntities.append(revealed)
+                    }
+
                     if entity.info.guessedCardState != GuessedCardState.none {
                         entity.info.guessedCardState = GuessedCardState.revealed
                     }
@@ -565,6 +573,12 @@ class PowerGameStateParser: LogEventParser {
             tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+            if let soulFermenterRevealBlock = currentBlock, soulFermenterRevealBlock.type == "TRIGGER",
+               soulFermenterRevealBlock.cardId == CardIds.NonCollectible.Neutral.SoulFermenter,
+               let revealedEntity = soulFermenterRevealBlock.soulFermenterRevealedEntities.last,
+               revealedEntity.id == currentEntityId, let revealedTag = GameTag(rawString: tag) {
+                revealedEntity[revealedTag] = tagChangeHandler.parseTag(tag: revealedTag, rawValue: value)
+            }
             if tag == "CREATOR", let creatorId = Int(value), let createdEntity = eventHandler.entities[currentEntityId],
                let currentBlock, currentBlock.type == "TRIGGER", currentBlock.triggerKeyword == "DEATHRATTLE",
                eventHandler.currentGameMode == .battlegrounds {
@@ -1595,6 +1609,19 @@ class PowerGameStateParser: LogEventParser {
                 }
             }
             
+            // Soul Fermenter typically resummons 3 minions; however in rare cases it can carry 3 extra minions
+            // from a prior combat if they were not yet resummoned (for a total of 6).
+            // These additional 3 minions are not knowable at combat setup
+            if let soulFermenterEndBlock = currentBlock, soulFermenterEndBlock.type == "TRIGGER",
+               soulFermenterEndBlock.cardId == CardIds.NonCollectible.Neutral.SoulFermenter,
+               eventHandler.currentGameMode == .battlegrounds {
+                let resummoned = soulFermenterEndBlock.soulFermenterRevealedEntities.filter { e in e[.cardtype] == CardType.minion.rawValue }
+                if resummoned.count > 3 {
+                    BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?
+                        .updateSoulFermenterSavedMinions(soulFermenterEndBlock.sourceEntityId, resummoned)
+                }
+            }
+
             // Handle Hand related enchantments in Battlegrounds
             // Check at BLOCK_END because the enchantment is updated DURING the block, not at BLOCK_START
             if eventHandler.currentGameMode == GameMode.battlegrounds, let currentBlock, currentBlock.type == "TRIGGER" {

@@ -51,3 +51,19 @@ class TrinketProxy: MonoHandle, MonoClassInitializer {
         })
     }
 }
+
+class SoulFermenterProxy: MonoHandle, MonoClassInitializer {
+    static var _class: OpaquePointer?
+    static var _members = [String: OpaquePointer]()
+
+    static func initialize() {
+        if SoulFermenterProxy._class == nil {
+            SoulFermenterProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Trinkets", name: "SoulFermenter")
+
+            initializeProperties(properties: [ "ExtraSavedMinions" ])
+        }
+    }
+
+    @MonoHandleProperty(property: "ExtraSavedMinions", owner: SoulFermenterProxy.self)
+    var extraSavedMinions: MonoHandle
+}
