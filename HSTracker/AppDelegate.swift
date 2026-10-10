@@ -358,6 +358,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             // failed response by logging it and carrying on.
             options.enableCaptureFailedRequests = false
 
+            // NSAlert.runModal() - ours or Sparkle's - spins the main run loop
+            // in the modal panel mode, which never drains the main dispatch
+            // queue, so the hang tracker reports the whole time an alert sits
+            // waiting for the user as a hang (HSTRACKER-MH, HSTRACKER-2QE,
+            // HSTRACKER-26Z). The event is captured while the main thread is
+            // still in that loop, and CFRunLoop is safe to query from another
+            // thread; the stack frames themselves aren't symbolicated on
+            // device, so they can't be matched instead.
+            options.beforeSend = { event in
+                if event.exceptions?.first?.mechanism?.type == "AppHang",
+                   let mode = CFRunLoopCopyCurrentMode(CFRunLoopGetMain()),
+                   mode.rawValue as String == RunLoop.Mode.modalPanel.rawValue {
+                    return nil
+                }
+                return event
+            }
+
             // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
             // We recommend adjusting this value in production.
             options.tracesSampleRate = 0.0
