@@ -812,9 +812,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     }
     #endif
     
-    @IBAction func closeWindow(_ sender: AnyObject) {
-    }
-    
     @IBAction func openLogDirectory(_ sender: AnyObject) {
         NSWorkspace.shared.activateFileViewerSelecting([Paths.logs])
     }

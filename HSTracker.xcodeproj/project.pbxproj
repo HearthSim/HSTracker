@@ -268,7 +268,6 @@
 		434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910531D097B0500B22DB2 /* EntityHelper.swift */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
-		434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
 		434D1CB41D10947200222B8E /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB61D10947200222B8E /* Statistics.xib */; };
 		434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EAC951DBCD3E8009C7636 /* NSAlert.swift */; };
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
@@ -1472,7 +1471,6 @@
 		B8BB7AB42832F02D008239CA /* BattlegroundsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB32832F02D008239CA /* BattlegroundsUtils.swift */; };
 		B8BB7AB828351890008239CA /* NSFont+NSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */; };
 		B8BCC1DF2739987600DA6474 /* NSBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */; };
-		B8BCC1E12739991600DA6474 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */; };
 		B8BD3BA62C41596C001E85B7 /* BattlegroundsCompStatsParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD3BA52C41596C001E85B7 /* BattlegroundsCompStatsParams.swift */; };
 		B8BD3BA82C4159EA001E85B7 /* BattlegroundsCompStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD3BA72C4159EA001E85B7 /* BattlegroundsCompStats.swift */; };
 		B8BD3BAE2C43507D001E85B7 /* BattlegroundsCompositionStatsRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8BD3BAD2C43507D001E85B7 /* BattlegroundsCompositionStatsRowViewModel.swift */; };
@@ -1508,7 +1506,6 @@
 		B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BEB25BDFA2500446923 /* RealmSwift */; };
 		B8D75BF725BE032500446923 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF625BE032500446923 /* Sparkle */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
-		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
 		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
 		B8DB12812EBAD591004268FA /* TheEternalHoldEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12802EBAD591004268FA /* TheEternalHoldEnchantment.swift */; };
 		B8DB12852EBAD671004268FA /* MurlocRafaamEnchantment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DB12842EBAD671004268FA /* MurlocRafaamEnchantment.swift */; };
@@ -2172,7 +2169,6 @@
 		434910531D097B0500B22DB2 /* EntityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityHelper.swift; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434D1CAE1D0C500300222B8E /* ImageUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtilities.swift; sourceTree = "<group>"; };
-		434D1CB01D0C507900222B8E /* ImageCompare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCompare.swift; sourceTree = "<group>"; };
 		434D1CB51D10947200222B8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Statistics.xib; sourceTree = "<group>"; };
 		434EAC951DBCD3E8009C7636 /* NSAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSAlert.swift; sourceTree = "<group>"; };
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
@@ -3403,7 +3399,6 @@
 		B8BB7AB32832F02D008239CA /* BattlegroundsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsUtils.swift; sourceTree = "<group>"; };
 		B8BB7AB728351890008239CA /* NSFont+NSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+NSTextField.swift"; sourceTree = "<group>"; };
 		B8BCC1DE2739987600DA6474 /* NSBezierPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPath.swift; sourceTree = "<group>"; };
-		B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyAlignedTextFieldCell.swift; sourceTree = "<group>"; };
 		B8BD3BA52C41596C001E85B7 /* BattlegroundsCompStatsParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompStatsParams.swift; sourceTree = "<group>"; };
 		B8BD3BA72C4159EA001E85B7 /* BattlegroundsCompStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompStats.swift; sourceTree = "<group>"; };
 		B8BD3BAD2C43507D001E85B7 /* BattlegroundsCompositionStatsRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionStatsRowViewModel.swift; sourceTree = "<group>"; };
@@ -3432,7 +3427,6 @@
 		B8D34D34294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsHeroHeaderViewModel.swift; sourceTree = "<group>"; };
 		B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BattlegroundsHeroPickStatsParams .swift"; sourceTree = "<group>"; };
 		B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageConverter.swift; sourceTree = "<group>"; };
-		B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableBox.swift; sourceTree = "<group>"; };
 		B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyErrorState.swift; sourceTree = "<group>"; };
 		B8DB12802EBAD591004268FA /* TheEternalHoldEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheEternalHoldEnchantment.swift; sourceTree = "<group>"; };
 		B8DB12842EBAD671004268FA /* MurlocRafaamEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MurlocRafaamEnchantment.swift; sourceTree = "<group>"; };
@@ -4105,7 +4099,6 @@
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
 				B85F1AC8258A558200A6F8C3 /* Helper.swift */,
-				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				B83A703D2E00A3BF00B85BBE /* JsonManager.swift */,
 				B81EEABA2CE69AF300B32448 /* NibHelper.swift */,
@@ -4362,7 +4355,6 @@
 				4C1923972392E174007EBB0F /* Battlegrounds */,
 				436F5D0A1CFD5F4900DEB9A1 /* Cards */,
 				43EECB971C7DEF7F0077AC1B /* ClassColor.swift */,
-				B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */,
 				B89586422B804DF300989C13 /* Constructed */,
 				A0513765E60521E5C22836D8 /* Counters */,
 				4360329E1C7D0113005F1893 /* DeckManager */,
@@ -4374,7 +4366,6 @@
 				433554591D65940300277B27 /* Toast */,
 				49CA73CD468190964522EB8F /* Tooltips */,
 				439C7ED41C777FA900D29859 /* Trackers */,
-				4C3E2D9F245F86A300292349 /* Views */,
 				9A2D20BAAAF228915120783F /* Overlay */,
 			);
 			path = UIs;
@@ -4534,14 +4525,6 @@
 				CC8939B5412DF540D005C09D /* HeroPowerPicking */,
 			);
 			path = Battlegrounds;
-			sourceTree = "<group>";
-		};
-		4C3E2D9F245F86A300292349 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				B8BCC1E02739991600DA6474 /* VerticallyAlignedTextFieldCell.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		54E5C32CC162F286D353E539 /* V2 */ = {
@@ -8433,7 +8416,6 @@
 				A67054166C6C0F917B3DF292 /* UnderlightAnglingRod.swift in Sources */,
 				CCE188B5FE318B40BAEE0D8B /* WhackAGnoll.swift in Sources */,
 				B846CC742E157AD500552F9C /* HighCultistHerenn.swift in Sources */,
-				B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */,
 				B889F60D2CED6151001506F4 /* CardsDrawnThisTurnCounter.swift in Sources */,
 				B89865A32D91D2DF00BA5649 /* TroubledMechanic.swift in Sources */,
 				B8FDE9442CDD1AD20093BFF7 /* StranglethornHeart.swift in Sources */,
@@ -8472,7 +8454,6 @@
 				B8B78FA92C93C59E00DD33EC /* ColdFeetEnchantment.swift in Sources */,
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
 				B8E1E5F42D0CA02B00383975 /* GreaterDiamondSpellstone.swift in Sources */,
-				B8BCC1E12739991600DA6474 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				B804FC3F2946882D00F74CD9 /* StatsHeaderViewModel.swift in Sources */,
 				B8B790662C97860600DD33EC /* AthleticStudiesEnchantment.swift in Sources */,
 				B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */,
@@ -8652,7 +8633,6 @@
 				B846CCAE2E1C3B1600552F9C /* PrimalfinChallengerEnchantment.swift in Sources */,
 				B89865782D91AEF000BA5649 /* TrustyFishingRod.swift in Sources */,
 				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
-				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
 				B89865B92D91EF7A00BA5649 /* ChalkArtist.swift in Sources */,
 				B8B78FFE2C970C2F00DD33EC /* CultNeophyteEnchantment.swift in Sources */,
 				B8E1E5C52D0C8A9F00383975 /* Psychopomp.swift in Sources */,

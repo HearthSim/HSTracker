@@ -29,8 +29,6 @@ class WindowManager {
         RelatedCardsTooltipPanel.shared
     }
 
-    private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
-
 	private func setHearthstoneActive() { hearthstoneActive = true }
 	private func setHearthstoneBackground() { hearthstoneActive = false }
 
