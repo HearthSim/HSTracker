@@ -1050,6 +1050,7 @@ extension CardIds.NonCollectible {
         static let DefensiveSacrifice = "BG36_MidGameEffect_000t2e2"
         static let Invulnerability = "BG36_MidGameEffect_000t60e"
         static let BronzeTimepiece_PreservedInBronzeEnchantment = "BG30_MagicItem_995e"
+        static let TrainingCertificate_GraduatedEnchantment = "BG30_MagicItem_962e"
         static let GolemancyToken3 = "BG36_MidGameEffect_000t61e2"
         static let SoulFermenter = "BG35_MagicItem_732"
         static let OffensiveSacrificeEnchantmentToken3 = "BG36_MidGameEffect_000te3"

@@ -908,6 +908,17 @@ class BobsBuddyInvoker {
                 if preservedInBronze.get() != nil {
                     minion.attachEnchantment(enchantment: preservedInBronze)
                 }
+            case CardIds.NonCollectible.Neutral.TrainingCertificate_GraduatedEnchantment:
+                // A Graduated enchantment from a prior combat Training Certificate buff (typically Tarecgosa).
+                // When attached, this enchantment is necessary to resolve trigger resolution order
+                if let graduatedClass = GraduatedProxy._class,
+                   MonoList<MonoHandle>(minion.enchantments).contains(where: { e in MonoHelper.isInstance(obj: e, klass: graduatedClass) }) {
+                    break
+                }
+                let graduated = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.TrainingCertificate_GraduatedEnchantment, controlledByPlayer: minion.controlledByPlayer)
+                if graduated.get() != nil {
+                    minion.attachEnchantment(enchantment: graduated)
+                }
             default:
                 if attached.card.type == .enchantment && !attached.cardId.isEmpty {
                     let enchantment = sim.enchantmentFactory.create(cardId: attached.cardId, controlledByPlayer: minion.controlledByPlayer)

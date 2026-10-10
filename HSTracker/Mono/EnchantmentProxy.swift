@@ -86,3 +86,14 @@ class OffensiveSacrificeProxy: MonoClassInitializer {
         }
     }
 }
+
+class GraduatedProxy: MonoClassInitializer {
+    static var _class: OpaquePointer?
+    static var _members = [String: OpaquePointer]()
+
+    static func initialize() {
+        if GraduatedProxy._class == nil {
+            GraduatedProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "Graduated")
+        }
+    }
+}
