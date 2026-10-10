@@ -987,6 +987,13 @@ class Game: NSObject, PowerEventHandler {
             return
         }
 
+        // hiding the panel resets the game mode and the watcher only emits on change
+        if viewModel.battlegroundsGameMode == .unknown && isInMenu && SceneHandler.scene == .bacon {
+            let mode = MirrorHelper.getSelectedBattlegroundsGameMode()
+            viewModel.battlegroundsGameMode = mode
+            windowManager.rootOverlay?.viewModel.battlegroundsSession.battlegroundsGameMode = mode
+        }
+
         // Hearthstone being in the background isn't a term here, exactly as in
         // HDT: the whole RootOverlay window is hidden for that
         // (Game.updateRootOverlay), so folding it in would only make the panel
@@ -1004,10 +1011,8 @@ class Game: NSObject, PowerEventHandler {
             // OverlayElementBehavior.Hide() fires it - it early-returns when
             // the element is already collapsed - and this runs on every lobby
             // tick. reset() clears battlegroundsGameMode along with the rest,
-            // as HDT's Reset() does; BaconWatcher re-supplies it on its next
-            // change (queueing blurs the lobby, so cancelling one always
-            // produces one), and re-entering BACON restarts the watcher with a
-            // cleared _prev so it reports unconditionally.
+            // as HDT's Reset() does; the next call re-reads it from memory
+            // above, since BaconWatcher only reports changes.
             viewModel.reset()
         }
         viewModel.isShown = show

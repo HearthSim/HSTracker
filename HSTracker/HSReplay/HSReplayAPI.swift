@@ -489,6 +489,7 @@ class HSReplayAPI {
                 case .success(let response):
                     if let ad = parseAccountData(data: response.data) {
                         accountData = ad
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hsreplay_account_data_updated), object: nil)
                         seal.fulfill(.success(account: ad))
                     } else {
                         accountData = nil

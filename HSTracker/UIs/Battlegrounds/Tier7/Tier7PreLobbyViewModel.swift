@@ -43,8 +43,19 @@ class Tier7PreLobbyViewModel: ObservableObject {
 
     private var _isUpdatingAccount = false
 
+    private var accountObservers = [NSObjectProtocol]()
+
     init() {
         isCollapsed = Settings.tier7OverlayCollapsed
+
+        for event in [Events.hsreplay_account_data_updated, Events.hsreplay_logged_out] {
+            accountObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: event), object: nil, queue: nil) { [weak self] _ in
+                Task { @MainActor in
+                    self?.invalidateUserState()
+                    AppDelegate.instance().coreManager.game.updateTier7PreLobbyVisibility()
+                }
+            })
+        }
     }
 
     var visibility: Bool {

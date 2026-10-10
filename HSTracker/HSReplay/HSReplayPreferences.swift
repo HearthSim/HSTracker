@@ -125,7 +125,9 @@ class HSReplayPreferences: PreferencePaneController, PreferencePane {
             Settings.hsReplayOAuthToken = nil
             Settings.hsReplayUploadToken = nil
             Settings.hsReplayUsername = nil
+            HSReplayAPI.accountData = nil
             MixpanelEvents.resetAccount()
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hsreplay_logged_out), object: nil)
 
             updateStatus()
         } else {
