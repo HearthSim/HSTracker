@@ -2454,6 +2454,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     private func updatePostGameBattlegroundsRating(gameStats: InternalGameStats) {
+        if let heroSelectionRating = battlegroundsHeroSelectionRating, heroSelectionRating.gameId == gameId {
+            gameStats.battlegroundsRatingAfter = heroSelectionRating.rating
+            return
+        }
         if let data = UploadMetaData.retryWhileNull(f: MirrorHelper.getBattlegroundsRatingChange, tries: 5, delay: 500) {
             gameStats.battlegroundsRatingAfter = data.ratingNew.intValue
         } else {
@@ -3174,6 +3178,22 @@ class Game: NSObject, PowerEventHandler {
     
     private var initialBattlegroundsHeroPickRequest: Task<Void, Never>?
 
+    // HDT writes this straight into CurrentGameStats, which HSTracker only
+    // builds once the game is over, so it is kept here until then.
+    private var battlegroundsHeroSelectionRating: (gameId: String, rating: Int)?
+
+    // conceding during hero selection skips STATE COMPLETE, and the rating is gone once the end screen is left
+    private func pollBattlegroundsHeroSelectionRating() async {
+        let currentGameId = gameId
+        while currentGameId == gameId && !isInMenu && (gameEntity?[.turn] ?? 0) == 0 {
+            if let data = MirrorHelper.getBattlegroundsRatingChange() {
+                battlegroundsHeroSelectionRating = (currentGameId, data.ratingNew.intValue)
+                return
+            }
+            await Task.sleep(milliseconds: 500)
+        }
+    }
+
     private func cacheInitialBattlegroundsHeroPickParams(_ heroDbfIds: [Int]) async {
         if let availableRaces = try? await BattlegroundsUtils.waitForAvailableRaces() {
             cacheBattlegroundsHeroPickParams(heroDbfIds, availableRaces)
@@ -3460,6 +3480,12 @@ class Game: NSObject, PowerEventHandler {
         
         if gameEntity?[.step] != Step.begin_mulligan.rawValue {
             return
+        }
+
+        if !spectator {
+            Task.detached {
+                await self.pollBattlegroundsHeroSelectionRating()
+            }
         }
 
         var heroIds = snapshotBattlegroundsOfferedHeroes(heroes)
