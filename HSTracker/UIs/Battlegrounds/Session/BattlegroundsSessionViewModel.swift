@@ -356,7 +356,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
             bannedMinionTypes = unavailableRaces.sorted { BattlegroundsMinionType.raceName($0) < BattlegroundsMinionType.raceName($1) }
         }
 
-        if (game.currentMode == .gameplay || SceneHandler.scene == .gameplay) && validMinionTypes {
+        if game.currentMode == .gameplay && SceneHandler.scene == .gameplay && validMinionTypes {
             minionTypesBodyVisible = true
             minionTypesWaitingMsgVisible = false
         } else {

@@ -11,12 +11,24 @@ import Foundation
 struct SceneEventArgs: Equatable {
     static func == (lhs: SceneEventArgs, rhs: SceneEventArgs) -> Bool {
         return lhs.prevMode == rhs.prevMode && lhs.mode == rhs.mode && lhs.sceneLoaded == rhs.sceneLoaded && lhs.transitioning == rhs.transitioning
+            && lhs.loadingScreenPhase == rhs.loadingScreenPhase
     }
     
     let prevMode: Int
     let mode: Int
     let sceneLoaded: Bool
     let transitioning: Bool
+    let loadingScreenPhase: LoadingScreenPhase
+}
+
+// HearthMirror's LoadingScreenPhase, Hearthstone's LoadingScreen.Phase.
+enum LoadingScreenPhase: Int {
+    case invalid
+    case waitingForSceneUnload
+    case waitingForSceneLoad
+    case waitingForBlockers
+    case fadingOut
+    case fadingIn
 }
 
 class SceneWatcher: Watcher {
@@ -33,7 +45,7 @@ class SceneWatcher: Watcher {
 
     override func update() -> Bool {
         let state = MirrorHelper.getSceneMgrState()
-        let curr = SceneEventArgs(prevMode: state?.prevMode.intValue ?? 0, mode: state?.mode.intValue ?? 0, sceneLoaded: state?.sceneLoaded ?? false, transitioning: state?.transitioning ?? false)
+        let curr = SceneEventArgs(prevMode: state?.prevMode.intValue ?? 0, mode: state?.mode.intValue ?? 0, sceneLoaded: state?.sceneLoaded ?? false, transitioning: state?.transitioning ?? false, loadingScreenPhase: LoadingScreenPhase(rawValue: state?.loadingScreenPhase ?? 0) ?? .invalid)
         if curr == _prev {
             return false
         }

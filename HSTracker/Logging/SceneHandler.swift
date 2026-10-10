@@ -22,7 +22,10 @@ class SceneHandler {
         transitioning = nil
     }
     
-    static func onSceneUpdate(prevMode: Mode, mode: Mode, sceneLoaded: Bool, transitioning: Bool) {
+    static func onSceneUpdate(prevMode: Mode, mode: Mode, sceneLoaded: Bool, transitioning: Bool, loadingScreenPhase: LoadingScreenPhase) {
+        // the loading screen keeps covering the loaded scene until it starts fading it in
+        let transitioning = transitioning || !(loadingScreenPhase == .invalid || loadingScreenPhase == .fadingIn)
+
         if SceneHandler.transitioning == nil || transitioning {
             onSceneTransitionStart(from: prevMode, to: mode)
             SceneHandler.transitioning = true
