@@ -128,6 +128,7 @@ struct MetaPeriod: Codable {
     var mechanics: [String]
     var tag_overrides: [TagOverride]?
     var minion_types: [Int]?
+    var tavern_pool: [CardInfo]?
 
     // The API sends the tribes as HearthDb's numeric Race values. HSTracker's
     // Race is a String enum whose numeric lookup is built at startup, so the

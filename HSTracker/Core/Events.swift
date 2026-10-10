@@ -28,4 +28,9 @@ class Events {
     // HDT's HSReplayNetOAuth.AccountDataUpdated and LoggedOut events.
     static let hsreplay_account_data_updated = "hsreplay_account_data_updated"
     static let hsreplay_logged_out = "hsreplay_logged_out"
+
+    // HDT's BattlegroundsDbSingleton.Updated: the assembled database of a game
+    // mode was replaced after its live meta period loaded. The userInfo carries
+    // the game mode under "isDuos".
+    static let battlegrounds_db_updated = "battlegrounds_db_updated"
 }

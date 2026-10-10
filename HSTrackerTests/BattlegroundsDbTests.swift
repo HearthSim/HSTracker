@@ -55,4 +55,40 @@ class BattlegroundsDbTests: HSTrackerTests {
         XCTAssertTrue(db.getSpells(keyword: keyword, true).contains { $0.dbfId == duosSpell.dbfId })
         XCTAssertFalse(db.getSpells(keyword: keyword, false).contains { $0.dbfId == duosSpell.dbfId })
     }
+
+    private static func periodWithTavernPool(_ dbfIds: Int...) -> MetaPeriod {
+        MetaPeriod(period_start: 0, mechanics: [], tag_overrides: nil, minion_types: nil,
+                   tavern_pool: dbfIds.map { CardInfo(dbf_id: $0) })
+    }
+
+    func testTavernPoolOnlyListsItsCardsRegardlessOfGameModeExclusivity() throws {
+        let assembled = BattlegroundsDb(nil)
+        let poolMinions = assembled.getCardsByRaces(Array(assembled.races), false)
+        let listedMinion = try XCTUnwrap(poolMinions.first)
+        let unlistedMinion = try XCTUnwrap(poolMinions.first { $0.dbfId != listedMinion.dbfId })
+        let duosMinion = try XCTUnwrap(Cards.cards.first {
+            $0.type == .minion && $0.techLevel > 0 && $0.isBaconPoolMinion == 1 && $0.isBaconDuosExclusive > 0
+        }, "no Duos-exclusive minion in the card data")
+        let spell = try XCTUnwrap(assembled.getSpells(false).first)
+
+        let db = BattlegroundsDb(Self.periodWithTavernPool(listedMinion.dbfId, duosMinion.dbfId, spell.dbfId))
+
+        let minions = db.getCardsByRaces(Array(db.races), false).map { $0.dbfId }
+        XCTAssertEqual(Set(minions), Set([listedMinion.dbfId, duosMinion.dbfId]))
+        XCTAssertFalse(minions.contains(unlistedMinion.dbfId))
+        XCTAssertEqual(Set(db.getSpells(false).map { $0.dbfId }), [spell.dbfId])
+    }
+
+    func testTavernPoolWithoutAKnownMinionFallsBackToTheCardData() throws {
+        let assembled = BattlegroundsDb(nil)
+        let assembledMinions = Set(assembled.getCardsByRaces(Array(assembled.races), false).map { $0.dbfId })
+        let spell = try XCTUnwrap(assembled.getSpells(false).first)
+
+        for period in [Self.periodWithTavernPool(), Self.periodWithTavernPool(spell.dbfId, Int.max)] {
+            let db = BattlegroundsDb(period)
+
+            XCTAssertEqual(Set(db.getCardsByRaces(Array(db.races), false).map { $0.dbfId }), assembledMinions)
+            XCTAssertEqual(Set(db.getSpells(false).map { $0.dbfId }), Set(assembled.getSpells(false).map { $0.dbfId }))
+        }
+    }
 }

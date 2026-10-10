@@ -9,12 +9,53 @@
 import Foundation
 
 class BattlegroundsDbSingleton {
-    private static let solos = BattlegroundsDb.fromLiveMetaPeriod(isDuos: false)
-    private static let duos = BattlegroundsDb.fromLiveMetaPeriod(isDuos: true)
+    /// Replaces the database of a game mode rather than updating it, so holders of the previous one can tell it
+    /// changed by reference.
+    private final class GameModeDb {
+        private let isDuos: Bool
+        private let lock = NSLock()
+        private var lastMetaPeriod: MetaPeriod?
+        private var _db: BattlegroundsDb?
 
-    /// The assembled database for the game mode, kept up to date with its live meta period.
+        init(isDuos: Bool) {
+            self.isDuos = isDuos
+            let loaded: (MetaPeriod?) -> Void = { [weak self] data in
+                // keep the last good data when a reload fails
+                guard let self, let data else {
+                    return
+                }
+                let db = BattlegroundsDb(data)
+                self.lock.withLock {
+                    self.lastMetaPeriod = data
+                    self._db = db
+                }
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Events.battlegrounds_db_updated), object: nil, userInfo: ["isDuos": isDuos])
+            }
+            if isDuos {
+                RemoteConfig.battlegroundsDuosLiveMetaPeriodLoaded = loaded
+            } else {
+                RemoteConfig.battlegroundsLiveMetaPeriodLoaded = loaded
+            }
+        }
+
+        var db: BattlegroundsDb {
+            return lock.withLock {
+                if let _db {
+                    return _db
+                }
+                let db = BattlegroundsDb(RemoteConfig.battlegroundsLiveMetaPeriod(isDuos: isDuos) ?? lastMetaPeriod)
+                _db = db
+                return db
+            }
+        }
+    }
+
+    private static let solos = GameModeDb(isDuos: false)
+    private static let duos = GameModeDb(isDuos: true)
+
+    /// The assembled database for the game mode, rebuilt whenever its live meta period loads.
     static func get(isDuos: Bool) -> BattlegroundsDb {
-        return isDuos ? duos : solos
+        return (isDuos ? duos : solos).db
     }
 
     private static var minionPoolDb: (gameId: String, db: BattlegroundsDb)?
@@ -76,19 +117,6 @@ class BattlegroundsDb {
         return card.dbfId == darkParadox.dbfId || card.baconEvolutionCardId == darkParadox.dbfId
     }
     
-    fileprivate static func fromLiveMetaPeriod(isDuos: Bool) -> BattlegroundsDb {
-        let db = BattlegroundsDb(RemoteConfig.battlegroundsLiveMetaPeriod(isDuos: isDuos))
-        let loaded: (MetaPeriod?) -> Void = { [weak db] metaPeriod in
-            db?.update(metaPeriod)
-        }
-        if isDuos {
-            RemoteConfig.battlegroundsDuosLiveMetaPeriodLoaded = loaded
-        } else {
-            RemoteConfig.battlegroundsLiveMetaPeriodLoaded = loaded
-        }
-        return db
-    }
-
     // HDT's internal BattlegroundsDb(MetaPeriod?), which exists so the database
     // can be built from a period the test supplies rather than the live one.
     init(_ metaPeriod: MetaPeriod?) {
@@ -236,8 +264,29 @@ class BattlegroundsDb {
             return tags.getTag(card, tag)
         }
 
+        var tavernPool = metaPeriod?.tavern_pool.map { Set($0.map { $0.dbf_id }) }
+        var tavernPoolMinions = tavernPool.map { tavernPool in
+            Cards.cards.filter { x in
+                getTag(x, .tech_level) > 0
+                    && x.type == .minion
+                    && tavernPool.contains(x.dbfId)
+                    // the browser lists the Dark Paradox by itself, as its tier differs each game
+                    && !Self.isDarkParadox(x)
+            }
+        }
+        // a pool without a single minion we know is faulty, so fall back to the card data
+        if tavernPoolMinions?.isEmpty ?? true {
+            tavernPool = nil
+            tavernPoolMinions = nil
+        }
+
         // explicitly check for == 1, as Rot Hide Gnoll has 2 but is not in the pool
-        let baconCards = Cards.cards.filter({ x in getTag(x, .tech_level) > 0 && getTag(x, .is_bacon_pool_minion) == 1})
+        let baconCards = tavernPoolMinions ?? Cards.cards.filter({ x in getTag(x, .tech_level) > 0 && getTag(x, .is_bacon_pool_minion) == 1})
+
+        // a tavern pool only lists what is offered in its game mode, so nothing in it is exclusive to another
+        func getDuosExclusive(_ card: Card) -> Int {
+            return tavernPool != nil ? 0 : getTag(card, .is_bacon_duos_exclusive)
+        }
         
         // The card data can carry minions of a tribe that is not in rotation
         // (yet), so the meta period decides which tribes exist and the card
@@ -258,7 +307,7 @@ class BattlegroundsDb {
         _duosExclusiveCardsByTier.removeAll()
         for card in baconCards {
             let tier = getTag(card, .tech_level)
-            let duosExclusive = getTag(card, .is_bacon_duos_exclusive)
+            let duosExclusive = getDuosExclusive(card)
             // the game doesn't actually set this ever to a negative value, but we use that as a sentinel
             // value to hide Solos-exclusive cards in Duos
             if duosExclusive > 0 {
@@ -301,10 +350,10 @@ class BattlegroundsDb {
         _solosExclusiveSpellsByTier.removeAll()
         _duosExclusiveSpellsByTier.removeAll()
         
-        let baconSpells = Cards.cards.filter({ x in getTag(x, .tech_level) > 0 && x.type == .battleground_spell && getTag(x, .is_bacon_pool_spell) > 0})
+        let baconSpells = Cards.cards.filter({ x in getTag(x, .tech_level) > 0 && x.type == .battleground_spell && (tavernPool?.contains(x.dbfId) ?? (getTag(x, .is_bacon_pool_spell) > 0))})
         for card in baconSpells {
             let tier = getTag(card, .tech_level)
-            let duosExclusive = getTag(card, .is_bacon_duos_exclusive)
+            let duosExclusive = getDuosExclusive(card)
             
             if duosExclusive > 0 {
                 if _duosExclusiveSpellsByTier[tier] == nil {
