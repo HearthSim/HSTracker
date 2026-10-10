@@ -88,6 +88,14 @@ struct RealmHelper {
 	}
 	
 	static func validateCardCounts(_ deck: Deck) {
+		// Called for every deck whenever decks are read - building the menu
+		// among them, on the main thread - and nearly always with nothing to
+		// fix. An unconditional write commits, and fsyncs, once per deck each
+		// time, which hung the app for a minute on slow disks (Sentry
+		// HSTRACKER-11N), so only open a transaction when a count is wrong.
+		guard deck.cards.contains(where: { $0.count > 30 }) else {
+			return
+		}
 		guard let realm = try? Realm() else {
 			logger.error("Error accessing Realm database")
 			return
