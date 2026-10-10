@@ -457,9 +457,12 @@ class BattlegroundsSessionViewModel: ObservableObject {
         return compStats
     }
 
+    private var compStatsFailed = false
+
     @MainActor
     private func clearCompositionStats() {
         compositionStats = nil
+        compStatsFailed = false
         compStatsBodyVisible = false
         compStatsWaitingMsgVisible = true
         compStatsErrorVisible = false
@@ -475,24 +478,36 @@ class BattlegroundsSessionViewModel: ObservableObject {
     private func updateCompositionStatsIfNeeded() async {
         let game = AppDelegate.instance().coreManager.game
 
-        if game.currentMode != .gameplay || SceneHandler.scene != .gameplay {
+        if game.currentMode != .gameplay {
             await clearCompositionStats()
             return
         }
 
-        // Ensures data was already fetched and no more API calls are needed
-        if ((compositionStats != nil && compositionStats?.count != 0) || compStatsErrorVisible) && (game.currentMode == .gameplay || SceneHandler.scene == .gameplay) {
-            return
+        // fetch while the loading screen still covers the game, so the stats are ready when it fades in
+        if !(compositionStats?.isEmpty == false) && !compStatsFailed {
+            await trySetCompStats()
         }
 
-        await trySetCompStats()
+        if SceneHandler.scene == .gameplay {
+            await revealCompositionStats()
+        }
+    }
+
+    @MainActor
+    private func revealCompositionStats() {
+        if compStatsFailed {
+            compStatsErrorVisible = true
+            compStatsBodyVisible = false
+            compStatsWaitingMsgVisible = false
+        } else if compositionStats != nil {
+            showCompositionStats()
+        }
     }
 
     private func trySetCompStats() async {
         do {
             if let compStats = try await getBattlegroundsCompStats() {
                 await setBattlegroundsCompositionStatsViewModel(compStats.data.first_place_comps_lobby_races)
-                await showCompositionStats()
             }
         } catch is CancellationError {
             return
@@ -523,9 +538,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
             }
         }
 
-        compStatsErrorVisible = true
-        compStatsBodyVisible = false
-        compStatsWaitingMsgVisible = false
+        compStatsFailed = true
     }
 
     // MARK: - Latest games
