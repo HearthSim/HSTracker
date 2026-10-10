@@ -86,7 +86,7 @@ class DeitySizeCounter: StatsCounter {
         guard entity.isControlled(by: game.player.id) == isPlayerCounter else { return }
         guard entity.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt else { return }
 
-        if tag == .bacon_evolution_card_id {
+        if tag == .bacon_evolution_card_id && !entity.isInZone(zone: .removedfromgame) {
             deityCardId = Cards.by(dbfId: value, collectible: false)?.id
             notifyDeityChanged()
         }

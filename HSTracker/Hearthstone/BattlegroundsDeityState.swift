@@ -55,10 +55,13 @@ class BattlegroundsDeityState {
                                                  isGolden: isGolden, turn: game.turnNumber())
     }
 
-    // The sigil is copied into the combat and dropped again right after, so take the newest one.
+    // The sigil is copied into the combat and dropped again right after, so take the newest one
+    // (a dropped copy is reset to the card's default Deity, which is always C'Thun).
     private func getSigil(controllerId: Int) -> Entity? {
         return game.entities.values.filter({ x in
-            x.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt && x.isControlled(by: controllerId)
+            x.cardId == CardIds.NonCollectible.Neutral.SecretDeityDnt
+                && x.isControlled(by: controllerId)
+                && !x.isInZone(zone: .removedfromgame)
         }).sorted(by: { $0.id > $1.id }).first
     }
 
