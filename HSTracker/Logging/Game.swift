@@ -1349,11 +1349,13 @@ class Game: NSObject, PowerEventHandler {
             return info
         }
         
-        _battlegroundsRatingInfo = MirrorHelper.getBattlegroundsRatingInfo()
+        cacheBattlegroundRatingInfo()
         
         logger.debug("Got battlegroundsRatingInfo=\(_battlegroundsRatingInfo ?? MirrorBattlegroundRatingInfo())")
         return _battlegroundsRatingInfo
     }
+
+    private(set) var battlegroundsRatingInfoCachedAt: Date?
     
     /// Read from the arena landing page, so it is only there while that scene is
     /// up - SceneHandler caches it on the way into the draft. The lazy read is
@@ -1776,6 +1778,7 @@ class Game: NSObject, PowerEventHandler {
     
     func cacheBattlegroundRatingInfo() {
         _battlegroundsRatingInfo = MirrorHelper.getBattlegroundsRatingInfo()
+        battlegroundsRatingInfoCachedAt = Date()
     }
     
     func cacheArenaRating() {

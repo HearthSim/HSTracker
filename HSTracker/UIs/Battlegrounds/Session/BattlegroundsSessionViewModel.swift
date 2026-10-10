@@ -278,10 +278,14 @@ class BattlegroundsSessionViewModel: ObservableObject {
             await updateCompositionStatsIfNeeded()
         }
 
-        let firstGame = updateLatestGames()
+        let sessionGames = updateLatestGames()
+        let firstGame = sessionGames.first
 
         let game = AppDelegate.instance().coreManager.game
-        var rating = BattlegroundsSessionViewModel.clientRating(ratingInfo: game.battlegroundsRatingInfo, duos: isDuos) ?? 0
+        var rating = BattlegroundsSessionViewModel.currentRating(
+            clientRating: BattlegroundsSessionViewModel.clientRating(ratingInfo: game.battlegroundsRatingInfo, duos: isDuos),
+            clientRatingCachedAt: game.battlegroundsRatingInfoCachedAt,
+            lastGame: sessionGames.last) ?? 0
         // A game the season reset during starts the session from 0 rather than from the rating it began with
         let ratingStart = firstGame.map { $0.seasonReset ? 0 : $0.rating } ?? rating
         // The client has no rating for us yet - HearthMirror has not read one, or this is the Duos
@@ -526,13 +530,13 @@ class BattlegroundsSessionViewModel: ObservableObject {
 
     // MARK: - Latest games
 
-    private func updateLatestGames() -> BattlegroundsLastGames.GameItem? {
+    private func updateLatestGames() -> [BattlegroundsLastGames.GameItem] {
         let duos = isDuos
         let ratingInfo = AppDelegate.instance().coreManager.game.battlegroundsRatingInfo
         let sortedGames = BattlegroundsLastGames.instance.getPlayerGames(duos: duos).sorted(by: { (a, b) in a.startTime < b.startTime })
         deleteOldGames(games: sortedGames)
-        var games = getSessionGames(sortedGames: sortedGames, ratingInfo: ratingInfo, duos: duos)
-        let firstGame = games.first
+        let allSessionGames = getSessionGames(sortedGames: sortedGames, ratingInfo: ratingInfo, duos: duos)
+        var games = allSessionGames
         if games.count > 8 {
             games.removeSubrange(0 ..< games.count - 8)
         }
@@ -543,7 +547,16 @@ class BattlegroundsSessionViewModel: ObservableObject {
         gridHeaderVisible = !sessionGames.isEmpty
         gamesEmptyStateVisible = sessionGames.isEmpty
 
-        return firstGame
+        return allSessionGames
+    }
+
+    // the client rating is only re-read when entering the Battlegrounds menu, so a game that ended after that
+    // knows the newer rating
+    static func currentRating(clientRating: Int?, clientRatingCachedAt: Date?, lastGame: BattlegroundsLastGames.GameItem?) -> Int? {
+        if let lastGame, lastGame.ratingAfter > 0, clientRatingCachedAt == nil || lastGame.endTime > clientRatingCachedAt! {
+            return lastGame.ratingAfter
+        }
+        return clientRating
     }
 
     private static func clientRating(ratingInfo: MirrorBattlegroundRatingInfo?, duos: Bool) -> Int? {
