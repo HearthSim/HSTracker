@@ -75,3 +75,14 @@ class GolemancyProxy: MonoClassInitializer {
         }
     }
 }
+
+class OffensiveSacrificeProxy: MonoClassInitializer {
+    static var _class: OpaquePointer?
+    static var _members = [String: OpaquePointer]()
+
+    static func initialize() {
+        if OffensiveSacrificeProxy._class == nil {
+            OffensiveSacrificeProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Enchantments", name: "OffensiveSacrifice")
+        }
+    }
+}

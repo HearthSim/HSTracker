@@ -2145,6 +2145,10 @@ class BobsBuddyInvoker {
         }
     }
 
+    func updateOffensiveSacrificeEnchantment(_ sourceEntityId: Int) {
+        attachMissingDarkGift(sourceEntityId: sourceEntityId, cardId: CardIds.NonCollectible.Neutral.OffensiveSacrifice, enchantmentClass: OffensiveSacrificeProxy._class)
+    }
+
     func updateSoulFermenterSavedMinions(_ trinketEntityId: Int, _ resummonedEntities: [Entity]) {
         guard let input, updateRevealedEntityValidStates, let soulFermenterClass = SoulFermenterProxy._class else {
             return
