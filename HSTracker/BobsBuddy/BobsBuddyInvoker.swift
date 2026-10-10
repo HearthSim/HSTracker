@@ -894,6 +894,20 @@ class BobsBuddyInvoker {
                     booming.scriptDataNum2 = Int32(boomingModule[.tag_script_data_num_2])
                     minion.attachEnchantment(enchantment: booming)
                 }
+            case CardIds.NonCollectible.Neutral.BronzeTimepiece_PreservedInBronzeEnchantment:
+                // Bronze Timepiece trinket adds to a minion's existing Preserved in Bronze enchantment
+                // only when no stat-setting enchantment (tag 3224) was attached after it; otherwise the
+                // game creates a new one. Attach it only in the first case.
+                // When attached, this enchantment is necessary to resolve trigger resolution order
+                let lastPreservedInBronzeId = attachedEntities.filter { e in e.cardId == CardIds.NonCollectible.Neutral.BronzeTimepiece_PreservedInBronzeEnchantment }.map { e in e.id }.max() ?? attached.id
+                let statSetAfterIt = attachedEntities.any { e in e[.gametag_3224] > 0 && e.id > lastPreservedInBronzeId }
+                if attached.id != lastPreservedInBronzeId || statSetAfterIt {
+                    break
+                }
+                let preservedInBronze = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.BronzeTimepiece_PreservedInBronzeEnchantment, controlledByPlayer: minion.controlledByPlayer)
+                if preservedInBronze.get() != nil {
+                    minion.attachEnchantment(enchantment: preservedInBronze)
+                }
             default:
                 if attached.card.type == .enchantment && !attached.cardId.isEmpty {
                     let enchantment = sim.enchantmentFactory.create(cardId: attached.cardId, controlledByPlayer: minion.controlledByPlayer)

@@ -464,6 +464,7 @@ enum GameTag: Int, CaseIterable, Codable {
     // in Battlegrounds and never moves.
     bacon_max_gold = 3148,
     is_bacon_duos_exclusive = 3166,
+    gametag_3224 = 3224,
     tourist = 3228,
     gametag_3236 = 3236,
     current_excavate_tier = 3249,
