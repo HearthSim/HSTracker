@@ -1521,6 +1521,9 @@ class BobsBuddyInvoker {
         
         inputPlayer.deathrattleCounter = Int32(readPlayerCounter(.gametag_4639)) // direct or transfer
 
+        // Number of cards discarded
+        inputPlayer.discardCounter = Int32(readPlayerCounter(.gametag_4768)) // direct or transfer
+
         inputPlayer.volumizerAtkBuff = Int32(readPlayerCounter(.gametag_4468)) // direct or transfer
         inputPlayer.volumizerHealthBuff = Int32(readPlayerCounter(.gametag_4469)) // direct or transfer
          
