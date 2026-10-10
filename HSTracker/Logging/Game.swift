@@ -3465,6 +3465,13 @@ class Game: NSObject, PowerEventHandler {
                     card_type: entry.cardType,
                     minion_types: entry.minionTypes.map { $0.intValue },
                     banned: entry.banned)
+            },
+            server_minion_data: pool.serverMinionData.map { data in
+                BattlegroundsTavernPoolObservationParams.ServerMinionDataEntry(
+                    dbf_id: data.dbfId,
+                    script_data_num_1: data.scriptDataNum1,
+                    script_data_num_2: data.scriptDataNum2,
+                    tech_level: data.techLevel)
             })
         HSReplayAPI.postBattlegroundsTavernPoolObservation(parameters: parameters)
     }

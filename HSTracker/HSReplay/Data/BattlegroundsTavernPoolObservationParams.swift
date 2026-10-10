@@ -28,6 +28,15 @@ struct BattlegroundsTavernPoolObservationParams: Encodable {
     var hearthstone_build: Int?
     // The minions and tavern spells of the game's BattlegroundsMinionPool message, including banned cards.
     var tavern_guide_pool: [TavernGuidePoolEntry]
+    // The server's overrides of the client card data, as the minion gallery applies them.
+    var server_minion_data: [ServerMinionDataEntry]?
+
+    struct ServerMinionDataEntry: Encodable {
+        var dbf_id: Int
+        var script_data_num_1: Int
+        var script_data_num_2: Int
+        var tech_level: Int
+    }
 
     struct TavernGuidePoolEntry: Encodable {
         var dbf_id: Int
