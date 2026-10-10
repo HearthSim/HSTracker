@@ -428,7 +428,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
             throw CompositionStatsException("Unable to get available races")
         }
 
-        let compParams = BattlegroundsCompStatsParams(minion_types: availableRaces.compactMap { x in Race.allCases.firstIndex(of: x) }, game_language: Settings.hearthstoneLanguage?.rawValue ?? "enUS")
+        let compParams = BattlegroundsCompStatsParams(minion_types: availableRaces.compactMap { x in Race.allCases.firstIndex(of: x) }, deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: game.gameEntity), game_language: Settings.hearthstoneLanguage?.rawValue ?? "enUS")
 
         guard let access = await Tier7Trial.getAccess() else {
             if (game.gameEntity?[.step] ?? 0) > Step.begin_mulligan.rawValue {

@@ -10,6 +10,7 @@ import Foundation
 
 struct BattlegroundsCompStatsParams: Codable {
     var minion_types: [Int]
+    var deity_dbf_id: Int?
     var game_language: String
     var include_toast: Bool = true
 }
