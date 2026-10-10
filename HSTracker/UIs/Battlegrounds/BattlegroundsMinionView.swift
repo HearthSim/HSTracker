@@ -21,6 +21,7 @@ struct BattlegroundsMinionDisplay {
     var hasReborn = false
     var hasTaunt = false
     var hasDeathrattle = false
+    var hasRally = false
     var hasPoisonous = false
     var hasDivineShield = false
     var hasVenomous = false
@@ -40,6 +41,7 @@ struct BattlegroundsMinionDisplay {
         hasReborn = entity.has(tag: .reborn)
         hasTaunt = entity.has(tag: .taunt)
         hasDeathrattle = entity.has(tag: .deathrattle)
+        hasRally = entity.has(tag: .bacon_rally)
         hasPoisonous = entity.has(tag: .poisonous)
         hasDivineShield = entity.has(tag: .divine_shield)
         hasVenomous = entity.has(tag: .venomous)
@@ -105,6 +107,7 @@ class BattlegroundsMinionView: NSView {
         let reborn = display.hasReborn
         let taunt = display.hasTaunt
         let deathrattle = display.hasDeathrattle
+        let rally = display.hasRally
 //        let legendary = entity.card.rarity == Rarity.legendary
         let poisonous = display.hasPoisonous
         let divineShield = display.hasDivineShield
@@ -149,6 +152,10 @@ class BattlegroundsMinionView: NSView {
         
         if deathrattle, let deathrattleImage = NSImage(named: "deathrattle") {
             deathrattleImage.draw(in: rect)
+        }
+
+        if rally, let rallyImage = NSImage(named: "rally") {
+            rallyImage.draw(in: rect)
         }
         
 //        if trigger, let triggerImage = NSImage(named: "trigger") {
