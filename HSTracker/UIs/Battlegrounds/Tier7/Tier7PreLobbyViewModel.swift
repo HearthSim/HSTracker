@@ -180,7 +180,7 @@ class Tier7PreLobbyViewModel: ObservableObject {
                 self.refreshAccountEnabled = false
                 self.invalidateUserState()
             }
-            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccountAsync()
+            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccount()
             async let delay: Void = { try? await Task.sleep(nanoseconds: 3_000_000_000) }()
             _ = await (accountUpdate, delay)
             await self.update()
@@ -232,7 +232,7 @@ class Tier7PreLobbyViewModel: ObservableObject {
                 // volume here in the future we can only make this request for
                 // tier7 subscribers (still need to happen right here, not below to
                 // handle the case where tier7 ran out).
-                _ = await HSReplayAPI.getAccountAsync()
+                _ = await HSReplayAPI.getAccount()
                 _isUpdatingAccount = false
             }
             isAuthenticated = true

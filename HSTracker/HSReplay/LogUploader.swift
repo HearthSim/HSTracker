@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Gzip
+import zlib
 import RealmSwift
 
 class LogUploader {
@@ -100,7 +100,7 @@ class LogUploader {
                         completion(.failed(error: "Can not convert log to data"))
                         return
                     }
-                    guard let gzip = try? data.gzipped() else {
+                    guard let gzip = data.gzipped() else {
                         logger.error("Can not gzip log")
                         completion(.failed(error: "Can not gzip log"))
                         return
@@ -142,5 +142,37 @@ private struct UploaderItem {
 extension UploaderItem: Equatable {
     static func == (lhs: UploaderItem, rhs: UploaderItem) -> Bool {
         return lhs.hash == rhs.hash
+    }
+}
+
+private extension Data {
+    /// Compresses into a gzip stream (deflate with a gzip header and trailer), for
+    /// uploads sent with `Content-Encoding: gzip`.
+    func gzipped() -> Data? {
+        var stream = z_stream()
+        // windowBits 15 + 16 makes zlib write a gzip wrapper instead of a zlib one
+        guard deflateInit2_(&stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, MAX_WBITS + 16, 8,
+                            Z_DEFAULT_STRATEGY, ZLIB_VERSION, Int32(MemoryLayout<z_stream>.size)) == Z_OK else {
+            return nil
+        }
+        defer {
+            deflateEnd(&stream)
+        }
+
+        var output = Data(count: Int(deflateBound(&stream, uLong(count))))
+        let status: Int32 = withUnsafeBytes { (input: UnsafeRawBufferPointer) in
+            output.withUnsafeMutableBytes { (out: UnsafeMutableRawBufferPointer) in
+                stream.next_in = UnsafeMutablePointer(mutating: input.bindMemory(to: Bytef.self).baseAddress)
+                stream.avail_in = uInt(input.count)
+                stream.next_out = out.bindMemory(to: Bytef.self).baseAddress
+                stream.avail_out = uInt(out.count)
+                return deflate(&stream, Z_FINISH)
+            }
+        }
+        guard status == Z_STREAM_END else {
+            return nil
+        }
+        output.count = Int(stream.total_out)
+        return output
     }
 }

@@ -11,7 +11,6 @@ import CryptoKit
 import var CommonCrypto.CC_MD5_DIGEST_LENGTH
 import func CommonCrypto.CC_MD5
 import typealias CommonCrypto.CC_LONG
-import BigInt
 
 func MD5(data: Data) -> Data {
     let length = Int(CC_MD5_DIGEST_LENGTH)
@@ -66,19 +65,7 @@ struct ShortIdHelper {
             idString += "/\(sideboard.ownerCardId):\(sideboardCardsIdString)"
         }
 
-        let hash = MD5(string: idString)
-        let hex = hash.map { String(format: "%02hhx", $0) }.joined()
-        var v = BigInt()
-        for c in hex {
-            var value = 0
-            if c >= "0" && c <= "9" {
-                value = Int(c.asciiValue ?? 0) - 0x30
-            } else {
-                value = Int(c.asciiValue ?? 0) - 0x61 + 10
-            }
-            v = v * 16 + BigInt(value)
-        }
-        return intToString(number: v)
+        return intToString(bigEndian: [UInt8](MD5(string: idString)))
     }
     
     static let chars = "_0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
@@ -98,14 +85,20 @@ struct ShortIdHelper {
         return a.count < b.count
     }
     
-    static func intToString(number: BigInt) -> String {
+    /// Writes the unsigned big-endian integer in `bytes` in base `alphabetLength`, least
+    /// significant digit first, by repeated long division of the byte array.
+    static func intToString(bigEndian bytes: [UInt8]) -> String {
         var sb = ""
-        var num = number
-        let len = BigInt(alphabetLength)
-        while num > 0 {
-            let mod = num % len
-            sb.append(alphabet.char(at: Int(mod)))
-            num /= len
+        var digits = bytes
+        let base = UInt32(alphabetLength)
+        while digits.contains(where: { $0 != 0 }) {
+            var remainder: UInt32 = 0
+            for i in digits.indices {
+                let value = remainder << 8 | UInt32(digits[i])
+                digits[i] = UInt8(value / base)
+                remainder = value % base
+            }
+            sb.append(alphabet.char(at: Int(remainder)))
         }
         return sb
     }

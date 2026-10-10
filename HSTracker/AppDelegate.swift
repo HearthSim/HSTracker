@@ -151,8 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             
             OAuthTokenRefresher.refresh { success in
                 if success {
-                    HSReplayAPI.getAccount().done { result in
-                        switch result {
+                    Task { @MainActor in
+                        switch await HSReplayAPI.getAccount() {
                         case .failed:
                             logger.error("Failed to retrieve account data")
                         case .success(account: let data):
@@ -163,14 +163,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                             }
                             logger.info("Successfully retrieved account data: Username: \(data.username), battletag: \(data.battletag)")
                         }
-                    }.catch { error in
-                        logger.error(error)
                     }
                 }
             }
         } else {
-            _ = HSReplayAPI.getAccount().done { result in
-                switch result {
+            Task { @MainActor in
+                switch await HSReplayAPI.getAccount() {
                 case .failed:
                     logger.error("Failed to retrieve account data")
                 case .success(account: let data):

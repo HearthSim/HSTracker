@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import TextAttributes
+import AppKit
 
 protocol CardCellHover: AnyObject {
     func hover(cell: CardBar, card: Card)
@@ -514,13 +514,13 @@ class CardBar: NSView, CardBarTheme {
     
     func addMulliganWinRateText() {
         if let card {
-            var color = Color.white
+            var color = NSColor.white
             var text = ""
             if let winrate = card.cardWinRates?.mulliganWinRate {
                 let baseWinrate = card.cardWinRates?.baseWinrate
                 let delta = (winrate - (baseWinrate ?? 50.0))
                 let tmpcolor = Helper.getColorString(delta: delta, intensity: 75)
-                color = NSColor.fromHexString(hex: tmpcolor) ?? Color.white
+                color = NSColor.fromHexString(hex: tmpcolor) ?? NSColor.white
                 text = String(format: "%.1f%%", winrate)
             }
             let textRect = NSRect(x: mulliganWinrateBoxRect.minX, y: mulliganWinrateBoxRect.minY + 8, width: mulliganWinrateBoxRect.width, height: mulliganWinrateBoxRect.height - 6)

@@ -194,7 +194,7 @@ class ConstructedMulliganPreLobbyWidgetViewModel: ObservableObject {
                 self.refreshAccountEnabled = false
                 self.invalidateUserState()
             }
-            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccountAsync()
+            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccount()
             async let delay: Void = { try? await Task.sleep(nanoseconds: 3_000_000_000) }()
             _ = await (accountUpdate, delay)
             await self.update()
@@ -223,7 +223,7 @@ class ConstructedMulliganPreLobbyWidgetViewModel: ObservableObject {
         if HSReplayAPI.isFullyAuthenticated && HSReplayAPI.accountData != nil {
             if userState == .loading {
                 _isUpdatingAccount = true
-                _ = await HSReplayAPI.getAccountAsync()
+                _ = await HSReplayAPI.getAccount()
                 _isUpdatingAccount = false
             }
             isAuthenticated = true

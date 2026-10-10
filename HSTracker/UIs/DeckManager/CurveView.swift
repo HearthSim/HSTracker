@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import TextAttributes
 import QuartzCore
 
 struct CardCount {
@@ -85,24 +84,18 @@ class CurveView: NSView {
         // and get a unit based on this value
         let oneUnit = Int(barHeight) / biggest
 
-        let attributes = TextAttributes()
-            .alignment(.center)
-            .font(NSFont(name: "Belwe Bd BT", size: 20))
-            .foregroundColor(.white)
-            .strokeColor(.black)
-            .strokeWidth(-1.5)
-        let costAttributes = TextAttributes()
-            .alignment(.center)
-            .font(NSFont.boldSystemFont(ofSize: 22))
-            .foregroundColor(.white)
-            .strokeColor(.black)
-            .strokeWidth(-1.5)
-        let countAttributes = TextAttributes()
-            .alignment(.center)
-            .font(NSFont.boldSystemFont(ofSize: 22))
-            .foregroundColor(.white)
-            .strokeColor(.black)
-            .strokeWidth(-1.5)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        var attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: NSColor.white,
+            .strokeColor: NSColor.black,
+            .strokeWidth: -1.5
+        ]
+        attributes[.font] = NSFont(name: "Belwe Bd BT", size: 20)
+        var costAttributes = attributes
+        costAttributes[.font] = NSFont.boldSystemFont(ofSize: 22)
+        let countAttributes = costAttributes
 
         for count in 0 ... 7 {
             NSGraphicsContext.saveGraphicsState()

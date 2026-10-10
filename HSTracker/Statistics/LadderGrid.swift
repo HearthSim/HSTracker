@@ -7,13 +7,15 @@
 //
 
 import Foundation
-import FMDB
+import SQLite3
 
 // Reads precomputed Monte Carlo data from grid.db
 // TODO: run long simulation on cluster for better grid
 
 class LadderGrid {
-    var dbQueue: FMDatabaseQueue?
+    private var db: OpaquePointer?
+    // Serializes access to the connection, as FMDatabaseQueue used to
+    private let queue = DispatchQueue(label: "net.hearthsim.hstracker.laddergrid")
 
     init() {
         guard let path = Bundle(for: type(of: self))
@@ -23,48 +25,59 @@ class LadderGrid {
                 return
         }
         logger.verbose("Loading grid at \(path)")
-        dbQueue = FMDatabaseQueue.init(path: path)
 
-        guard dbQueue != nil else {
+        guard sqlite3_open_v2(path, &db, SQLITE_OPEN_READONLY, nil) == SQLITE_OK else {
             logger.warning("Failed to load grid db! "
                 + "Will result in Ladder stats tab not working.")
+            sqlite3_close(db)
+            db = nil
             return
         }
     }
 
     deinit {
-        dbQueue?.close()
+        sqlite3_close(db)
     }
-    
+
+    private func games(targetRank: Int, stars: Int, bonus: Int, winp: Double) -> Double? {
+        let query = "SELECT games FROM grid"
+            + " WHERE target_rank = ?"
+            + " AND stars = ?"
+            + " AND bonus = ?"
+            + " AND winp = ?"
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            logger.error("LadderGrid query failed: \(String(cString: sqlite3_errmsg(db)))")
+            return nil
+        }
+        defer {
+            sqlite3_finalize(statement)
+        }
+        sqlite3_bind_int64(statement, 1, Int64(targetRank))
+        sqlite3_bind_int64(statement, 2, Int64(stars))
+        sqlite3_bind_int64(statement, 3, Int64(bonus))
+        sqlite3_bind_double(statement, 4, winp)
+
+        // FMResultSet.double(forColumn:) read 0 when no row matched
+        guard sqlite3_step(statement) == SQLITE_ROW else {
+            return 0
+        }
+        return sqlite3_column_double(statement, 0)
+    }
+
     func getGamesToRank(targetRank: Int, stars: Int, bonus: Int, winp: Double) -> Double? {
-        guard let dbQueue = dbQueue else { return nil }
+        guard db != nil else { return nil }
 
         // Round to nearest hundredth
         let lowerWinp = Double(floor(winp * 100.0) / 100.0)
         let upperWinp = Double(ceil(winp * 100.0) / 100.0)
 
-        var lowerResult: FMResultSet?
-        var upperResult: FMResultSet?
-        dbQueue.inDatabase { db in
-            var query: String = "SELECT games FROM grid"
-                + " WHERE target_rank = \(targetRank)"
-                + " AND stars = \(stars)"
-                + " AND bonus = \(bonus)"
-                + " AND winp = \(lowerWinp)"
-            lowerResult = try? db.executeQuery(query, values: nil)
-            lowerResult?.next()
-
-            query = "SELECT games FROM grid"
-            + " WHERE target_rank = \(targetRank)"
-            + " AND stars = \(stars)"
-            + " AND bonus = \(bonus)"
-            + " AND winp = \(upperWinp)"
-            upperResult = try? db.executeQuery(query, values: nil)
-            upperResult?.next()
+        let (lowerResult, upperResult) = queue.sync {
+            (games(targetRank: targetRank, stars: stars, bonus: bonus, winp: lowerWinp),
+             games(targetRank: targetRank, stars: stars, bonus: bonus, winp: upperWinp))
         }
 
-        guard let lower = lowerResult?.double(forColumn: "games"),
-            let upper = upperResult?.double(forColumn: "games") else {
+        guard let lower = lowerResult, let upper = upperResult else {
             return nil
         }
 
@@ -75,5 +88,5 @@ class LadderGrid {
             return lower * (1 - (winp - lowerWinp) / 0.01) + upper * (winp - lowerWinp) / 0.01
         }
     }
-    
+
 }

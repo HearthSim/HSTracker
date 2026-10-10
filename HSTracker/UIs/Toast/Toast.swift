@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import TextAttributes
+import AppKit
 
 class Toast {
     private static let windowWidth: CGFloat = 350
@@ -19,7 +19,7 @@ class Toast {
         w.acceptsMouseMovedEvents = true
         w.styleMask = .borderless
         w.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow)) + 1)
-        w.backgroundColor = Color.clear
+        w.backgroundColor = NSColor.clear
         
         w.orderFrontRegardless()
 
@@ -131,16 +131,14 @@ class Toast {
                                     width: dirtyRect.width - 40, height: 40)
            
             if let title = title {
-                let attributes = TextAttributes()
-                    .font(NSFont(name: "ChunkFive", size: 16))
-                    .foregroundColor(.black)
+                var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: NSColor.black]
+                attributes[.font] = NSFont(name: "ChunkFive", size: 16)
                 NSAttributedString(string: title, attributes: attributes)
                     .draw(in: titleFrame)
             }
             if let message = message {
-                let attributes = TextAttributes()
-                    .font(NSFont(name: "ChunkFive", size: CGFloat(fontSize)))
-                    .foregroundColor(.black)
+                var attributes: [NSAttributedString.Key: Any] = [.foregroundColor: NSColor.black]
+                attributes[.font] = NSFont(name: "ChunkFive", size: CGFloat(fontSize))
                 NSAttributedString(string: message, attributes: attributes)
                     .draw(in: messageFrame)
             }

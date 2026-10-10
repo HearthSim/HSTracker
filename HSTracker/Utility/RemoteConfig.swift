@@ -267,24 +267,22 @@ class RemoteConfig {
         errorMessage: String,
         completion: (() -> Void)? = nil
     ) {
-        let http = Http(url: url)
-        http.getPromise(method: .get)
-            .map { data in
-                guard let validData = data else {
-                    throw NSError(domain: "NetworkError", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
-                }
-                return try JSONDecoder().decode(decodeType, from: validData)
-            }
-            .done { decodedData in
-                assignment(decodedData)
-                logger.info("Successfully retrieved: \(errorMessage)")
-            }
-            .catch { error in
-                logger.error("Error retrieving \(errorMessage): \(error)")
-            }
-            .finally {
+        Task { @MainActor in
+            defer {
                 completion?()
             }
+            guard let data = await Http(url: url).getAsync() else {
+                logger.error("Error retrieving \(errorMessage)")
+                return
+            }
+            do {
+                let decodedData = try JSONDecoder().decode(decodeType, from: data)
+                assignment(decodedData)
+                logger.info("Successfully retrieved: \(errorMessage)")
+            } catch {
+                logger.error("Error retrieving \(errorMessage): \(error)")
+            }
+        }
     }
 }
 

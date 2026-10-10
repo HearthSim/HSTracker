@@ -234,7 +234,7 @@ final class ArenaPreDraftViewModel: ObservableObject {
                 if let existing = accountUpdateTask {
                     await existing.value
                 } else {
-                    let task = Task { _ = await HSReplayAPI.getAccountAsync() }
+                    let task = Task { _ = await HSReplayAPI.getAccount() }
                     accountUpdateTask = task
                     await task.value
                     accountUpdateTask = nil
@@ -320,7 +320,7 @@ final class ArenaPreDraftViewModel: ObservableObject {
             }
             // HDT pairs the refresh with a 3s floor so the button doesn't flicker
             // back to enabled before the user sees anything happen.
-            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccountAsync()
+            async let accountUpdate: GetAccountResult = HSReplayAPI.getAccount()
             async let delay: Void = { try? await Task.sleep(nanoseconds: 3_000_000_000) }()
             _ = await (accountUpdate, delay)
             await self.update()

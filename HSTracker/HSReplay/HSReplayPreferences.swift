@@ -133,8 +133,8 @@ class HSReplayPreferences: PreferencePaneController, PreferencePane {
         } else {
             HSReplayAPI.oAuthAuthorize {
                 HSReplayAPI.linkMixpanelAccount()
-                _ = HSReplayAPI.getAccount().done { result in
-                    switch result {
+                Task { @MainActor in
+                    switch await HSReplayAPI.getAccount() {
                     case .failed:
                         logger.error("Failed to retrieve account data")
                     case .success(account: let data):

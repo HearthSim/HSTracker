@@ -846,7 +846,6 @@
 		B82AE60028BE8631004A8FE0 /* mono-version.txt in Resources */ = {isa = PBXBuildFile; fileRef = B82AE5FC28BE8631004A8FE0 /* mono-version.txt */; };
 		B82AE60228BED413004A8FE0 /* QuestDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82AE60128BED413004A8FE0 /* QuestDataProxy.swift */; };
 		B82E7B16262A798000C42EF0 /* ShortIdHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82E7B15262A798000C42EF0 /* ShortIdHelper.swift */; };
-		B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B82E7B18262A88DB00C42EF0 /* BigInt */; };
 		B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
 		B82F4EAE24E3229200905024 /* InputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* InputProxy.swift */; };
 		B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
@@ -1051,7 +1050,6 @@
 		B8591FF82B24919F00B907A4 /* MulliganState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF72B24919F00B907A4 /* MulliganState.swift */; };
 		B8591FFA2B24F7C900B907A4 /* ObjectiveFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FF92B24F7C900B907A4 /* ObjectiveFactoryProxy.swift */; };
 		B8591FFC2B24F87C00B907A4 /* ObjectiveProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8591FFB2B24F87C00B907A4 /* ObjectiveProxy.swift */; };
-		B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */ = {isa = PBXBuildFile; productRef = B85920952B4C73B300B907A4 /* CustomToolTip */; };
 		B85A0D54272CDEFE006D2648 /* MercenariesPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85A0D53272CDEFE006D2648 /* MercenariesPreferences.swift */; };
 		B85A0D55272CE24A006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
 		B85A0D56272CE24B006D2648 /* MercenariesPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B85A0D51272CDDFB006D2648 /* MercenariesPreferences.xib */; };
@@ -1144,7 +1142,6 @@
 		B883397B2E7105C1007D9754 /* CostumeMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397A2E7105C1007D9754 /* CostumeMerchant.swift */; };
 		B883397D2E7106DD007D9754 /* PossessedAnimancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */; };
 		B884B73F2FD8CC2F00D67EED /* ForgeOfSouls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */; };
-		B887656A26C304FA003D3629 /* BigInt in Frameworks */ = {isa = PBXBuildFile; productRef = B887656926C304FA003D3629 /* BigInt */; };
 		B8889C1B2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */; };
 		B8889C1D2DA067D90053DD57 /* CardTooltipPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1C2DA067D90053DD57 /* CardTooltipPlacement.swift */; };
 		B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */; };
@@ -1504,19 +1501,11 @@
 		B8D34D35294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D34294FB0C100CACC5A /* BattlegroundsHeroHeaderViewModel.swift */; };
 		B8D34D37294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D34D36294FE74700CACC5A /* BattlegroundsHeroPickStatsParams .swift */; };
 		B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BAE25BCE68900446923 /* SwiftyBeaver */; };
-		B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BBC25BCEACB00446923 /* TextAttributes */; };
 		B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC225BD10B600446923 /* OAuthSwift */; };
 		B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BC425BDAF1300446923 /* SwiftyBeaver */; };
-		B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BCE25BDAF1300446923 /* TextAttributes */; };
 		B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD025BDAF1300446923 /* OAuthSwift */; };
-		B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD325BDD3A700446923 /* PromiseKit */; };
-		B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD525BDD3F000446923 /* PromiseKit */; };
-		B8D75BD925BDD47A00446923 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BD825BDD47A00446923 /* FMDB */; };
-		B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BDA25BDD4BF00446923 /* FMDB */; };
 		B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BE925BDF92B00446923 /* RealmSwift */; };
 		B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BEB25BDFA2500446923 /* RealmSwift */; };
-		B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BEE25BDFE6D00446923 /* Gzip */; };
-		B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF025BDFEDE00446923 /* Gzip */; };
 		B8D75BF725BE032500446923 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = B8D75BF625BE032500446923 /* Sparkle */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
@@ -3819,22 +3808,16 @@
 			files = (
 				B882CC902FBBE364002234D6 /* libcoreclr.dylib in Frameworks */,
 				B8D75BF725BE032500446923 /* Sparkle in Frameworks */,
-				B8D75BBD25BCEACB00446923 /* TextAttributes in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
-				B8D75BD925BDD47A00446923 /* FMDB in Frameworks */,
 				B8E1E5A32CF94FB900383975 /* AppMover in Frameworks */,
 				3CB1A35D2E8C3A400090486F /* Mixpanel in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
-				B8D75BEF25BDFE6D00446923 /* Gzip in Frameworks */,
 				B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */,
 				B8D75BEA25BDF92B00446923 /* RealmSwift in Frameworks */,
 				B8D75BAF25BCE68900446923 /* SwiftyBeaver in Frameworks */,
-				B82E7B19262A88DB00C42EF0 /* BigInt in Frameworks */,
 				B8D75BC325BD10B600446923 /* OAuthSwift in Frameworks */,
-				B8D75BD425BDD3A700446923 /* PromiseKit in Frameworks */,
 				4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */,
-				B85920962B4C73B300B907A4 /* CustomToolTip in Frameworks */,
 				B8196F112CC1BB58007C0371 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3845,14 +3828,9 @@
 			files = (
 				B8D75BEC25BDFA2500446923 /* RealmSwift in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
-				B887656A26C304FA003D3629 /* BigInt in Frameworks */,
-				B8D75BD625BDD3F000446923 /* PromiseKit in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
-				B8D75BDB25BDD4BF00446923 /* FMDB in Frameworks */,
 				B8D75BD125BDAF1300446923 /* OAuthSwift in Frameworks */,
-				B8D75BF125BDFEDE00446923 /* Gzip in Frameworks */,
-				B8D75BCF25BDAF1300446923 /* TextAttributes in Frameworks */,
 				B8D75BC525BDAF1300446923 /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6697,15 +6675,9 @@
 			name = HSTracker;
 			packageProductDependencies = (
 				B8D75BAE25BCE68900446923 /* SwiftyBeaver */,
-				B8D75BBC25BCEACB00446923 /* TextAttributes */,
 				B8D75BC225BD10B600446923 /* OAuthSwift */,
-				B8D75BD325BDD3A700446923 /* PromiseKit */,
-				B8D75BD825BDD47A00446923 /* FMDB */,
 				B8D75BE925BDF92B00446923 /* RealmSwift */,
-				B8D75BEE25BDFE6D00446923 /* Gzip */,
 				B8D75BF625BE032500446923 /* Sparkle */,
-				B82E7B18262A88DB00C42EF0 /* BigInt */,
-				B85920952B4C73B300B907A4 /* CustomToolTip */,
 				B8196F102CC1BB58007C0371 /* Sentry */,
 				B889F6082CEC1CFB001506F4 /* Atomics */,
 				B8E1E5A22CF94FB900383975 /* AppMover */,
@@ -6732,13 +6704,8 @@
 			name = HSTrackerTests;
 			packageProductDependencies = (
 				B8D75BC425BDAF1300446923 /* SwiftyBeaver */,
-				B8D75BCE25BDAF1300446923 /* TextAttributes */,
 				B8D75BD025BDAF1300446923 /* OAuthSwift */,
-				B8D75BD525BDD3F000446923 /* PromiseKit */,
-				B8D75BDA25BDD4BF00446923 /* FMDB */,
 				B8D75BEB25BDFA2500446923 /* RealmSwift */,
-				B8D75BF025BDFEDE00446923 /* Gzip */,
-				B887656926C304FA003D3629 /* BigInt */,
 			);
 			productName = HSTrackerTests;
 			productReference = 439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */;
@@ -6795,15 +6762,9 @@
 			mainGroup = 439C7E3F1C7772C000D29859;
 			packageReferences = (
 				B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
-				B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */,
 				B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
-				B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */,
-				B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */,
 				B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
-				B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */,
 				B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */,
-				B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */,
-				B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */,
 				B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */,
 				B8E1E5A12CF94F2A00383975 /* XCRemoteSwiftPackageReference "AppMover" */,
@@ -9442,22 +9403,6 @@
 				minimumVersion = 8.38.0;
 			};
 		};
-		B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/attaswift/BigInt";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.1;
-			};
-		};
-		B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/fmoraes74/CustomToolTip";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-atomics.git";
@@ -9474,14 +9419,6 @@
 				minimumVersion = 1.9.6;
 			};
 		};
-		B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/delba/TextAttributes";
-			requirement = {
-				kind = revision;
-				revision = febe1d7fcdb6ba764d9392bee14a6d3086c907d1;
-			};
-		};
 		B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift";
@@ -9490,36 +9427,12 @@
 				minimumVersion = 2.1.2;
 			};
 		};
-		B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mxcl/PromiseKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.13.3;
-			};
-		};
-		B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ccgus/fmdb";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.7;
-			};
-		};
 		B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.32.3;
-			};
-		};
-		B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/1024jp/GzipSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.1;
 			};
 		};
 		B8D75BF525BE032500446923 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
@@ -9551,21 +9464,6 @@
 			package = B8196F0F2CC1BB58007C0371 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
 		};
-		B82E7B18262A88DB00C42EF0 /* BigInt */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
-			productName = BigInt;
-		};
-		B85920952B4C73B300B907A4 /* CustomToolTip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B85920942B4C73B300B907A4 /* XCRemoteSwiftPackageReference "CustomToolTip" */;
-			productName = CustomToolTip;
-		};
-		B887656926C304FA003D3629 /* BigInt */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B82E7B17262A88DB00C42EF0 /* XCRemoteSwiftPackageReference "BigInt" */;
-			productName = BigInt;
-		};
 		B889F6082CEC1CFB001506F4 /* Atomics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B889F6072CEC1CFB001506F4 /* XCRemoteSwiftPackageReference "swift-atomics" */;
@@ -9575,11 +9473,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
 			productName = SwiftyBeaver;
-		};
-		B8D75BBC25BCEACB00446923 /* TextAttributes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */;
-			productName = TextAttributes;
 		};
 		B8D75BC225BD10B600446923 /* OAuthSwift */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -9591,35 +9484,10 @@
 			package = B8D75BAD25BCE68900446923 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
 			productName = SwiftyBeaver;
 		};
-		B8D75BCE25BDAF1300446923 /* TextAttributes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BBB25BCEACB00446923 /* XCRemoteSwiftPackageReference "TextAttributes" */;
-			productName = TextAttributes;
-		};
 		B8D75BD025BDAF1300446923 /* OAuthSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BC125BD10B600446923 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
 			productName = OAuthSwift;
-		};
-		B8D75BD325BDD3A700446923 /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-		B8D75BD525BDD3F000446923 /* PromiseKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BD225BDD3A700446923 /* XCRemoteSwiftPackageReference "PromiseKit" */;
-			productName = PromiseKit;
-		};
-		B8D75BD825BDD47A00446923 /* FMDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */;
-			productName = FMDB;
-		};
-		B8D75BDA25BDD4BF00446923 /* FMDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BD725BDD47A00446923 /* XCRemoteSwiftPackageReference "fmdb" */;
-			productName = FMDB;
 		};
 		B8D75BE925BDF92B00446923 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -9630,16 +9498,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8D75BE825BDF92B00446923 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
-		};
-		B8D75BEE25BDFE6D00446923 /* Gzip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */;
-			productName = Gzip;
-		};
-		B8D75BF025BDFEDE00446923 /* Gzip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B8D75BED25BDFE6D00446923 /* XCRemoteSwiftPackageReference "GzipSwift" */;
-			productName = Gzip;
 		};
 		B8D75BF625BE032500446923 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;

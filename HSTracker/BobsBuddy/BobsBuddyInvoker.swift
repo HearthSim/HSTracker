@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PromiseKit
 import SwiftyBeaver
 import Sentry
 
@@ -244,131 +243,104 @@ class BobsBuddyInvoker {
                     Thread.sleep(forTimeInterval: Double(LichKingDelay) / 1000.0)
                 }
             
-                _ = runAndDisplaySimulationAsync().catch({ error in
-                    logger.error("Error running simulation: \(error.localizedDescription)")
-                    BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .failedToLoad)
-                    var inputString = ""
-                    if let input = self.input {
-                        inputString = input.unitestCopyableVersion()
-                    }
-                    Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription, "input": inputString ])
-                })
+                runAndDisplaySimulation()
             }
         }
     }
     
-    func maybeRunDuosPartialCombat() -> Promise<Bool> {
-        return Promise<Bool> { seal in
-            if input != nil && !(duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
-                logger.debug("No need to run partial combat, all teammates found. Exiting.")
-                seal.fulfill(false)
-                return
-            }
-            if !shouldRun() {
-                seal.fulfill(false)
-                return
-            }
-            
-            if hasErrorState() {
-                seal.fulfill(false)
-                return
-            }
-            
-            MonoHelper.withMonoThread {
-                state = .combatPartial
-                logger.debug("Setting UI state to combat...")
-            
-                BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .combatPartial)
-                DispatchQueue.main.async {
-                    BobsBuddyInvoker.bobsBuddyDisplay?.resetText()
-                }
-            
-                // Enforce input teammate to be null if teammate was not snapshot
-                if input != nil && duosInputPlayerTeammate == nil {
-                    input?.playerTeammate = PlayerProxy(obj: nil)
-                }
-                if input != nil && duosInputOpponentTeammate == nil {
-                    input?.opponentTeammate = PlayerProxy(obj: nil)
-                }
-            
-                _ = runAndDisplaySimulationAsync().done { _ in
-                    seal.fulfill(true)
-                }.catch { error in
-                    logger.debug(error)
-                    seal.fulfill(false)
-                }
-            }
+    func maybeRunDuosPartialCombat() {
+        if input != nil && !(duosInputPlayerTeammate == nil || duosInputOpponentTeammate == nil) {
+            logger.debug("No need to run partial combat, all teammates found. Exiting.")
+            return
         }
-    }
-    
-    func runAndDisplaySimulationAsync() -> Promise<Bool> {
-        return Promise<Bool> { seal in
-            currentOpponentMinions.removeAll()
-            logger.debug("Running simulation...")
-            let startTime = Date()
+        if !shouldRun() {
+            return
+        }
+        
+        if hasErrorState() {
+            return
+        }
+        
+        MonoHelper.withMonoThread {
+            state = .combatPartial
+            logger.debug("Setting UI state to combat...")
+        
+            BobsBuddyInvoker.bobsBuddyDisplay?.setState(st: .combatPartial)
             DispatchQueue.main.async {
-                BobsBuddyInvoker.bobsBuddyDisplay?.hidePercentagesShowSpinners()
+                BobsBuddyInvoker.bobsBuddyDisplay?.resetText()
             }
-            _ = runSimulation().done { (result) in
-                guard let top = result, let input = self.input else {
-                    logger.debug("Simulation returned no result. Exiting")
-                    seal.fulfill(false)
-                    return
-                }
-                MonoHelper.withMonoThread {
-                    // extremely fast simulations otherwise make the spinner disappear quickly, making the result feel unreliable
-                    let remainingSpinTime = self.MinimumSpinTime - (Date().timeIntervalSince1970 - startTime.timeIntervalSince1970)
-                    if remainingSpinTime > 0 {
-                        Thread.sleep(forTimeInterval: remainingSpinTime)
-                    }
-                    // Add enum for exit conditions
-                    if top.simulationCount <= 500 && top.getMyExitCondition() ==  .time {
-                        logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
-                        self.errorState = .notEnoughData
-                        BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .notEnoughData)
-                    } else if self.state == .combatPartial {
-                        logger.debug("Displaying partial simulation results")
-                        let winRate = top.winRate
-                        let tieRate = top.tieRate
-                        let lossRate = top.lossRate
-                        let myDeathRate = top.myDeathRate
-                        let theirDeathRate = top.theirDeathRate
-                        let possibleResults = top.getResultDamage()
-                        let friendlyWon = self.duosInputPlayerTeammate == nil
-                        let playerCanDie = input.player.health <= input.damageCap
-                        let opponentCanDie = input.opponent.health <= input.damageCap
-                    
-                        DispatchQueue.main.async {
-                            BobsBuddyInvoker.bobsBuddyDisplay?.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
-                        }
-                    } else {
-                        logger.debug("Displaying simulation results")
-                        let winRate = top.winRate
-                        let tieRate = top.tieRate
-                        let lossRate = top.lossRate
-                        let myDeathRate = top.myDeathRate
-                        let theirDeathRate = top.theirDeathRate
-                        let possibleResults = top.getResultDamage()
-                    
-                        DispatchQueue.main.async {
-                            BobsBuddyInvoker.bobsBuddyDisplay?.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
-                        }
-                    }
-                    self.output = top
-                    seal.fulfill(true)
-                }
-            }.catch({ error in
-                logger.error("Error running simulation: \(error.localizedDescription)")
-                BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .failedToLoad)
-                Influx.sendEvent(eventName: "runSimulation failed", withProperties: [ "error": error.localizedDescription])
-                seal.fulfill(false)
-            })
+        
+            // Enforce input teammate to be null if teammate was not snapshot
+            if input != nil && duosInputPlayerTeammate == nil {
+                input?.playerTeammate = PlayerProxy(obj: nil)
+            }
+            if input != nil && duosInputOpponentTeammate == nil {
+                input?.opponentTeammate = PlayerProxy(obj: nil)
+            }
+        
+            runAndDisplaySimulation()
         }
     }
     
-    func runSimulation() -> Promise<OutputProxy?> {
+    func runAndDisplaySimulation() {
+        currentOpponentMinions.removeAll()
+        logger.debug("Running simulation...")
+        let startTime = Date()
+        DispatchQueue.main.async {
+            BobsBuddyInvoker.bobsBuddyDisplay?.hidePercentagesShowSpinners()
+        }
+        Task {
+            guard let top = await runSimulation(), let input = self.input else {
+                logger.debug("Simulation returned no result. Exiting")
+                return
+            }
+            // extremely fast simulations otherwise make the spinner disappear quickly, making the result feel unreliable
+            let remainingSpinTime = self.MinimumSpinTime - Date().timeIntervalSince(startTime)
+            if remainingSpinTime > 0 {
+                try? await Task.sleep(nanoseconds: UInt64(remainingSpinTime * 1_000_000_000))
+            }
+            MonoHelper.withMonoThread {
+                // Add enum for exit conditions
+                if top.simulationCount <= 500 && top.getMyExitCondition() ==  .time {
+                    logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
+                    self.errorState = .notEnoughData
+                    BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .notEnoughData)
+                } else if self.state == .combatPartial {
+                    logger.debug("Displaying partial simulation results")
+                    let winRate = top.winRate
+                    let tieRate = top.tieRate
+                    let lossRate = top.lossRate
+                    let myDeathRate = top.myDeathRate
+                    let theirDeathRate = top.theirDeathRate
+                    let possibleResults = top.getResultDamage()
+                    let friendlyWon = self.duosInputPlayerTeammate == nil
+                    let playerCanDie = input.player.health <= input.damageCap
+                    let opponentCanDie = input.opponent.health <= input.damageCap
+                
+                    DispatchQueue.main.async {
+                        BobsBuddyInvoker.bobsBuddyDisplay?.showPartialDuosSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults, friendlyWon: friendlyWon, playerCanDie: playerCanDie, opponentCanDie: opponentCanDie)
+                    }
+                } else {
+                    logger.debug("Displaying simulation results")
+                    let winRate = top.winRate
+                    let tieRate = top.tieRate
+                    let lossRate = top.lossRate
+                    let myDeathRate = top.myDeathRate
+                    let theirDeathRate = top.theirDeathRate
+                    let possibleResults = top.getResultDamage()
+                
+                    DispatchQueue.main.async {
+                        BobsBuddyInvoker.bobsBuddyDisplay?.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
+                    }
+                }
+                self.output = top
+            }
+        }
+    }
+    
+    func runSimulation() async -> OutputProxy? {
         logger.info("Starting simulation")
-        return Promise<OutputProxy?> { seal in
+        return await withCheckedContinuation { continuation in
             DispatchQueue.global().async {
                 var result: OutputProxy?
                 
@@ -512,7 +484,7 @@ class BobsBuddyInvoker {
                         logger.error("No input")
                     }
                 }
-                seal.fulfill(result)
+                continuation.resume(returning: result)
             }
         }
     }
@@ -1666,7 +1638,7 @@ class BobsBuddyInvoker {
                 errorState = .none
                 BobsBuddyInvoker.bobsBuddyDisplay?.setErrorState(error: .none, show: expandAfterError)
                 output = nil
-                _ = runAndDisplaySimulationAsync()
+                runAndDisplaySimulation()
             }
         } else {
             logger.debug("Input changed, but the simulation already re-ran ten times")

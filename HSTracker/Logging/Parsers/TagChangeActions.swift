@@ -626,7 +626,7 @@ struct TagChangeActions {
             logger.debug("Saw hero attack from \(entity.cardId)")
 
             if eventHandler.isBattlegroundsDuosMatch() {
-                _ = BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.maybeRunDuosPartialCombat()
+                BobsBuddyInvoker.instance(gameId: eventHandler.gameId, turn: eventHandler.turnNumber())?.maybeRunDuosPartialCombat()
             }
         }
         eventHandler.handleProposedAttackerChange(entity: entity)

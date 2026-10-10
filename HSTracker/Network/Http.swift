@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PromiseKit
 
 struct Http {
     let url: String
@@ -59,96 +58,59 @@ struct Http {
             }.resume()
     }
     
-    func uploadPromise(method: HttpMethod,
-                       headers: [String: String] = [:],
-                       data: Data) -> Promise<Any?> {
-        return Promise<Any?> { seal in
-            guard let urlRequest = prepareRequest(method: method,
-                                                  encoding: .multipart,
-                                                  parameters: [:],
-                                                  headers: headers) else {
-                seal.fulfill(nil)
-                return
-            }
+    func uploadAsync(method: HttpMethod,
+                     headers: [String: String] = [:],
+                     data: Data) async -> Data? {
+        guard let urlRequest = prepareRequest(method: method,
+                                              encoding: .multipart,
+                                              parameters: [:],
+                                              headers: headers) else {
+            return nil
+        }
 
+        return await withCheckedContinuation { continuation in
             Http.session.uploadTask(with: urlRequest,
                                     from: data) { data, response, error in
-                if let error = error {
-                    logger.error("request error : \(error)")
-                    seal.reject(error)
-                } else if let data = data {
-                    logger.verbose("upload result : \(data)")
-                    seal.fulfill(data)
-                }
-                logger.debug("p \(#function): "
+                logger.debug("\(#function): "
                                 + "\(String(describing: error)), "
                                 + "data: \(String(describing: data)), "
                                 + "response: \(String(describing: response))")
+                if let error = error {
+                    logger.error("request error : \(error)")
+                    continuation.resume(returning: nil)
+                } else {
+                    if let data = data {
+                        logger.verbose("upload result : \(data)")
+                    }
+                    continuation.resume(returning: data)
+                }
             }.resume()
         }
     }
-    
-//    func getAsync(parameters: [String: Any] = [:], headers: [String: String] = [:]) async -> Data? {
-//        guard let urlRequest = prepareRequest(method: .get, encoding: .multipart, parameters: parameters, headers: headers) else {
-//            return nil
-//        }
-//        return await withCheckedContinuation { cont in
-//            Http.session.dataTask(with: urlRequest) { (data, _, error) in
-//                if let error = error {
-//                    logger.error("request error: \(error)")
-//                    cont.resume(returning: nil)
-//                } else if let data = data {
-//                    logger.verbose("get result: \(data)")
-//                    cont.resume(returning: data)
-//                } else {
-//                    cont.resume(returning: nil)
-//                }
-//            }.resume()
-//        }
-//    }
-//    
-//    func uploadAsync(method: HttpMethod, data: Data, parameters: [String: Any] = [:], headers: [String: String] = [:]) async -> Data? {
-//        guard let urlRequest = prepareRequest(method: method, encoding: .multipart, parameters: parameters, headers: headers) else {
-//            return nil
-//        }
-//        return await withCheckedContinuation { cont in
-//            Http.session.uploadTask(with: urlRequest, from: data) { (data, _, error) in
-//                if let error = error {
-//                    logger.error("request error: \(error)")
-//                    cont.resume(returning: nil)
-//                } else if let data = data {
-//                    logger.verbose("upload result: \(data)")
-//                    cont.resume(returning: data)
-//                } else {
-//                    cont.resume(returning: nil)
-//                }
-//            }.resume()
-//        }
-//    }
 
-    func getPromise(method: HttpMethod,
-                    headers: [String: String] = [:]) -> Promise<Data?> {
-        return Promise<Data?> { seal in
-            guard let urlRequest = prepareRequest(method: method,
-                                                  encoding: .multipart,
-                                                  parameters: [:],
-                                                  headers: headers) else {
-                seal.fulfill(nil)
-                return
-            }
+    func getAsync(headers: [String: String] = [:]) async -> Data? {
+        guard let urlRequest = prepareRequest(method: .get,
+                                              encoding: .multipart,
+                                              parameters: [:],
+                                              headers: headers) else {
+            return nil
+        }
 
+        return await withCheckedContinuation { continuation in
             Http.session.dataTask(with: urlRequest) { data, response, error in
-                if let error = error {
-                    logger.error("request error : \(error)")
-                    seal.reject(error)
-                } else if let data = data {
-                    logger.verbose("get result : \(data)")
-                    seal.fulfill(data)
-                }
-                logger.debug("p \(#function): "
+                logger.debug("\(#function): "
                                 + "\(String(describing: error)), "
                                 + "data: \(String(describing: data)), "
                                 + "response: \(String(describing: response))")
+                if let error = error {
+                    logger.error("request error : \(error)")
+                    continuation.resume(returning: nil)
+                } else {
+                    if let data = data {
+                        logger.verbose("get result : \(data)")
+                    }
+                    continuation.resume(returning: data)
+                }
             }.resume()
         }
     }

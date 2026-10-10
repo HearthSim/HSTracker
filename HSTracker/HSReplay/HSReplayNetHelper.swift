@@ -13,19 +13,19 @@ class HSReplayNetHelper {
     static private let mercenariesCollectionSyncLimiter = RateLimiter(maxCount: 6, timeSpan: 2.0)
     static func initialize() {
         CollectionHelpers.hearthstone.onCollectionChanged = {
-            /*Task.init {*/ DispatchQueue.global().async {
-                /*await*/ syncCollection()
+            Task {
+                await syncCollection()
             }
         }
         CollectionHelpers.mercenaries.onCollectionChanged = {
-            /*Task.init*/ DispatchQueue.global().async {
-                /*await*/ syncMercenariesCollection()
+            Task {
+                await syncMercenariesCollection()
             }
         }
     }
     
-    static func syncCollection() /*async*/ {
-        guard let collection = /*await*/ CollectionHelpers.hearthstone.getCollection() else {
+    static func syncCollection() async {
+        guard let collection = CollectionHelpers.hearthstone.getCollection() else {
             return
         }
         let hash = collection.hash()
@@ -39,13 +39,13 @@ class HSReplayNetHelper {
             _ = Account.save()
             return
         }
-        /*await*/ HSReplayNetHelper.collectionSyncLimiter.run(task: { [weak collection] in
+        await HSReplayNetHelper.collectionSyncLimiter.run(task: { [weak collection] in
             guard let collection else {
                 return
             }
             do {
                 if !(HSReplayAPI.accountData?.blizzard_accounts.any { x in x.account_hi == hi && x.account_lo == lo } ?? false) {
-                    let response = /*await*/ try HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: collection.battleTag).wait()
+                    let response = await HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: collection.battleTag)
                     if response == .success {
                         // update account data
                     } else if response == .tokenAlreadyClaimed {
@@ -59,7 +59,7 @@ class HSReplayNetHelper {
                     }
                 }
                 
-                if /*await*/ try HSReplayAPI.uploadCollection(collection: collection, collectionType: .constructed).wait() {
+                if try await HSReplayAPI.uploadCollection(collection: collection, collectionType: .constructed) {
                     Account.instance.collectionState[account] = Account.SyncState(date: Date(), hash: hash)
                     _ = Account.save()
                     logger.debug("Collection synced")
@@ -77,8 +77,8 @@ class HSReplayNetHelper {
         })
     }
 
-    static func syncMercenariesCollection() /*async*/ {
-        guard let collection = /*await*/ CollectionHelpers.mercenaries.getCollection() else {
+    static func syncMercenariesCollection() async {
+        guard let collection = CollectionHelpers.mercenaries.getCollection() else {
             return
         }
         let hash = collection.hash()
@@ -92,13 +92,13 @@ class HSReplayNetHelper {
             _ = Account.save()
             return
         }
-        /*await*/ HSReplayNetHelper.mercenariesCollectionSyncLimiter.run(task: { [weak collection] in
+        await HSReplayNetHelper.mercenariesCollectionSyncLimiter.run(task: { [weak collection] in
             guard let collection else {
                 return
             }
             do {
                 if !(HSReplayAPI.accountData?.blizzard_accounts.any { x in x.account_hi == hi && x.account_lo == lo } ?? false) {
-                    let response = /*await*/ try HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: collection.battleTag).wait()
+                    let response = await HSReplayAPI.claimBattleTag(account_hi: hi, account_lo: lo, battleTag: collection.battleTag)
                     if response == .success {
                         // update account data
                     } else if response == .tokenAlreadyClaimed {
@@ -112,7 +112,7 @@ class HSReplayNetHelper {
                     }
                 }
                 
-                if /*await*/ try HSReplayAPI.uploadCollection(collection: collection, collectionType: .mercenaries).wait() {
+                if try await HSReplayAPI.uploadCollection(collection: collection, collectionType: .mercenaries) {
                     Account.instance.mercenariesCollectionState[account] = Account.SyncState(date: Date(), hash: hash)
                     _ = Account.save()
                     logger.debug("Mercenaries collection synced")

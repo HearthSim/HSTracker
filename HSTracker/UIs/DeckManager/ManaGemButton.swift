@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import TextAttributes
+import AppKit
 
 class ManaGemButtonCell: NSButtonCell {
     override func drawTitle(_ title: NSAttributedString,
@@ -31,12 +31,15 @@ class ManaGemButton: NSButton {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let attributes = TextAttributes()
-            .alignment(.center)
-            .font(NSFont(name: "Belwe Bd BT", size: 20))
-            .foregroundColor(textColor)
-            .strokeWidth(-2)
-            .strokeColor(.black)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        var attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: textColor,
+            .strokeWidth: -2,
+            .strokeColor: NSColor.black
+        ]
+        attributes[.font] = NSFont(name: "Belwe Bd BT", size: 20)
         self.attributedTitle = NSAttributedString(string: self.title, attributes: attributes)
     }
 }

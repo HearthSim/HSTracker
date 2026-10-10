@@ -10,78 +10,6 @@
       }
     },
     {
-      "identity" : "bigint",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/attaswift/BigInt",
-      "state" : {
-        "revision" : "889a1ecacd73ccc189c5cb29288048f186c44ed9",
-        "version" : "5.2.1"
-      }
-    },
-    {
-      "identity" : "brightfutures",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Thomvis/BrightFutures.git",
-      "state" : {
-        "revision" : "9279defa6bdc21501ce740266e5a14d0119ddc63",
-        "version" : "8.0.1"
-      }
-    },
-    {
-      "identity" : "customtooltip",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fmoraes74/CustomToolTip",
-      "state" : {
-        "branch" : "main",
-        "revision" : "e712cfd42d57c928f86614e77046e085de51394d"
-      }
-    },
-    {
-      "identity" : "erik",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/phimage/Erik.git",
-      "state" : {
-        "revision" : "109a130e9cdb00789a43a7a625293eeb12d22989",
-        "version" : "5.1.0"
-      }
-    },
-    {
-      "identity" : "filekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nvzqz/FileKit.git",
-      "state" : {
-        "revision" : "826d9161b184509f80d85c28cd612d630646de98",
-        "version" : "6.0.0"
-      }
-    },
-    {
-      "identity" : "fmdb",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ccgus/fmdb",
-      "state" : {
-        "revision" : "61e51fde7f7aab6554f30ab061cc588b28a97d04",
-        "version" : "2.7.7"
-      }
-    },
-    {
-      "identity" : "gzipswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/1024jp/GzipSwift",
-      "state" : {
-        "revision" : "ba0b6cb51cc6202f896e469b87d2889a46b10d1b",
-        "version" : "5.1.1"
-      }
-    },
-    {
-      "identity" : "kanna",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tid-kijyun/Kanna.git",
-      "state" : {
-        "revision" : "f9e4922223dd0d3dfbf02ca70812cf5531fc0593",
-        "version" : "5.2.7"
-      }
-    },
-    {
       "identity" : "mixpanel-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mixpanel/mixpanel-swift",
@@ -97,15 +25,6 @@
       "state" : {
         "revision" : "d85964b96dbce94df961f28b996187c835089903",
         "version" : "2.2.0"
-      }
-    },
-    {
-      "identity" : "promisekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mxcl/PromiseKit",
-      "state" : {
-        "revision" : "aea48ea1855f5d82e2dffa6027afce3aab8f3dd7",
-        "version" : "6.13.3"
       }
     },
     {
@@ -154,29 +73,12 @@
       }
     },
     {
-      "identity" : "swifter",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/httpswift/swifter.git",
-      "state" : {
-        "revision" : "9483a5d459b45c3ffd059f7b55f9638e268632fd",
-        "version" : "1.5.0"
-      }
-    },
-    {
       "identity" : "swiftybeaver",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver",
       "state" : {
         "revision" : "12b5acf96d98f91d50de447369bd18df74600f1a",
         "version" : "1.9.6"
-      }
-    },
-    {
-      "identity" : "textattributes",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/delba/TextAttributes",
-      "state" : {
-        "revision" : "febe1d7fcdb6ba764d9392bee14a6d3086c907d1"
       }
     }
   ],

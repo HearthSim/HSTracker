@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PromiseKit
 import SwiftUI
 
 // Port of HDT's BattlegroundsQuestPickingViewModel

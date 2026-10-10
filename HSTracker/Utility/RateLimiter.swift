@@ -12,7 +12,7 @@ class RateLimiter {
     var _maxCount: Int
     var _lastRun: Deque<Date>
     var _timeSpan: TimeInterval
-    var _nextTask: (() -> Void)?
+    var _nextTask: (() async -> Void)?
     var _running: Bool
     
     init(maxCount: Int, timeSpan: TimeInterval) {
@@ -22,21 +22,21 @@ class RateLimiter {
         _running = false
     }
     
-    func run(task: @escaping () -> Void, onThrottled: (() -> Void)? = nil) {
+    func run(task: @escaping () async -> Void, onThrottled: (() -> Void)? = nil) async {
         _nextTask = task
         if _running {
             return
         }
         _running = true
-        /*await*/ rateLimit(onThrottled: onThrottled)
+        await rateLimit(onThrottled: onThrottled)
         _lastRun.enqueue(Date())
         if let nextTask = _nextTask {
-            /*await*/ nextTask()
+            await nextTask()
         }
         _running = false
     }
     
-    func rateLimit(onThrottled: (() -> Void)?) /*async*/ {
+    func rateLimit(onThrottled: (() -> Void)?) async {
         let now = Date()
         while !_lastRun.isEmpty {
             if now.timeIntervalSince(_lastRun.peekFront() ?? now) >= _timeSpan {
@@ -46,7 +46,8 @@ class RateLimiter {
         }
         if _lastRun.count >= _maxCount {
             onThrottled?()
-            Thread.sleep(forTimeInterval: _timeSpan - now.timeIntervalSince(_lastRun.peekFront() ?? now))
+            let delay = _timeSpan - now.timeIntervalSince(_lastRun.peekFront() ?? now)
+            try? await Task.sleep(nanoseconds: UInt64(max(delay, 0) * 1_000_000_000))
         }
     }
 }
