@@ -149,15 +149,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
         if refresh {
             logger.debug("OAuth token is expired, renewing")
             
-            HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, completionHandler: { result in
-                switch result {
-                case .success(let (credential, _, parameters)):
-                    logger.debug("HSReplay: Refreshed OAuthToken")
-                    Settings.hsReplayOAuthToken =  credential.oauthToken
-                    Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                    Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
-                    Settings.hsReplayOAuthScope = parameters["scope"] as? String
-                    HSReplayAPI.updateOAuthCredential()
+            OAuthTokenRefresher.refresh { success in
+                if success {
                     HSReplayAPI.getAccount().done { result in
                         switch result {
                         case .failed:
@@ -173,10 +166,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                     }.catch { error in
                         logger.error(error)
                     }
-                case .failure(let error):
-                    logger.error(error)
                 }
-            })
+            }
         } else {
             _ = HSReplayAPI.getAccount().done { result in
                 switch result {

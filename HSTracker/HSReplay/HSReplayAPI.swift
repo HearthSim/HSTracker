@@ -108,54 +108,34 @@ class HSReplayAPI {
     }
     
     static func startAuthorizedRequest(_ url: String, method: OAuthSwiftHTTPRequest.Method, parameters: OAuthSwift.Parameters = [:], headers: OAuthSwift.Headers? = nil, body: Data? = nil, onTokenRenewal: OAuthSwift.TokenRenewedHandler? = nil, completionHandler completion: @escaping OAuthSwiftHTTPRequest.CompletionHandler) {
-        
-        if let expiration = Settings.hsReplayOAuthTokenExpiration {
-            if expiration.timeIntervalSince(Date()) <= 0 {
-                logger.debug("OAuth token is expired, renewing")
-                
-                HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: HSReplayAPI.oauthswift.client.credential
-                    .oauthRefreshToken, completionHandler: { result in
-                        switch result {
-                        case .success(let (credential, _, parameters)):
-                            logger.debug("HSReplay: Refreshed OAuthToken")
-                            Settings.hsReplayOAuthToken =  credential.oauthToken
-                            Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                            Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
-                            Settings.hsReplayOAuthScope = parameters["scope"] as? String
-                            updateOAuthCredential()
-                            oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
-                        case .failure(let error):
-                            logger.error(error)
-                            // try again, just in case
-                            oauthswift.client.requestWithAutomaticAccessTokenRenewal(url: URL(string: url)!, method: method, parameters: parameters, headers: headers, accessTokenUrl: HSReplay.oAuthTokenUrl, onTokenRenewal: onTokenRenewal, completionHandler: completion)
+        // proceed even when the refresh failed, just in case
+        OAuthTokenRefresher.ensureFresh { _ in
+            let accessToken = oauthswift.client.credential.oauthToken
+            oauthswift.client.request(url, method: method, parameters: parameters, headers: headers, body: body) { result in
+                switch result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    switch error {
+                    case .tokenExpired:
+                        // only retry once
+                        guard onTokenRenewal != nil else {
+                            completion(.failure(error))
+                            return
                         }
-                    })
-                return
-            }
-        }
-        oauthswift.client.request(url, method: method, parameters: parameters, headers: headers, body: body) { result in
-            switch result {
-            case .success(let response):
-                completion(.success(response))
-            case .failure(let error):
-                switch error {
-                case .tokenExpired:
-                    if let onTokenRenewal {
-                        oauthswift.renewAccessToken(withRefreshToken: HSReplayAPI.oauthswift.client.credential
-                            .oauthRefreshToken, completionHandler: { result in
-                                switch result {
-                                case .success(let (credential, _, _)):
-                                    onTokenRenewal(.success(credential))
-                                    startAuthorizedRequest(url, method: method, parameters: parameters, headers: headers, body: body, onTokenRenewal: nil, completionHandler: completion)
-                                case .failure(let error):
-                                    completion(.failure(.tokenExpired(error: error)))
-                                }
-                            })
+                        logger.warning("Access token was rejected, refreshing and retrying...")
+                        OAuthTokenRefresher.refreshRejected(accessToken) { success in
+                            guard success else {
+                                completion(.failure(error))
+                                return
+                            }
+                            startAuthorizedRequest(url, method: method, parameters: parameters, headers: headers, body: body, onTokenRenewal: nil, completionHandler: completion)
+                        }
+                    case .requestError:
+                        completion(.failure(error))
+                    default:
+                        completion(.failure(.tokenExpired(error: nil)))
                     }
-                case .requestError:
-                    completion(.failure(error))
-                default:
-                    completion(.failure(.tokenExpired(error: nil)))
                 }
             }
         }
@@ -1439,3 +1419,77 @@ class HSReplayAPI {
             }
         }
     }}
+
+// HDT's OAuthTokenRefresher: the server replaces the access token in place on refresh, so refreshes must
+// never overlap. Callers arriving while a refresh is in flight wait for that one instead of starting another.
+final class OAuthTokenRefresher {
+    private static let tokenRefreshMargin: TimeInterval = 5 * 60
+    private static let lock = NSLock()
+    private static var waiters: [(Bool) -> Void]?
+
+    // Without an expiration there is no token to refresh (e.g. not signed in).
+    private static var isFresh: Bool {
+        guard let expiration = Settings.hsReplayOAuthTokenExpiration else {
+            return true
+        }
+        return expiration.timeIntervalSince(Date()) > tokenRefreshMargin
+    }
+
+    static func ensureFresh(_ completion: @escaping (Bool) -> Void) {
+        if isFresh {
+            completion(true)
+            return
+        }
+        logger.debug("OAuth token is about to expire, renewing")
+        refresh(completion)
+    }
+
+    static func refreshRejected(_ rejectedAccessToken: String, _ completion: @escaping (Bool) -> Void) {
+        lock.lock()
+        let isRefreshing = waiters != nil
+        lock.unlock()
+        if !isRefreshing && HSReplayAPI.oauthswift.client.credential.oauthToken != rejectedAccessToken {
+            logger.info("Rejected access token was already replaced")
+            completion(true)
+            return
+        }
+        refresh(completion)
+    }
+
+    static func refresh(_ completion: @escaping (Bool) -> Void) {
+        lock.lock()
+        if waiters != nil {
+            waiters?.append(completion)
+            lock.unlock()
+            return
+        }
+        waiters = [completion]
+        lock.unlock()
+
+        HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: HSReplayAPI.oauthswift.client.credential.oauthRefreshToken, completionHandler: { result in
+            var success = false
+            switch result {
+            case .success(let (credential, _, parameters)):
+                logger.debug("HSReplay: Refreshed OAuthToken")
+                Settings.hsReplayOAuthToken = credential.oauthToken
+                Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                Settings.hsReplayOAuthTokenExpiration = credential.oauthTokenExpiresAt
+                if let scope = parameters["scope"] as? String {
+                    Settings.hsReplayOAuthScope = scope
+                }
+                HSReplayAPI.updateOAuthCredential()
+                success = true
+            case .failure(let error):
+                logger.error("Failed to renew token: \(error)")
+            }
+
+            lock.lock()
+            let pending = waiters ?? []
+            waiters = nil
+            lock.unlock()
+            for waiter in pending {
+                waiter(success)
+            }
+        })
+    }
+}
