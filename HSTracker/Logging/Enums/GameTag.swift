@@ -501,6 +501,7 @@ enum GameTag: Int, CaseIterable, Codable {
     end_of_turn_trigger = 3744,
     demon_portal_deck = 3808,
     gametag_3809 = 3809,
+    gametag_3873 = 3873,
     bacon_locked_mulligan_hero = 3877,
     rewind = 3934,
     gametag_3962 = 3962,

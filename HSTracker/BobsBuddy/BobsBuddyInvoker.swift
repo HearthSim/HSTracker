@@ -1491,7 +1491,8 @@ class BobsBuddyInvoker {
         
         inputPlayer.friendlyMinionsDeadLastCombatCounter = Int32(readPlayerCounter(.gametag_2717)) // direct or transfer
         
-        inputPlayer.battlecryCounter = Int32(readPlayerCounter(.gametag_3236)) // direct or transfer
+        // GameTag 3236 is Battlecries "played", whereas GameTag 3873 is Battlecries Triggered (correct one)
+        inputPlayer.battlecryCounter = Int32(readPlayerCounter(.gametag_3873)) // direct or transfer
         
         logger.info("pPirates=\(inputPlayer.piratesSummonCounter), pBeasts=\(inputPlayer.beastsSummonCounter), pDeadLastCombat=\(inputPlayer.friendlyMinionsDeadLastCombatCounter), pBattlecry=\(inputPlayer.battlecryCounter), friendly=\(friendly)")
         
