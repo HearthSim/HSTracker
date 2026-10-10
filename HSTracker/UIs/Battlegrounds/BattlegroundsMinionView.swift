@@ -24,6 +24,7 @@ struct BattlegroundsMinionDisplay {
     var hasRally = false
     var hasPoisonous = false
     var hasDivineShield = false
+    var hasEmpoweredDivineShield = false
     var hasVenomous = false
     /// HDT's BattlegroundsMinionViewModel.HighlightBuffedStats: green stats mean "buffed
     /// above what the card prints", which is meaningless for a Deity, whose stats are its
@@ -43,7 +44,8 @@ struct BattlegroundsMinionDisplay {
         hasDeathrattle = entity.has(tag: .deathrattle)
         hasRally = entity.has(tag: .bacon_rally)
         hasPoisonous = entity.has(tag: .poisonous)
-        hasDivineShield = entity.has(tag: .divine_shield)
+        hasDivineShield = entity[.divine_shield] == 1
+        hasEmpoweredDivineShield = entity[.divine_shield] > 1
         hasVenomous = entity.has(tag: .venomous)
     }
 
@@ -111,6 +113,7 @@ class BattlegroundsMinionView: NSView {
 //        let legendary = entity.card.rarity == Rarity.legendary
         let poisonous = display.hasPoisonous
         let divineShield = display.hasDivineShield
+        let empoweredDivineShield = display.hasEmpoweredDivineShield
         let venomous = display.hasVenomous
         // always hide for now, seems like TRIGGER_VISUAL is a bit too common to be useful
 //        let trigger = entity.has(tag: GameTag.trigger_visual)
@@ -176,6 +179,10 @@ class BattlegroundsMinionView: NSView {
         
         if divineShield, let divineShieldImage = NSImage(named: "divine-shield") {
             divineShieldImage.draw(in: rect) //NSRect(x: 30, y: 35, width: 240, height: 290))
+        }
+
+        if empoweredDivineShield, let empoweredDivineShieldImage = NSImage(named: "divine-shield-empowered") {
+            empoweredDivineShieldImage.draw(in: rect)
         }
         
         var color = NSColor.white
