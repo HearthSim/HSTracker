@@ -166,12 +166,17 @@ class RootOverlayWindow: OverWindowController {
     // hit-test visible, so the canvas stays click-through under it and a
     // SwiftUI .onHover would never fire.
     private var showMercenariesTasks = false
+    //
+    // The list also stays open while the cursor is on it, so one too tall to
+    // fit can be scrolled - HDT's never scrolls, so the button is all it
+    // watches.
     private func updateMercenariesTasksHover(_ hovered: Set<String>) {
+        let tasks = viewModel.mercenariesTasks
         let hovering = hovered.contains(HoverRegionID.mercenariesTasksButton)
+            || (tasks.isListShown && hovered.contains(HoverRegionID.mercenariesTasksList))
         guard showMercenariesTasks != hovering else { return }
         showMercenariesTasks = hovering
 
-        let tasks = viewModel.mercenariesTasks
         guard hovering else {
             // HideMercenariesTasks()
             tasks.isListShown = false

@@ -50,7 +50,9 @@ struct MercenariesTasksOverlayView: View {
 
             VStack(alignment: .trailing, spacing: Self.listGap / max(scale, 0.0001)) {
                 if viewModel.isListShown {
-                    MercenariesTaskListView(viewModel: viewModel, canvasWidth: canvasWidth)
+                    MercenariesTaskListView(viewModel: viewModel, canvasWidth: canvasWidth,
+                                            maxHeight: listMaxHeight,
+                                            gap: Self.listGap)
                         .transition(.move(edge: .trailing))
                 }
                 if viewModel.isButtonShown {
@@ -76,7 +78,12 @@ struct MercenariesTasksOverlayView: View {
             .padding(.trailing, Self.rightFactor * 1080)
             .padding(.bottom, bottomOffset)
         }
-        .frame(width: canvasWidth, height: 1080)
+        // Anchored bottom-trailing so anything taller than the canvas grows
+        // off the top. The list is capped below to fit, but centred, an
+        // overflow is split between both edges and pushes the button down out
+        // from under the cursor, which hides the list, which puts the button
+        // back under the cursor - the flicker in #1450.
+        .frame(width: canvasWidth, height: 1080, alignment: .bottomTrailing)
         .animation(.linear(duration: Self.slideDuration), value: viewModel.isButtonShown)
         .animation(.linear(duration: Self.slideDuration), value: viewModel.isListShown)
     }
@@ -88,5 +95,13 @@ struct MercenariesTasksOverlayView: View {
         let ratio = canvasWidth > 0 ? RootOverlayView.fourThreeWidth / canvasWidth : 1
         let factor = viewModel.isInMenu && ratio > 0.9 ? Self.menuBottomFactor : Self.matchBottomFactor
         return factor * 1080
+    }
+
+    // A ceiling HDT does not have: its list grows off the top of the screen
+    // once there are enough visitors. Here it stops short of the top by the
+    // same margin the button keeps from the right edge, and scrolls beyond that.
+    private var listMaxHeight: CGFloat {
+        1080 - bottomOffset - MercenariesTaskListButtonView.iconHeight
+            - Self.listGap / max(scale, 0.0001) - Self.rightFactor * 1080
     }
 }

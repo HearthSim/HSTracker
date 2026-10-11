@@ -62,6 +62,10 @@ enum HoverRegionID {
     // MouseEnter/MouseLeave handlers - it reveals the task list without ever
     // taking a click of its own.
     static let mercenariesTasksButton = "mercenariesTasksButton"
+
+    // The task list itself, which keeps itself open while hovered - see
+    // MercenariesTaskListView.regions.
+    static let mercenariesTasksList = "mercenariesTasksList"
 }
 
 struct HoverRegionPreferenceKey: PreferenceKey {

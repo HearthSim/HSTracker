@@ -15,7 +15,7 @@ struct MercenariesTaskListButtonView: View {
     // Height="60" on the icon, which is the tallest thing in the Grid and so
     // sets the button's height. The image is 241x256 with a 72-dpi pHYs chunk,
     // and WPF's default Stretch="Uniform" derives its width from that aspect.
-    private static let iconHeight: CGFloat = 60
+    static let iconHeight: CGFloat = 60
     private static let iconAspect: CGFloat = 241.0 / 256.0
 
     // Margin="0,1,30,5" on the Border - the 30 on the right is what the icon
