@@ -87,22 +87,21 @@ struct MercenariesAbilityHoverView: View {
     private func cardImage(_ ability: MercenariesAbilityHoverViewModel.Ability) -> some View {
         let height = min(Self.slotHeight(canvasSize) - Self.imageTopMargin, Self.cardSize.height)
         let width = height * Self.cardSize.width / Self.cardSize.height
-        return ZStack(alignment: .topLeading) {
-            Color.clear
-            MercenariesAbilityHoverImage(card: ability.card)
-                .frame(width: width, height: height)
-                .padding(.top, Self.imageTopMargin)
-            if ability.showQuestionmark {
-                questionmark(controlSize: CGSize(width: width, height: Self.slotHeight(canvasSize)))
-            }
-        }
-        .frame(width: width, alignment: .topLeading)
+        return MercenariesAbilityHoverCard(card: ability.card,
+                                           showQuestionmark: ability.showQuestionmark,
+                                           imageSize: CGSize(width: width, height: height),
+                                           slotHeight: Self.slotHeight(canvasSize),
+                                           imageTopMargin: Self.imageTopMargin)
+            // Keyed by the card, not the slot: hovering another minion keeps
+            // the same slot ids, and the .onAppear load would leave the
+            // previous minion's renders in place.
+            .id(ability.card.id)
     }
 
     // The "?" badge: a Canvas pinned to the middle cell of a 12/1/0.1 by
     // 6.6/1/4 grid over the card, holding a 40pt disc offset half its own size
     // so it straddles that corner, scaled by IconScaling.
-    private func questionmark(controlSize: CGSize) -> some View {
+    static func questionmark(controlSize: CGSize) -> some View {
         // IconScaling = Math.Min(1, ActualHeight / 500) on the CardImage.
         let scale = min(1, controlSize.height / 500)
         let anchor = CGPoint(x: controlSize.width * 12 / 13.1,
@@ -123,38 +122,58 @@ struct MercenariesAbilityHoverView: View {
     }
 }
 
-// The card render itself. HDT shows a class-coloured placeholder while the
-// asset downloads; HSTracker has no such art, so the slot stays empty until the
-// image arrives.
-private struct MercenariesAbilityHoverImage: View {
+// One CardImage: the card render itself, and the "?" badge over it. HDT shows a
+// class-coloured placeholder while the asset downloads; HSTracker has no such
+// art, so the slot stays empty until the image arrives.
+//
+// The badge also goes up when the render is another tier's: HearthstoneJSON has
+// no render for some tiers, and the numbers in the borrowed one's text are not
+// this tier's. It is the same badge HDT puts on an ability whose tier it could
+// not read, which it also shows with another tier's render.
+private struct MercenariesAbilityHoverCard: View {
     let card: Card
+    let showQuestionmark: Bool
+    let imageSize: CGSize
+    let slotHeight: CGFloat
+    let imageTopMargin: CGFloat
 
     @SwiftUI.State private var image: NSImage?
+    @SwiftUI.State private var isOtherTier = false
 
     var body: some View {
-        // Color.clear rather than a bare `if`: .onAppear does not fire on a view
-        // that renders empty, and until the art arrives that is what this is.
-        ZStack {
+        ZStack(alignment: .topLeading) {
             Color.clear
-            if let image {
-                Image(nsImage: image)
-                    .resizable()
-                    .interpolation(.high)
-                    .aspectRatio(contentMode: .fit)
+            // Color.clear rather than a bare `if`: .onAppear does not fire on a
+            // view that renders empty, and until the art arrives that is what
+            // this is.
+            ZStack {
+                Color.clear
+                if let image {
+                    Image(nsImage: image)
+                        .resizable()
+                        .interpolation(.high)
+                        .aspectRatio(contentMode: .fit)
+                }
+            }
+            .frame(width: imageSize.width, height: imageSize.height)
+            .padding(.top, imageTopMargin)
+            .onAppear(perform: load)
+            if showQuestionmark || isOtherTier {
+                MercenariesAbilityHoverView.questionmark(
+                    controlSize: CGSize(width: imageSize.width, height: slotHeight))
             }
         }
-        .onAppear(perform: load)
+        .frame(width: imageSize.width, alignment: .topLeading)
     }
 
     private func load() {
-        if let cached = ImageUtils.cachedCardArt(cardId: card.id) {
+        if let cached = MercenariesAbilityArt.cached(cardId: card.id) {
             image = cached
             return
         }
-        ImageUtils.cardArt(for: card.id) { img in
-            DispatchQueue.main.async {
-                self.image = img
-            }
+        MercenariesAbilityArt.load(cardId: card.id) { img, isOtherTier in
+            self.image = img
+            self.isOtherTier = isOtherTier
         }
     }
 }

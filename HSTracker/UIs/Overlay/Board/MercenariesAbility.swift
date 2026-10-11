@@ -109,3 +109,52 @@ struct MercenariesAbilityModel: Identifiable, Equatable {
             && lhs.cooldown == rhs.cooldown && lhs.speed == rhs.speed
     }
 }
+
+// Loads an ability's card render, falling back to the ability's other tiers
+// when it has none. HearthstoneJSON only has renders for some tiers of an
+// ability - Arfus's, for one, only for the top tier - so HDT shows its loading
+// placeholder there. Every tier shares the same art; only the numbers in the
+// text differ, which is why the completion says whether it fell back.
+enum MercenariesAbilityArt {
+    static func cached(cardId: String) -> NSImage? {
+        ImageUtils.cachedCardArt(cardId: cardId)
+    }
+
+    // Called on the main queue, once, with nil if no tier has a render.
+    static func load(cardId: String, completion: @escaping (NSImage?, _ isOtherTier: Bool) -> Void) {
+        load([cardId] + otherTiers(of: cardId), isOtherTier: false, completion: completion)
+    }
+
+    private static func load(_ cardIds: [String], isOtherTier: Bool,
+                             completion: @escaping (NSImage?, Bool) -> Void) {
+        guard let cardId = cardIds.first else {
+            DispatchQueue.main.async { completion(nil, false) }
+            return
+        }
+        ImageUtils.cardArt(for: cardId) { img in
+            DispatchQueue.main.async {
+                if let img {
+                    completion(img, isOtherTier)
+                } else {
+                    load(Array(cardIds.dropFirst()), isOtherTier: true, completion: completion)
+                }
+            }
+        }
+    }
+
+    // The ability's other tiers from the remote config, highest first, since
+    // the top tier is the one HearthstoneJSON most reliably has a render for.
+    private static func otherTiers(of cardId: String) -> [String] {
+        guard let dbfId = Cards.by(cardId: cardId)?.dbfId, dbfId != 0 else { return [] }
+        let tiers = RemoteConfig.mercenaries?
+            .lazy
+            .flatMap { $0.specializations }
+            .flatMap { $0.abilities }
+            .first { $0.tiers.contains { $0.dbf_id == dbfId } }?
+            .tiers ?? []
+        return tiers
+            .sorted { $0.tier > $1.tier }
+            .filter { $0.dbf_id != dbfId }
+            .compactMap { Cards.by(dbfId: $0.dbf_id, collectible: false)?.id }
+    }
+}

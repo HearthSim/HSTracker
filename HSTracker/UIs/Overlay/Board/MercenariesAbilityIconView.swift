@@ -68,6 +68,12 @@ struct MercenariesAbilityIconView: View {
                                        width: Self.portraitWidth,
                                        height: Self.portraitWidth * Self.portraitAspect,
                                        clip: Self.portraitClip)
+                // The strip is keyed by position, so this view outlives the
+                // ability in its slot - a revealed ability replacing the remote
+                // config's one, or another minion taking the board slot - and
+                // its .onAppear load never runs again. Keying it by the card
+                // gives each card a fresh view and a fresh load.
+                .id(ability.cardId)
                 .offset(x: Self.portraitOrigin.x, y: Self.portraitOrigin.y)
 
             Image("merc_ability")
@@ -194,16 +200,16 @@ private struct MercenariesAbilityPortrait: View {
         .onAppear(perform: load)
     }
 
+    // Another tier's render is fine here: the clip above leaves only the art
+    // visible, and every tier shares it.
     private func load() {
         guard let cardId else { return }
-        if let cached = ImageUtils.cachedCardArt(cardId: cardId) {
+        if let cached = MercenariesAbilityArt.cached(cardId: cardId) {
             image = cached
             return
         }
-        ImageUtils.cardArt(for: cardId) { img in
-            DispatchQueue.main.async {
-                self.image = img
-            }
+        MercenariesAbilityArt.load(cardId: cardId) { img, _ in
+            self.image = img
         }
     }
 }
