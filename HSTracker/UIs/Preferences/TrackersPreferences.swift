@@ -102,7 +102,10 @@ class TrackersPreferences: PreferencePaneController, PreferencePane {
             }
             Settings.cardSize = size
         } else if sender == theme {
-            Settings.theme = themes[theme.indexOfSelectedItem]
+            // the action also fires on end editing, when nothing may be selected (-1)
+            let index = theme.indexOfSelectedItem
+            guard themes.indices.contains(index) else { return }
+            Settings.theme = themes[index]
         }
     }
 

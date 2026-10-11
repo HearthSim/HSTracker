@@ -66,14 +66,16 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     }
 
     @IBAction func save(_ sender: Any) {
-        if hearthstoneLanguage.indexOfSelectedItem < 0
-            || hstrackerLanguage.indexOfSelectedItem < 0
-            || hearthstonePath.stringValue == "" {
+        let hstrackerLanguages = Array(Language.HSTracker.allCases)
+        let hearthstoneLanguages = Array(Language.Hearthstone.allCases)
+        guard hstrackerLanguages.indices.contains(hstrackerLanguage.indexOfSelectedItem),
+              hearthstoneLanguages.indices.contains(hearthstoneLanguage.indexOfSelectedItem),
+              hearthstonePath.stringValue != "" else {
             saveButton.isEnabled = false
             return
         }
-        let hstracker: Language.HSTracker = Array(Language.HSTracker.allCases)[hstrackerLanguage.indexOfSelectedItem]
-        let hearthstone: Language.Hearthstone = Array(Language.Hearthstone.allCases)[hearthstoneLanguage.indexOfSelectedItem]
+        let hstracker = hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone = hearthstoneLanguages[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.hearthstoneLanguage = hearthstone
         Settings.hsTrackerLanguage = hstracker

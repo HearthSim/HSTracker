@@ -72,7 +72,7 @@ class NewDeck: NSWindowController, NSControlTextEditingDelegate {
 
     @IBAction func okClicked(_ sender: AnyObject) {
         if hstrackerDeckBuilder.state == .on {
-            if classesPopUpMenu.indexOfSelectedItem < 0 {
+            guard Cards.classes.indices.contains(classesPopUpMenu.indexOfSelectedItem) else {
                 return
             }
             delegate?.openDeckBuilder(playerClass:
