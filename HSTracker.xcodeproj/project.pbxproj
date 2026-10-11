@@ -6547,7 +6547,6 @@
 				8E8DB2BAB35F03B7D4AD03D3 /* BattlegroundsSingleHeroPowerView.swift */,
 				3F3FE11A91E3F1730718CC90 /* BattlegroundsHeroPowerPickingView.swift */,
 			);
-			name = HeroPowerPicking;
 			path = HeroPowerPicking;
 			sourceTree = "<group>";
 		};
@@ -9164,7 +9163,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.6.13;
+				MARKETING_VERSION = 3.6.14;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
@@ -9228,7 +9227,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.6.13;
+				MARKETING_VERSION = 3.6.14;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

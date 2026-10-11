@@ -1,4 +1,5 @@
 # 3.6.14
+**Updated for Hearthstone 36.6.3**
 ## Hearthstone
 - Fixed a bug that could cause HSReplay.net features to fail until logging in again.
 - Fixed hovering one of your cards, in hand or in the deck tracker, no longer highlighting the cards in your deck that it works with.
@@ -15,6 +16,7 @@
 - Fixed Aberrations occasionally showing the wrong Deity in the available minion types.
 ## Bob's Buddy
 - Fixed a number of incorrect combat odds.
+
 # 3.6.13
 ## Hearthstone
 - Added a Counters settings pane for choosing, separately for you and your opponent, whether each counter is always shown, never shown or shown only when it is relevant.
