@@ -1,6 +1,7 @@
 # 3.6.14
 ## Hearthstone
 - Fixed a bug that could cause HSReplay.net features to fail until logging in again.
+- Fixed hovering one of your cards, in hand or in the deck tracker, no longer highlighting the cards in your deck that it works with.
 ## Battlegrounds
 - Added tiers, stats and armor when picking Sir Finley's hero power! (based on the hero's stats)
 - Changed the Hero Guides to match your current hero power(s) during the game.

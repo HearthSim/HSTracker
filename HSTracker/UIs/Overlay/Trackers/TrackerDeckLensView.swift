@@ -32,6 +32,8 @@ struct TrackerDeckLensView: View {
     var flashing: Set<RowKey> = []
     var version = 0
     var hoverKind: TrackerRowHoverKind = .none
+    /// See `CardTileListView.highlight`.
+    var highlight: ((Card, [Card]) -> HighlightColor)?
 
     /// `HSReplayNetPremiumGold` from HDT's App.xaml.
     static let premiumGold = Color(red: 1, green: 0.690, blue: 0.051)
@@ -43,7 +45,7 @@ struct TrackerDeckLensView: View {
             header
             CardTileListView(cards: cards, playerType: playerType, cardHeight: cardHeight,
                              reset: reset, flashing: flashing, version: version,
-                             hoverKind: hoverKind)
+                             hoverKind: hoverKind, highlight: highlight)
             // DeckLens leaves five points below the list, inside the box.
             Spacer(minLength: 5).frame(height: 5)
         }

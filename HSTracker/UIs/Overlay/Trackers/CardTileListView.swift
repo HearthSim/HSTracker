@@ -29,12 +29,17 @@ struct CardTileListView: View {
     var version: Int = 0
     /// Which hover these rows raise - see `TrackerRowHoverKind`.
     var hoverKind: TrackerRowHoverKind = .none
+    /// The player deck's synergy highlight while a card is hovered -
+    /// `ListViewPlayer.ShouldHighlightCard`, which the AppKit list took as
+    /// `shouldHighlightCard`.
+    var highlight: ((Card, [Card]) -> HighlightColor)?
 
     var body: some View {
         VStack(spacing: 0) {
             ForEach(rows, id: \.key) { row in
                 CardTileView(card: row.card, playerType: playerType, rowHeight: cardHeight,
-                             flashToken: flashing.contains(row.key) ? version : 0)
+                             flashToken: flashing.contains(row.key) ? version : 0,
+                             highlightColor: row.highlightColor)
                     .background(
                         GeometryReader { proxy in
                             Color.clear.preference(
@@ -54,12 +59,22 @@ struct CardTileListView: View {
     }
 
     private var rows: [Row] {
-        cards.map { Row(key: RowKey($0), card: $0) }
+        // AnimatedCardList judged every row against the cards still in the list,
+        // and never lit one that was used up or jousted.
+        let inList = highlight == nil ? [] : cards.filter { $0.count > 0 }
+        return cards.map { card in
+            var color = HighlightColor.none
+            if let highlight, card.count > 0, !card.jousted {
+                color = highlight(card, inList)
+            }
+            return Row(key: RowKey(card), card: card, highlightColor: color)
+        }
     }
 
     private struct Row {
         let key: RowKey
         let card: Card
+        let highlightColor: HighlightColor
     }
 }
 

@@ -30,6 +30,11 @@ struct CardTileView: View {
     /// Non-zero when this row's count just changed, and distinct from the last
     /// time it did - which is what makes the flash re-trigger rather than stay put.
     var flashToken: Int = 0
+    /// The player deck's synergy highlight for this row - see
+    /// `CardTileListView.highlight`. A value rather than `card.highlightColor`,
+    /// because a `Card` is a class and SwiftUI would not redraw a row whose card
+    /// is the same object it was last time.
+    var highlightColor: HighlightColor = .none
 
     /// The shared tile cache, observed so a row redraws when its art arrives.
     @ObservedObject private var artCache = CardTileArtCache.shared
@@ -372,7 +377,7 @@ struct CardTileView: View {
     }
 
     private var highlightFilename: String? {
-        switch card?.highlightColor {
+        switch highlightColor {
         case .green: return "highlight_green.png"
         case .teal: return "highlight_teal.png"
         case .orange: return "highlight_orange.png"
