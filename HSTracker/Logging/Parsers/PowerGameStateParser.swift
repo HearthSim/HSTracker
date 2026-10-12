@@ -389,6 +389,11 @@ class PowerGameStateParser: LogEventParser {
                 if let currentBlock = currentBlock, entity.cardId.uppercased().contains("HERO") {
                     currentBlock.hasFullEntityHeroPackets = true
                 }
+            } else if let cardId, !cardId.isBlank, let entity = eventHandler.entities[id] {
+                // Entity already exists but FULL_ENTITY - Updating arrived with a different CardID
+                // This happens when a Discover choice is changed via Rewind
+                entity.cardId = cardId
+                entity.info.latestCardId = cardId
             }
 
             set(currentEntity: id)
@@ -452,7 +457,9 @@ class PowerGameStateParser: LogEventParser {
                     entity.cardId.hasPrefix("CREATED_BY_") {
                     entity.cardId = cardId
                 }
-                entity.info.latestCardId = cardId
+                if !cardId.isEmpty {
+                    entity.info.latestCardId = cardId
+                }
                 if type == "SHOW_ENTITY" {
                     // Snapshot what a Soul Fermenter resummon reveals, before later effects in the block change the tags
                     if let soulFermenterBlock = currentBlock, soulFermenterBlock.type == "TRIGGER", soulFermenterBlock.cardId == CardIds.NonCollectible.Neutral.SoulFermenter {
