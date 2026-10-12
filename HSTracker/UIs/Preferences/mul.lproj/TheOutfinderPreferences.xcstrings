@@ -95,6 +95,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Use percentages\"; ObjectID = \"Otf-C3-Pct\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prozentwerte verwenden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -119,6 +125,12 @@
       "comment" : "Class = \"NSButtonCell\"; title = \"Show pools as a card list (uses less data)\"; ObjectID = \"Otf-C4-Til\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pools als Kartenliste anzeigen (verbraucht weniger Daten)"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

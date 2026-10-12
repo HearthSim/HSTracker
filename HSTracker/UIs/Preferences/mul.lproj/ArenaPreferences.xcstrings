@@ -641,6 +641,12 @@
             "value": "Show Opponent's Legendary groups"
           }
         },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legendäre Gruppen des Gegners anzeigen"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",

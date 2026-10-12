@@ -455,6 +455,12 @@
       "comment" : "Class = \"NSButton\"; ibShadowedToolTip = \"Notifications are only visible if Hearthstone is not focused\"; ObjectID = \"hzK-vu-1RX\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mitteilungen erscheinen nur, wenn Hearthstone nicht im Vordergrund ist"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

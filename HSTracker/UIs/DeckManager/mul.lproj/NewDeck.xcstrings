@@ -188,7 +188,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wie möchtest Du Dein neues Deck erstellen?"
+            "value" : "Wie möchtest du dein neues Deck erstellen?"
           }
         },
         "en" : {
@@ -776,7 +776,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Datei auswählen…"
+            "value" : "Datei auswählen …"
           }
         },
         "en" : {
