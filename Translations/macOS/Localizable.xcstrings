@@ -1229,7 +1229,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bist Du sicher, dass Du das Deck %@ archivieren möchtest?"
+            "value" : "Bist du sicher, dass du das Deck %@ archivieren möchtest?"
           }
         },
         "en" : {
@@ -1318,7 +1318,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bist Du sicher, dass Du dieses Deck schließen möchtest? Deine Änderungen werden nicht gespeichert."
+            "value" : "Bist du sicher, dass du dieses Deck schließen möchtest? Deine Änderungen werden nicht gespeichert."
           }
         },
         "en" : {
@@ -1407,7 +1407,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bist Du sicher, dass Du das Deck %@ löschen möchtest?"
+            "value" : "Bist du sicher, dass du das Deck %@ löschen möchtest?"
           }
         },
         "en" : {
@@ -1514,7 +1514,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest Du die %d ausgewählten Decks wirklich löschen?"
+            "value" : "Möchtest du die %d ausgewählten Decks wirklich löschen?"
           }
         }
       }
@@ -1525,7 +1525,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bist Du sicher, dass Du die Statistiken für das Deck %@ löschen möchtest?"
+            "value" : "Bist du sicher, dass du die Statistiken für das Deck %@ löschen möchtest?"
           }
         },
         "en" : {
@@ -1614,7 +1614,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bist Du sicher, dass Du die Verbindung zu Hearthstats trennen möchtest?"
+            "value" : "Bist du sicher, dass du die Verbindung zu Hearthstats trennen möchtest?"
           }
         },
         "en" : {
@@ -1751,7 +1751,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest Du die Verbindung zu Track-o-Bot wirklich trennen?"
+            "value" : "Möchtest du die Verbindung zu Track-o-Bot wirklich trennen?"
           }
         }
       }
@@ -1762,7 +1762,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bist Du sicher, dass Du das Deck %@ aus dem Archiv holen möchtest?"
+            "value" : "Bist du sicher, dass du das Deck %@ aus dem Archiv holen möchtest?"
           }
         },
         "en" : {
@@ -2598,7 +2598,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sehr selten: Diese Karte erscheint in %@%% der Deckbauten"
+            "value" : "Sehr selten: Diese Karte erscheint in %@ %% der Deckbauten"
           }
         },
         "es" : {
@@ -3927,7 +3927,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wird geladen…"
+            "value" : "Wird geladen …"
           }
         },
         "en" : {
@@ -4016,7 +4016,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deckbau-Bewertungen werden vorbereitet…"
+            "value" : "Deckbau-Bewertungen werden vorbereitet …"
           }
         },
         "en" : {
@@ -5448,7 +5448,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schatzkiste"
+            "value" : "Schließkassette"
           }
         },
         "en" : {
@@ -8166,7 +8166,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle Werte aus den besten %d%% MMR (%d+)"
+            "value" : "Alle Werte aus den besten %d %% MMR (%d+)"
           }
         },
         "en" : {
@@ -8213,7 +8213,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alle Werte aus den besten %d%% MMR (%d+), angepasst an die Anomalie"
+            "value" : "Alle Werte aus den besten %d %% MMR (%d+), angepasst an die Anomalie"
           }
         },
         "en" : {
@@ -8610,7 +8610,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wird geladen..."
+            "value" : "Wird geladen …"
           }
         },
         "en" : {
@@ -8834,7 +8834,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Starte mit allen Tier7-Statistiken und -Features in die neue Saison und spare für kurze Zeit bis zu %d%%!"
+            "value" : "Starte mit allen Tier7-Statistiken und -Features in die neue Saison und spare für kurze Zeit bis zu %d %%!"
           }
         },
         "ko" : {
@@ -9697,7 +9697,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sieh deine Chancen auf Sieg, Untentschieden oder Niederlage in jeder Schlachtfeld-Kampfrunde."
+            "value" : "Sieh deine Chancen auf Sieg, Unentschieden oder Niederlage in jeder Schlachtfeld-Kampfrunde."
           }
         },
         "en" : {
@@ -11059,7 +11059,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mit „Zurücksetzen“ wird die Liste der letzten Spiele geleert und Dein Start-MMR auf Dein aktuelles MMR gesetzt."
+            "value" : "Mit „Zurücksetzen“ wird die Liste der letzten Spiele geleert und dein Start-MMR auf dein aktuelles MMR gesetzt."
           }
         }
       }
@@ -11466,7 +11466,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sieh Dir die aktuelle Battlegrounds-Meta auf HSReplay an."
+            "value" : "Sieh dir die aktuelle Schlachtfeld-Meta auf HSReplay an."
           }
         }
       }
@@ -12914,7 +12914,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Melde Dich bei HSReplay.net an, um den interaktiven Mulligan-Guide im Overlay zu nutzen!"
+            "value" : "Melde dich bei HSReplay.net an, um den interaktiven Mulligan-Guide im Overlay zu nutzen!"
           }
         }
       }
@@ -13067,7 +13067,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Mulligan-Guide zeigt jetzt live für jede Karte, wie sicher die Empfehlung ist, während Du behältst oder ersetzt."
+            "value" : "Der Mulligan-Guide zeigt jetzt live für jede Karte, wie sicher die Empfehlung ist, während du behältst oder ersetzt."
           }
         }
       }
@@ -13118,7 +13118,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der schattierte Bereich zeigt, wie sich der Wert je nach Deinen übrigen Entscheidungen verschiebt."
+            "value" : "Der schattierte Bereich zeigt, wie sich der Wert je nach deinen übrigen Entscheidungen verschiebt."
           }
         }
       }
@@ -13152,7 +13152,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hinweise heben Karten hervor, die auf Deiner Starthand gut zusammenspielen."
+            "value" : "Hinweise heben Karten hervor, die auf deiner Starthand gut zusammenspielen."
           }
         }
       }
@@ -13288,7 +13288,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du hast alle kostenlosen Testnutzungen des interaktiven Mulligan-Guides für diese Woche verbraucht. Mit HSReplay.net Premium bekommst Du unbegrenzten Zugriff."
+            "value" : "Du hast alle kostenlosen Testnutzungen des interaktiven Mulligan-Guides für diese Woche verbraucht. Mit HSReplay.net Premium bekommst du unbegrenzten Zugriff."
           }
         }
       }
@@ -16556,7 +16556,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest Du eine Bemerkung für dieses Spiel hinzufügen?"
+            "value" : "Möchtest du eine Bemerkung für dieses Spiel hinzufügen?"
           }
         },
         "en" : {
@@ -16645,7 +16645,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest Du dieses Deck zu Hearthstats hinzufügen?"
+            "value" : "Möchtest du dieses Deck zu Hearthstats hinzufügen?"
           }
         },
         "en" : {
@@ -16734,7 +16734,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest Du dieses Deck aus Hearthstats löschen?"
+            "value" : "Möchtest du dieses Deck aus Hearthstats löschen?"
           }
         },
         "en" : {
@@ -16847,7 +16847,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Möchtest Du einen anonymen Absturzbericht senden, damit wir das Problem beheben können?"
+            "value" : "Möchtest du einen anonymen Absturzbericht senden, damit wir das Problem beheben können?"
           }
         }
       }
@@ -18341,7 +18341,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schon mal aus Versehen an dem Diener vorbeigerollt, den Du gesucht hast?"
+            "value" : "Schon mal aus Versehen an dem Diener vorbeigerollt, den du gesucht hast?"
           }
         }
       }
@@ -19936,7 +19936,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zugende"
+            "value" : "Ende des Zuges"
           }
         },
         "en" : {
@@ -20993,7 +20993,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "HSTracker benötigt erweiterte Rechte, um Daten aus dem Arbeitsspeicher von Hearthstone zu lesen. Wenn macOS Dich nach Deinem Systempasswort fragt, ist das kein Grund zur Sorge: An Deinem Mac wird nichts verändert."
+            "value" : "HSTracker benötigt erweiterte Rechte, um Daten aus dem Arbeitsspeicher von Hearthstone zu lesen. Wenn macOS dich nach deinem Systempasswort fragt, ist das kein Grund zur Sorge: An deinem Mac wird nichts verändert."
           }
         },
         "en" : {
@@ -21511,7 +21511,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mit 90% Sicherheit liegt die tatsächliche Gewinnrate zwischen diesen Werten."
+            "value" : "Mit 90 % Sicherheit liegt die tatsächliche Gewinnrate zwischen diesen Werten."
           }
         },
         "en" : {
@@ -22882,7 +22882,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bei HSReplay.net als %@ angemeldet. Öffne Deine Sammlung, dann wird sie automatisch hochgeladen."
+            "value" : "Bei HSReplay.net als %@ angemeldet. Öffne deine Sammlung, dann wird sie automatisch hochgeladen."
           }
         }
       }
@@ -22905,7 +22905,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bei HSReplay.net angemeldet. Öffne Deine Sammlung, dann wird sie automatisch hochgeladen."
+            "value" : "Bei HSReplay.net angemeldet. Öffne deine Sammlung, dann wird sie automatisch hochgeladen."
           }
         }
       }
@@ -23017,7 +23017,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Melde Dich an, um Deine Replays zu sichern und alle Funktionen von HSReplay.net zu nutzen."
+            "value" : "Melde dich an, um deine Replays zu sichern und alle Funktionen von HSReplay.net zu nutzen."
           }
         }
       }
@@ -24645,7 +24645,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ in %d%% der Fälle – bei dieser Hand, diesem Deck, dieser Initiative und dieser Gegnerklasse."
+            "value" : "Topspieler behalten %@ in %d %% der Fälle – bei dieser Hand, diesem Deck, dieser Initiative und dieser Gegnerklasse."
           }
         },
         "en" : {
@@ -24728,7 +24728,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behaltequote im Kontext: %d%%"
+            "value" : "Behaltequote im Kontext: %d %%"
           }
         },
         "en" : {
@@ -24811,7 +24811,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler würden %@ %d%% seltener behalten, wenn die mit (X) zum Ersetzen markierten Karten nicht angeboten würden.\n\nBehaltequote im Kontext: %d%%"
+            "value" : "Topspieler würden %@ %d %% seltener behalten, wenn die mit (X) zum Ersetzen markierten Karten nicht angeboten würden.\n\nBehaltequote im Kontext: %d %%"
           }
         },
         "en" : {
@@ -24894,7 +24894,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler würden %@ %d%% häufiger behalten, wenn die mit (X) zum Ersetzen markierten Karten nicht angeboten würden.\n\nBehaltequote im Kontext: %d%%"
+            "value" : "Topspieler würden %@ %d %% häufiger behalten, wenn die mit (X) zum Ersetzen markierten Karten nicht angeboten würden.\n\nBehaltequote im Kontext: %d %%"
           }
         },
         "en" : {
@@ -24977,7 +24977,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dynamische Behaltequote: %d%%"
+            "value" : "Dynamische Behaltequote: %d %%"
           }
         },
         "en" : {
@@ -25178,7 +25178,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% seltener, wenn auch %@ angeboten wird"
+            "value" : "Topspieler behalten %@ %d %% seltener, wenn auch %@ angeboten wird"
           }
         },
         "en" : {
@@ -25279,7 +25279,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% seltener, wenn sie die Münze haben"
+            "value" : "Topspieler behalten %@ %d %% seltener, wenn sie die Münze haben"
           }
         }
       }
@@ -25308,7 +25308,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% seltener, wenn sie als Erster am Zug sind"
+            "value" : "Topspieler behalten %@ %d %% seltener, wenn sie als Erster am Zug sind"
           }
         }
       }
@@ -25337,7 +25337,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% seltener gegen %@"
+            "value" : "Topspieler behalten %@ %d %% seltener gegen %@"
           }
         }
       }
@@ -25348,7 +25348,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% seltener, wenn eine zweite Kopie angeboten wird"
+            "value" : "Topspieler behalten %@ %d %% seltener, wenn eine zweite Kopie angeboten wird"
           }
         },
         "en" : {
@@ -25431,7 +25431,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% häufiger, wenn auch %@ angeboten wird"
+            "value" : "Topspieler behalten %@ %d %% häufiger, wenn auch %@ angeboten wird"
           }
         },
         "en" : {
@@ -25532,7 +25532,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% häufiger, wenn sie die Münze haben"
+            "value" : "Topspieler behalten %@ %d %% häufiger, wenn sie die Münze haben"
           }
         }
       }
@@ -25561,7 +25561,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% häufiger, wenn sie als Erster am Zug sind"
+            "value" : "Topspieler behalten %@ %d %% häufiger, wenn sie als Erster am Zug sind"
           }
         }
       }
@@ -25590,7 +25590,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% häufiger gegen %@"
+            "value" : "Topspieler behalten %@ %d %% häufiger gegen %@"
           }
         }
       }
@@ -25601,7 +25601,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topspieler behalten %@ %d%% häufiger, wenn eine zweite Kopie angeboten wird"
+            "value" : "Topspieler behalten %@ %d %% häufiger, wenn eine zweite Kopie angeboten wird"
           }
         },
         "en" : {
@@ -25684,7 +25684,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kartenwechselwirkung: %@%d%%"
+            "value" : "Kartenwechselwirkung: %@%d %%"
           }
         },
         "en" : {
@@ -25785,7 +25785,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Initiativewechselwirkung: %@%d%%"
+            "value" : "Initiativewechselwirkung: %@%d %%"
           }
         }
       }
@@ -25814,7 +25814,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wechselwirkung Gegnerklasse: %@%d%%"
+            "value" : "Wechselwirkung Gegnerklasse: %@%d %%"
           }
         }
       }
@@ -26015,7 +26015,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Angepasste Behaltequote: %d%%"
+            "value" : "Angepasste Behaltequote: %d %%"
           }
         }
       }
@@ -26050,7 +26050,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basis-Behaltequote: %d%%"
+            "value" : "Basis-Behaltequote: %d %%"
           }
         }
       }
@@ -26079,7 +26079,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behaltequote als Erster am Zug: %d%%"
+            "value" : "Behaltequote als Erster am Zug: %d %%"
           }
         }
       }
@@ -26108,7 +26108,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behaltequote mit Münze: %d%%"
+            "value" : "Behaltequote mit Münze: %d %%"
           }
         }
       }
@@ -26137,7 +26137,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behaltequote gegen andere Klassen: %d%%"
+            "value" : "Behaltequote gegen andere Klassen: %d %%"
           }
         }
       }
@@ -26166,7 +26166,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Behaltequote gegen %@: %d%%"
+            "value" : "Behaltequote gegen %@: %d %%"
           }
         }
       }
@@ -29166,6 +29166,12 @@
     "OptionsCounters_Description" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lege fest, welche Zähler angezeigt werden. „Automatisch“ nutzt die eingebauten Regeln und zeigt einen Zähler nur an, wenn er relevant ist."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29192,7 +29198,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zähler filtern..."
+            "value" : "Zähler filtern …"
           }
         },
         "en" : {
@@ -29301,6 +29307,12 @@
     "OptionsCounters_Group_Traditional" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traditionell"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29482,6 +29494,12 @@
     "OptionsCounters_OpponentUnsupportedTooltip" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gegnerzähler werden im Schlachtfeld nicht angezeigt."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -29715,7 +29733,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Karten filtern ..."
+            "value" : "Karten filtern …"
           }
         },
         "en" : {
@@ -33976,7 +33994,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anrufen"
+            "value" : "Ermächtigen"
           }
         },
         "en" : {
@@ -35153,7 +35171,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beim speichern Deines Arena-Decks ist etwas schief gelaufen. Starte Hearthstone neu, wähle 'Die Arena' aus und versuche es dann erneut zu speichern."
+            "value" : "Beim Speichern deines Arena-Decks ist etwas schiefgelaufen. Starte Hearthstone neu, wähle „Die Arena“ aus und versuche es dann erneut zu speichern."
           }
         },
         "en" : {
@@ -35260,7 +35278,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieses Verhalten kannst Du jederzeit in den Einstellungen ändern."
+            "value" : "Dieses Verhalten kannst du jederzeit in den Einstellungen ändern."
           }
         }
       }
@@ -35340,7 +35358,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um ein Deck nach Hearthstone zu exportieren, erstelle ein neues Deck mit der korrekten Klasse in deiner Sammlung. Klicke dann auf OK und wechsele zu Hearthstone.\nBerühre während des imports weder Deine Maus, noch das Keyboard.\nWARNUNG: Dies ist eine Beta-Funktion!"
+            "value" : "Um ein Deck nach Hearthstone zu exportieren, erstelle ein neues Deck mit der korrekten Klasse in deiner Sammlung. Klicke dann auf OK und wechsele zu Hearthstone.\nBerühre während des Imports weder die Maus noch die Tastatur.\nWARNUNG: Dies ist eine Beta-Funktion!"
           }
         },
         "en" : {
@@ -36003,7 +36021,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spare für kurze Zeit %d%% auf Premium!"
+            "value" : "Spare für kurze Zeit %d %% auf Premium!"
           }
         }
       }
@@ -37867,7 +37885,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gegen diesen Gegner hast Du noch nicht gespielt"
+            "value" : "Gegen diesen Gegner hast du noch nicht gespielt"
           }
         }
       }
@@ -37878,7 +37896,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du musst Hearthstone neu Starten, damit die entsprechenden Logs verwendet werden können"
+            "value" : "Du musst Hearthstone neu starten, damit die entsprechenden Logs verwendet werden können"
           }
         },
         "en" : {
@@ -38056,7 +38074,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dein Arena Deck besteht nun aus 30 Karten, möchtest Du es speichern?"
+            "value" : "Dein Arena-Deck besteht nun aus 30 Karten, möchtest du es speichern?"
           }
         },
         "en" : {

@@ -260,7 +260,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show turn counter"
+            "value" : "Zugzähler anzeigen"
           }
         },
         "en" : {
@@ -518,7 +518,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Bob's Buddy"
+            "value" : "Bob's Buddy anzeigen"
           }
         },
         "en" : {
@@ -704,7 +704,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Always show average damage"
+            "value" : "Durchschnittlichen Schaden immer anzeigen"
           }
         },
         "en" : {
@@ -956,7 +956,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Bob's Buddy during combat"
+            "value" : "Bob's Buddy während des Kampfes anzeigen"
           }
         },
         "en" : {
@@ -1094,7 +1094,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Bob's Buddy during shopping"
+            "value" : "Bob's Buddy während der Rekrutierungsphase anzeigen"
           }
         },
         "en" : {

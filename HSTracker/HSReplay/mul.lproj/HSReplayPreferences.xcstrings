@@ -728,7 +728,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Danke für Deine Unterstützung!"
+            "value" : "Danke für deine Unterstützung!"
           }
         },
         "en" : {
@@ -896,7 +896,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Melde Dich an, um Deine Replays zu sichern und alle Funktionen von HSReplay.net zu nutzen."
+            "value" : "Melde dich an, um deine Replays zu sichern und alle Funktionen von HSReplay.net zu nutzen."
           }
         },
         "en" : {
@@ -926,7 +926,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battlegrounds"
+            "value" : "Schlachtfeld"
           }
         },
         "en" : {

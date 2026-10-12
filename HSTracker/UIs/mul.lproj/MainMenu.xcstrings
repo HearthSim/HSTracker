@@ -302,7 +302,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nach Aktualisierungen suchen..."
+            "value" : "Nach Aktualisierungen suchen …"
           }
         },
         "en" : {
@@ -1046,7 +1046,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einstellungen…"
+            "value" : "Einstellungen …"
           }
         },
         "en" : {
@@ -2180,7 +2180,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deck Manager"
+            "value" : "Deck-Manager"
           }
         },
         "en" : {
