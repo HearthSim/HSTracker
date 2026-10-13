@@ -42,20 +42,31 @@ class Tier7PreLobbyViewModel: ObservableObject {
     @Published var isCollapsed = Settings.tier7OverlayCollapsed
     @Published private var possiblySubscribed = false
 
-    private var _isUpdatingAccount = false
+    private var accountDataStale = true
+    private var accountUpdateTask: Task<GetAccountResult, Never>?
 
     // Only ever written from the nonisolated init, before anything else can see self.
     private nonisolated(unsafe) var accountObservers = [NSObjectProtocol]()
 
     nonisolated init() {
-        for event in [Events.hsreplay_account_data_updated, Events.hsreplay_logged_out] {
-            accountObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: event), object: nil, queue: nil) { [weak self] _ in
-                Task { @MainActor in
-                    self?.invalidateUserState()
-                    AppDelegate.instance().coreManager.game.updateTier7PreLobbyVisibility()
-                }
-            })
-        }
+        let center = NotificationCenter.default
+        accountObservers.append(center.addObserver(forName: Notification.Name(rawValue: Events.hsreplay_authenticated), object: nil, queue: nil) { [weak self] _ in
+            Task { @MainActor in
+                self?.invalidateUserState()
+            }
+        })
+        accountObservers.append(center.addObserver(forName: Notification.Name(rawValue: Events.hsreplay_account_data_updated), object: nil, queue: nil) { [weak self] _ in
+            Task { @MainActor in
+                self?.accountDataStale = false
+                AppDelegate.instance().coreManager.game.updateTier7PreLobbyVisibility()
+            }
+        })
+        accountObservers.append(center.addObserver(forName: Notification.Name(rawValue: Events.hsreplay_logged_out), object: nil, queue: nil) { [weak self] _ in
+            Task { @MainActor in
+                self?.invalidateUserState()
+                AppDelegate.instance().coreManager.game.updateTier7PreLobbyVisibility()
+            }
+        })
     }
 
     var visibility: Bool {
@@ -76,6 +87,7 @@ class Tier7PreLobbyViewModel: ObservableObject {
 
     func invalidateUserState() {
         userState = .loading
+        accountDataStale = true
     }
 
     func onFocus() {
@@ -208,12 +220,6 @@ class Tier7PreLobbyViewModel: ObservableObject {
         if battlegroundsGameMode == .unknown {
             return
         }
-        if _isUpdatingAccount {
-            // AccountDataUpdated event was likely triggered by the
-            // UpdateAccountData request below. Skip this update.
-            return
-        }
-
         if await Debounce.wasCalledAgain(milliseconds: 50) {
             // Debounce to avoid multiple invocations of this when the log
             // is being (re-)read and contains multiple scene changes in
@@ -223,17 +229,19 @@ class Tier7PreLobbyViewModel: ObservableObject {
 
         var ownsTier7 = false
         if HSReplayAPI.isFullyAuthenticated && HSReplayAPI.accountData != nil {
-            if userState == .loading {
-                // This will fire a HSReplayNetOAuth.AccountDataUpdated event. We
-                // set a flag for the duration of the update check to avoid
-                // infinite recursion here.
-                _isUpdatingAccount = true
-                // (Unrelativ to the event) If we want to cut down the request
-                // volume here in the future we can only make this request for
-                // tier7 subscribers (still need to happen right here, not below to
-                // handle the case where tier7 ran out).
-                _ = await HSReplayAPI.getAccount()
-                _isUpdatingAccount = false
+            if accountDataStale {
+                // getAccount posts hsreplay_account_data_updated, whose observer
+                // clears the stale flag and calls update() again. Storing the
+                // in-flight task lets any concurrent caller await the same
+                // request instead of starting a new one.
+                // If we want to cut down the request volume here in the future we
+                // can only make this request for tier7 subscribers (still needs to
+                // happen right here, not below, to handle the case where tier7 ran
+                // out).
+                let task = accountUpdateTask ?? Task { await HSReplayAPI.getAccount() }
+                accountUpdateTask = task
+                _ = await task.value
+                accountUpdateTask = nil
             }
             isAuthenticated = true
             ownsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
@@ -282,10 +290,16 @@ class Tier7PreLobbyViewModel: ObservableObject {
     }
 
     func reset() {
-        userState = .loading
+        invalidateUserState()
         allTimeHighMMR = nil
         trialTimeRemaining = nil
         username = nil
+        battlegroundsGameMode = .unknown
+    }
+
+    // keep showing the current state until the next update replaces it
+    func softReset() {
+        accountDataStale = true
         battlegroundsGameMode = .unknown
     }
 }

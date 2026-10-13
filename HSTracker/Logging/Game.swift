@@ -1034,10 +1034,12 @@ class Game: NSObject, PowerEventHandler {
             // shown -> hidden transition because that is the only time
             // OverlayElementBehavior.Hide() fires it - it early-returns when
             // the element is already collapsed - and this runs on every lobby
-            // tick. reset() clears battlegroundsGameMode along with the rest,
-            // as HDT's Reset() does; the next call re-reads it from memory
-            // above, since BaconWatcher only reports changes.
-            viewModel.reset()
+            // tick. softReset() clears battlegroundsGameMode, as HDT's
+            // SoftReset() does, but leaves the last state on screen so the
+            // panel refreshes silently the next time it is shown; the next
+            // call re-reads the mode from memory above, since BaconWatcher
+            // only reports changes.
+            viewModel.softReset()
         }
         viewModel.isShown = show
     }

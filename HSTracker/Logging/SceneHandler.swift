@@ -130,7 +130,7 @@ class SceneHandler {
             Watchers.playZoneWatcher.run()
         }
         
-        if from == .bacon {
+        if from == .bacon && to == .gameplay {
             let tier7PreLobby = game.windowManager.rootOverlay?.viewModel.tier7PreLobby
             DispatchQueue.main.async {
                 tier7PreLobby?.invalidateUserState()
