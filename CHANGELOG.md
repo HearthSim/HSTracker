@@ -1,8 +1,18 @@
 # 3.6.15
+**Updated for Hearthstone 37.0.0**
 ## New
 - Complete German translations (thanks @marcelgross90)
+- A dialog now explains why logging in to HSReplay.net failed, with a button to try again.
 ## Hearthstone
+- Added counters for G'huun, C'Thun, Eye of the Empire, N'Zoth, Dream's End and Y'Shaarj, Titan Bane.
+- Added deck highlights, active effects and related cards for The Black Empire.
+- Fixed Lift Off, Gladiatorial Combat, Talanji of the Graves and Dirdra, Rebel Captain not highlighting cards in your deck.
 - Fixed a rare crash when hovering a card in your hand.
+## Battlegrounds
+- In collaboration with Jeef, Comp Guides now occasionally adjust their tier based on what exactly is available in your specific match. You will see a notice on the Comp Guide when this happens.
+- The Tier7 lobby panel now refreshes in the background instead of showing a loading spinner every time it reappears.
+## Bob's Buddy
+- Fixed a small remaining number of incorrect combat odds.
 
 # 3.6.14
 **Updated for Hearthstone 36.6.3**
