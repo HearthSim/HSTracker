@@ -249,6 +249,10 @@ extension CardIds.Collectible {
         static let TunnelTerror = "TLC_469"
         static let TwistedKnowledge = "YOD_025"
         static let WhisperingStone = "TLC_467"
+        static let DarkestDepths = "BE_087"
+        static let Kithix = "BE_090"
+        static let RitualOfCthun = "BE_726"
+        static let RitualOfSummoning = "BE_085"
     }
 }
 
@@ -354,6 +358,12 @@ extension CardIds.NonCollectible {
         static let GodfatherKazakus_SwillOfSuggestibilityToken = "CAP_405t8"
         static let GodfatherKazakus_DetainedForDestructionToken = "CAP_405t1"
         static let KabalMastermind_ImpRovedImpFormantsEnchantment = "CAP_406e"
+        static let BroodchamberTunneler_PurpleLarvaToken = "BE_720t7"
+        static let DarkestDepths_DepthguardToken = "BE_087t"
+        static let Kithix_RitualOfConquestToken = "BE_090t3"
+        static let Kithix_RitualOfFamineToken = "BE_090t1"
+        static let Kithix_RitualOfSubjugationToken = "BE_090t2"
+        static let RitualofSummoning_CthraxBruteToken = "BE_085t"
     }
 }
 

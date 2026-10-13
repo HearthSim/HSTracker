@@ -279,6 +279,10 @@ extension CardIds.Collectible {
         static let WebspinnerCorePlaceholder = "CORE_FP1_011"
         static let WildernessPack = "MIS_104"
         static let Wormhole = "TIME_602"
+        static let ClockworkBoars = "BE_730"
+        static let Flamespitter = "BE_552"
+        static let Reload = "BE_555"
+        static let Tinker = "BE_553"
     }
 }
 
@@ -370,6 +374,9 @@ extension CardIds.NonCollectible {
         static let BeastTripwire_TrippedBeastTripwireToken = "JAIL_879t"
         static let TheFoodChain_ShokkJungleTyrantToken = "TLC_830t"
         static let TitanforgedTraps_TitanforgedTrapsToken = "TTN_302t"
+        static let BroodchamberTunneler_GreenLarvaToken = "BE_720t5"
+        static let ClockworkBoars_ClockworkBoarToken = "BE_730t"
+        static let Tinker_OverdriveToken = "BE_553t"
     }
 }
 

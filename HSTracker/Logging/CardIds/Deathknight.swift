@@ -95,6 +95,10 @@ extension CardIds.Collectible {
         static let CorpseFarm = "WW_374"
         static let CorpseFarmCore = "CORE_WW_374"
         static let ArrivalOfTheOldGods = "BE_EVENT_100"
+        static let Ghuun = "BE_287"
+        static let ScionOfInsight = "BE_298"
+        static let UldirQuarantine = "BE_780"
+        static let XelnothBehemoth = "BE_749"
     }
 }
 
@@ -133,6 +137,8 @@ extension CardIds.NonCollectible {
         static let GraveCall = "Story_10_Velas_004p"
         static let ToysnatchingGeist_ToysnatchingGeistToken = "MIS_006t"
         static let UnholyEmbrace = "PVPDR_Sai_T4"
+        static let ArrivaloftheOldGods_OldGodsWatchEnchantment = "BE_EVENT_100e"
+        static let BroodchamberTunneler_DarkLarvaToken = "BE_720t11"
     }
 }
 

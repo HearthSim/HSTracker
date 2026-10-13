@@ -265,6 +265,11 @@ extension CardIds.Collectible {
         static let Suckerhook = "DED_511"
         static let ThrallDeathseerCorePlaceholder = "CORE_ICC_481"
         static let UnstableEvolution = "LOOT_504"
+        static let ElementalOfMadness = "BE_870"
+        static let Eyemaul = "BE_349"
+        static let NeptulonLordOfTides = "BE_209"
+        static let TherazaneTheEarthmother = "BE_337"
+        static let WatchOver = "BE_778"
     }
 }
 
@@ -342,6 +347,10 @@ extension CardIds.NonCollectible {
         static let CoilfangEliteToken = "BTA_BOSS_24t"
         static let TinyPal_TinyPalToken3 = "JAIL_458t3"
         static let TinyPal_TinyPalToken4 = "JAIL_458t4"
+        static let BroodchamberTunneler_BlueLarvaToken = "BE_720t2"
+        static let Eyemaul_TremoringElementalToken = "BE_349t"
+        static let MastermindYoggSaron_BrainyToken = "BE_009t1e"
+        static let NeptulonLordofTides_TidalSurgeEnchantment2 = "BE_209e2"
     }
 }
 

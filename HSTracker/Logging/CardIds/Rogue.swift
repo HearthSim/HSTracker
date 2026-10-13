@@ -302,6 +302,10 @@ extension CardIds.Collectible {
         static let Waxmancy = "YOD_018"
         static let WhirlkickMaster = "ULD_231"
         static let WishingWell = "WW_415"
+        static let AqirSwarmer = "BE_722"
+        static let BroodchamberTunneler = "BE_720"
+        static let Drestagath = "BE_703"
+        static let Incubate = "BE_724"
     }
 }
 
@@ -400,6 +404,7 @@ extension CardIds.NonCollectible {
         static let TimeAdmralHooktail_TimelessChestToken = "TIME_713t"
         static let Eventuality_BlessingOfTheBronze = "END_000p"
         static let VelarokWindblade_VelarokTheDeceiverToken = "WW_364t"
+        static let BroodchamberTunneler_BlackLarvaToken = "BE_720t3"
     }
 }
 

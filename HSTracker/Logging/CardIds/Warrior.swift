@@ -216,6 +216,9 @@ extension CardIds.Collectible {
         static let WarCacheLegacy = "CS3_009"
         static let GeosculptorYip = "LOOT_519"
         static let HeavyMetal = "TRL_324"
+        static let Archaedas = "BE_055"
+        static let ForgeOfOrigination = "BE_561"
+        static let Setesh = "BE_557"
     }
 }
 
@@ -313,6 +316,9 @@ extension CardIds.NonCollectible {
         static let UnleashtheCrocolisks_ColiseumCrocoliskToken = "TIME_873t"
         static let Cannonmaster_CannoneerToken = "CAP_107t"
         static let PilotedWhirlOTronToken = "DRGA_BOSS_05t"
+        static let BroodchamberTunneler_RedLarvaToken = "BE_720t9"
+        static let ForgeofOrigination_SteelGolemToken = "BE_561t"
+        static let Setesh_SeteshTrackerEnchantment = "BE_557e2"
     }
 }
 

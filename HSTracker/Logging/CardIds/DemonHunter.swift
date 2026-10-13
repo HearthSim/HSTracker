@@ -109,6 +109,11 @@ extension CardIds.Collectible {
         static let TasteOfChaos = "ETC_394"
         static let TimeLostGlaive = "TIME_444"
         static let WretchedExile = "RLK_210"
+        static let BlindHarrower = "BE_264"
+        static let BroodqueenShakar = "BE_565"
+        static let Encircle = "BE_265"
+        static let SigilOfHatching = "BE_873"
+        static let TentacleLash = "BE_771"
     }
 }
 
@@ -164,5 +169,8 @@ extension CardIds.NonCollectible {
         static let SnakeEyes_RolledAFourToken = "WW_400t4"
         static let SnakeEyes_RolledAFiveToken = "WW_400t5"
         static let SnakeEyes_RolledASixToken = "WW_400t6"
+        static let BroodchamberTunneler_NeonLarvaToken = "BE_720t10"
+        static let BroodqueenShakar_ShakarsRageEnchantment = "BE_565e"
+        static let SigilofHatching_ShredclawToken = "BE_873t"
     }
 }

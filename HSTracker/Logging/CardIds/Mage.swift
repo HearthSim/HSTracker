@@ -318,6 +318,13 @@ extension CardIds.Collectible {
         static let ScrappyScavenger = "TLC_461"
         static let ArrivalOfTheTitans = "BE_EVENT_101"
         static let DragoncallerAlanna = "LOOT_535"
+        static let AstralMediator = "BE_256"
+        static let Coilbearer = "BE_150"
+        static let ConstellarsCalling = "BE_252"
+        static let DiscsOfNorgannon = "BE_250"
+        static let ForebodingFreeze = "BE_201"
+        static let IcebeltMagi = "BE_270"
+        static let Isiset = "BE_259"
     }
 }
 
@@ -407,6 +414,10 @@ extension CardIds.NonCollectible {
         static let JailhouseManastorm_ManastormSummoningEnchantment = "JAIL_122e5"
         static let TheForbiddenSequence_TheOriginStoneToken = "TLC_460t"
         static let DeckofWonders_ScrollOfWonderToken = "LOOT_106t"
+        static let ArrivaloftheTitans_TitansWatchEnchantment = "BE_EVENT_101e"
+        static let BroodchamberTunneler_CyanLarvaToken = "BE_720t8"
+        static let ColossusOfTheCold = "BE_254"
+        static let DiscsofNorgannon_ShiftTheDiscsEnchantment = "BE_250e"
     }
 }
 

@@ -551,7 +551,14 @@ enum GameTag: Int, CaseIterable, Codable {
     bacon_evolution_card_overwrite_health = 4907,
     bacon_old_god = 4744,
     bacon_old_god_attack = 4914,
-    bacon_old_god_health = 4915
+    bacon_old_god_health = 4915,
+    // Black Empire: the Old God card marker, and the four flags C'Thun, Eye of the
+    // Empire's counter tracks.
+    old_god = 4754,
+    cthun_ability1_used = 4527,
+    cthun_ability2_used = 4760,
+    cthun_ability3_used = 4769,
+    cthun_ability4_used = 4770
 
     static var lookup = [String: GameTag]()
     

@@ -239,6 +239,12 @@ extension CardIds.Collectible {
         static let TwilightInfluence = "EDR_463"
         static let WingsOfEternity = "END_027"
         static let TheStarsAlign = "TTN_485"
+        static let DarkDeacon = "BE_012"
+        static let ElderWordFlay = "BE_223"
+        static let ElderWordForesight = "BE_221"
+        static let ElderWordManifest = "BE_222"
+        static let EntropicRift = "BE_220"
+        static let Zerontu = "BE_790"
     }
 }
 
@@ -317,6 +323,11 @@ extension CardIds.NonCollectible {
         static let FollowtheGhosts_SpookyGhostToken = "CAP_802t"
         static let Slimeem_EctoplasmToken = "CAP_805t"
         static let RitualoftheNewMoon_RitualOfTheFullMoonToken = "EDR_461t"
+        static let BroodchamberTunneler_PaleLarvaToken = "BE_720t1"
+        static let ElderWordFlay_FlayEssenceEnchantment = "BE_223e"
+        static let ElderWordForesight_ForesightEssenceEnchantment = "BE_221e"
+        static let ElderWordManifest_ManifestEssenceEnchantment = "BE_222e"
+        static let ElderWordManifest_VoidwingToken = "BE_222t"
     }
 }
 

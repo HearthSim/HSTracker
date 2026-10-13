@@ -47,6 +47,8 @@ final class Card {
     var costBlood = 0
     var costFrost = 0
     var costUnholy = 0
+    // GameTag.OLD_GOD - Black Empire's Old Gods (C'Thun, N'Zoth, Y'Shaarj, Yogg-Saron).
+    var isOldGod = false
     var name = "unknown"
     var enName = ""
     var playerClass: CardClass = .neutral
@@ -462,6 +464,7 @@ extension Card: NSCopying {
         copy.costBlood = self.costBlood
         copy.costFrost = self.costFrost
         copy.costUnholy = self.costUnholy
+        copy.isOldGod = self.isOldGod
         copy.name = self.name
         copy.enName = self.enName
         copy.playerClass = self.playerClass

@@ -267,6 +267,10 @@ extension CardIds.Collectible {
         static let UnderlightAnglingRod = "BT_018"
         static let UnderlightAnglingRodCorePlaceholder = "CORE_BT_018"
         static let WhackAGnoll = "MIS_700"
+        static let HallsOfOrigination = "BE_183"
+        static let MarchToWar = "BE_142"
+        static let Sundancer = "BE_152"
+        static let SunsReckoning = "BE_153"
     }
 }
 
@@ -365,6 +369,10 @@ extension CardIds.NonCollectible {
         static let EmboldeningBlade_EmboldenedEnchantment1 = "MEND_803e"
         static let BrashBattlemaster_RecruitsMightEnchantment = "MEND_800e"
         static let ResilientSavior_RecruitsResilienceEnchantment = "MEND_801e"
+        static let BroodchamberTunneler_YellowLarvaToken = "BE_720t4"
+        static let MarchtoWar_VanirSoldierToken = "BE_142t"
+        static let Sundancer_SunsBlessingToken = "BE_152t"
+        static let SunsReckoning_FinalReckoningToken = "BE_153t"
     }
 }
 

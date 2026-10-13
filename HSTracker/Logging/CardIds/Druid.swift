@@ -248,6 +248,12 @@ extension CardIds.Collectible {
         static let CrystalStag = "DAL_799"
         static let KnightOfTheWildWONDERS = "WON_003"
         static let FrostsaberMatriarch = "AV_291"
+        static let AetherialKindling = "BE_854"
+        static let Ammunae = "BE_852"
+        static let Deathblossom = "BE_802"
+        static let Efflorescence = "BE_801"
+        static let TitanSized = "BE_208"
+        static let TwistedGrimlynx_CuriousGrimlynxToken = "BE_850t"
     }
 }
 
@@ -415,6 +421,11 @@ extension CardIds.NonCollectible {
         static let LadyAzshara_ZinAzshariToken1 = "TIME_211t2"
         static let SplendiferousWhizbang_MomentOfDiscoveryToken = "TOY_700t"
         static let Rheastrasza_PurifiedDragonNestToken = "WW_824t"
+        static let Ammunae_LifeConstructedEnchantment = "BE_852e"
+        static let BroodchamberTunneler_BrownLarvaToken = "BE_720t6"
+        static let Deathblossom_CarnivorousPlantToken = "BE_802t"
+        static let TomeTranslator_YoggScriptureEnchantmentToken = "BE_327te"
+        static let TwistedGrimlynx = "BE_850"
     }
 }
 

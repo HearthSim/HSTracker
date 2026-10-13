@@ -239,6 +239,8 @@ class Database {
             currentCard?.costFrost = intValue
         case GameTag.cost_unholy.rawValue:
             currentCard?.costUnholy = intValue
+        case GameTag.old_god.rawValue:
+            currentCard?.isOldGod = intValue > 0
         case GameTag.multiple_classes.rawValue:
             currentCard?.multipleClasses = intValue
         case GameTag.bacon_triple_upgrade_minion_id.rawValue:
