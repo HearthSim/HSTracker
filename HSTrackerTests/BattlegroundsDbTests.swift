@@ -63,7 +63,11 @@ class BattlegroundsDbTests: HSTrackerTests {
 
     func testTavernPoolOnlyListsItsCardsRegardlessOfGameModeExclusivity() throws {
         let assembled = BattlegroundsDb(nil)
+        // Dark Paradox never comes from the tavern pool list (BattlegroundsDb
+        // leaves it out on purpose), so it can't be the listed minion.
+        let darkParadox = Cards.any(byId: CardIds.NonCollectible.Neutral.DarkParadox)?.dbfId
         let poolMinions = assembled.getCardsByRaces(Array(assembled.races), false)
+            .filter { $0.dbfId != darkParadox && $0.baconEvolutionCardId != darkParadox }
         let listedMinion = try XCTUnwrap(poolMinions.first)
         let unlistedMinion = try XCTUnwrap(poolMinions.first { $0.dbfId != listedMinion.dbfId })
         let duosMinion = try XCTUnwrap(Cards.cards.first {
