@@ -1,4 +1,4 @@
-# 3.6.15
+# 3.7.0
 **Updated for Hearthstone 37.0.0**
 ## New
 - Complete German translations (thanks @marcelgross90)
