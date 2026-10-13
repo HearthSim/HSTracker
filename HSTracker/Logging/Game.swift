@@ -5425,8 +5425,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func onBigCardChange(_ state: BigCardArgs) {
-        hoveredCard = state
         DispatchQueue.main.async {
+            // Assigned here, not on the BigCardWatcher queue: tooltipDisplay reads it on
+            // main, and a torn read of the String inside crashes in characterAtIndex.
+            self.hoveredCard = state
             // HDT's Watchers.OnBigCardChange calls SetCardOpacityMask first:
             // the game is drawing the hovered card blown up, with its tooltips
             // and enchantment list, and the overlay has to get out of the way.
