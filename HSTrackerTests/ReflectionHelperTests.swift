@@ -44,7 +44,8 @@ final class ReflectionHelperTests: XCTestCase {
                 result.counters.append(dccl)
             } else if let rccl = cl as? ICardWithRelatedCards.Type, rccl != ResurrectionCard.self, !isAbstractPoolBase {
                 result.related.append(rccl)
-            } else if let hccl = cl as? ICardWithHighlight.Type {
+            }
+            if let hccl = cl as? ICardWithHighlight.Type, !isAbstractPoolBase {
                 result.highlight.append(hccl)
             }
             if let sstcl = cl as? ISpellSchoolTutor.Type {

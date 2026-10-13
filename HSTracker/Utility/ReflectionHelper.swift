@@ -87,7 +87,10 @@ class ReflectionHelper {
             } else if let rccl = metadata.conformance(of: cl, to: "ICardWithRelatedCards", as: ICardWithRelatedCards.Type.self),
                       cl != ResurrectionCard.self, !isAbstractPoolBase {
                 relatedClasses.append(rccl)
-            } else if let hccl = metadata.conformance(of: cl, to: "ICardWithHighlight", as: ICardWithHighlight.Type.self) {
+            }
+            // Not chained to the related cards branch above: a card can be both, like
+            // Drestagath, which highlights the Old Gods in the deck and lists them too.
+            if let hccl = metadata.conformance(of: cl, to: "ICardWithHighlight", as: ICardWithHighlight.Type.self), !isAbstractPoolBase {
                 highlightClasses.append(hccl)
             }
             if let sstcl = metadata.conformance(of: cl, to: "ISpellSchoolTutor", as: ISpellSchoolTutor.Type.self) {
