@@ -1,3 +1,9 @@
+# 3.6.15
+## New
+- Complete German translations (thanks @marcelgross90)
+## Hearthstone
+- Fixed a rare crash when hovering a card in your hand.
+
 # 3.6.14
 **Updated for Hearthstone 36.6.3**
 ## Hearthstone
