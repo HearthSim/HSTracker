@@ -25,7 +25,8 @@ class Events {
     // next match.
     static let tier7_trial_activated = "tier7_trial_activated"
 
-    // HDT's HSReplayNetOAuth.AccountDataUpdated and LoggedOut events.
+    // HDT's HSReplayNetOAuth.Authenticated, AccountDataUpdated and LoggedOut events.
+    static let hsreplay_authenticated = "hsreplay_authenticated"
     static let hsreplay_account_data_updated = "hsreplay_account_data_updated"
     static let hsreplay_logged_out = "hsreplay_logged_out"
 

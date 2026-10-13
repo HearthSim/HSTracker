@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 import OAuthSwift
 import Mixpanel
 
@@ -84,13 +85,42 @@ class HSReplayAPI {
                         HSReplayAPI.claimAccount()
                     }
 
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hsreplay_authenticated), object: nil)
                     handle()
                 case .failure(let error):
-                    // TODO: Better error handling
                     logger.info("HSReplay: OAuth failed \(error)")
+                    DispatchQueue.main.async {
+                        if showLoginFailedMessage(error) {
+                            oAuthAuthorize(handle: handle)
+                        }
+                    }
                 }
             }
         )
+    }
+
+    // HDT's ShowLoginFailedMessage. There is no callback listener to fail here -
+    // the browser hands the code back through the hstracker:// URL scheme - so
+    // only its "cancelled" and "server" descriptions apply. Returns true when the
+    // user asks to try again.
+    @MainActor
+    private static func showLoginFailedMessage(_ error: OAuthSwiftError) -> Bool {
+        let description: String
+        switch error {
+        case .cancelled, .accessDenied:
+            description = "MessageDialogs_LoginFailed_Description_Cancelled"
+        default:
+            description = "MessageDialogs_LoginFailed_Description_Server"
+        }
+        let alert = NSAlert()
+        alert.alertStyle = .warning
+        alert.messageText = String.localizedString("MessageDialogs_LoginFailed_Title", comment: "")
+        alert.informativeText = String.localizedString(description, comment: "")
+        alert.addButton(withTitle: String.localizedString("MessageDialogs_LoginFailed_Button_TryAgain", comment: ""))
+        alert.addButton(withTitle: String.localizedString("MessageDialogs_LoginFailed_Button_Close", comment: ""))
+        // the browser has focus after the login redirect
+        NSApp.activate(ignoringOtherApps: true)
+        return alert.runModal() == .alertFirstButtonReturn
     }
     
     static func updateOAuthCredential() {

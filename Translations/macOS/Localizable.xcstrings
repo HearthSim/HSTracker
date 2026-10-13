@@ -23749,6 +23749,61 @@
         }
       }
     },
+    "MessageDialogs_LoginFailed_Button_Close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "MessageDialogs_LoginFailed_Button_TryAgain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "MessageDialogs_LoginFailed_Description_Cancelled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The login was cancelled or did not complete. Please try again."
+          }
+        }
+      }
+    },
+    "MessageDialogs_LoginFailed_Description_Server" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The server did not respond as expected. Please make sure you're using the latest version of HSTracker and try again in a bit."
+          }
+        }
+      }
+    },
+    "MessageDialogs_LoginFailed_Title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not log in to HSReplay.net"
+          }
+        }
+      }
+    },
     "minion" : {
       "extractionState" : "manual",
       "localizations" : {
