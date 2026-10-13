@@ -1326,6 +1326,7 @@ extension CardIds.NonCollectible {
         static let Kaleidoscope_KaleidoscopeToken = "BG35_MagicItem_821t"
         static let DrBoomsMonster = "BG31_176"
         static let DrBoomsMonster_DrBoomsMonster1 = "BG31_176_G"
+        static let DrBoomsMonster_DrBoomsMonster2 = "BG31_176_Ge"
         static let DrBoomsMonster_DrBoomsMonsterEnchantment = "BG31_176e"
         static let DrBoomsMonster_BoomingEnchantment = "BG31_176e2"
         static let Magnanimoose = "BGDUO_105"
