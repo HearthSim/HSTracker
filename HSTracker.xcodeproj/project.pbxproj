@@ -774,6 +774,7 @@
 		B80B690C2E3C3F5A00197FA5 /* WebOfDeception.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B690B2E3C3F5A00197FA5 /* WebOfDeception.swift */; };
 		B80B690E2E3C3FC800197FA5 /* Sleetbreaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80B690D2E3C3FC800197FA5 /* Sleetbreaker.swift */; };
 		B81189252E429A510091B4D6 /* WhirringProtector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81189242E429A510091B4D6 /* WhirringProtector.swift */; };
+		404FB47C0DAD776EECAF3E7E /* SupportedCardsProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E1B6285892572562B789ED /* SupportedCardsProxy.swift */; };
 		B812BCED2947F929000C6513 /* BattlegroundsQuestPickParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */; };
 		B81849272BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */; };
 		B8196F112CC1BB58007C0371 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = B8196F102CC1BB58007C0371 /* Sentry */; };
@@ -2684,6 +2685,7 @@
 		B80B690B2E3C3F5A00197FA5 /* WebOfDeception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOfDeception.swift; sourceTree = "<group>"; };
 		B80B690D2E3C3FC800197FA5 /* Sleetbreaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sleetbreaker.swift; sourceTree = "<group>"; };
 		B81189242E429A510091B4D6 /* WhirringProtector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhirringProtector.swift; sourceTree = "<group>"; };
+		94E1B6285892572562B789ED /* SupportedCardsProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedCardsProxy.swift; sourceTree = "<group>"; };
 		B812BCEC2947F928000C6513 /* BattlegroundsQuestPickParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsQuestPickParams.swift; sourceTree = "<group>"; };
 		B81849262BF4D7C900F4EEE2 /* ConstructedMulliganOverlayMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedMulliganOverlayMessageViewModel.swift; sourceTree = "<group>"; };
 		B8196F132CC850BB007C0371 /* BaseCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCounter.swift; sourceTree = "<group>"; };
@@ -4788,6 +4790,7 @@
 				B844D36B2A0C3510001704E0 /* UnknownCardEntityProxy.swift */,
 				B87856DF2C04BA7F004C2C40 /* UnsupportedInteractionProxy.swift */,
 				B81189242E429A510091B4D6 /* WhirringProtector.swift */,
+				94E1B6285892572562B789ED /* SupportedCardsProxy.swift */,
 			);
 			path = Mono;
 			sourceTree = "<group>";
@@ -7936,6 +7939,7 @@
 				B898654E2D8B71CE00BA5649 /* UmpiresGrasp.swift in Sources */,
 				B86D89D82D95C31E00AB65A5 /* HideousHusk.swift in Sources */,
 				B81189252E429A510091B4D6 /* WhirringProtector.swift in Sources */,
+				404FB47C0DAD776EECAF3E7E /* SupportedCardsProxy.swift in Sources */,
 				B89865662D8E15D000BA5649 /* Banjosaur.swift in Sources */,
 				B86D89C82D95A48F00AB65A5 /* TyrandeSpellsPlayedCounter.swift in Sources */,
 				B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */,

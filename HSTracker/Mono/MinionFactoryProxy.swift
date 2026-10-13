@@ -18,6 +18,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
     private static var _cardIdsWithCleave: OpaquePointer!
     private static var _cardIdsWithMegaWindfury: OpaquePointer!
     private static var _tryGetPremiumIdFromNormal: OpaquePointer!
+    private static var _hasImplementationFor: OpaquePointer!
     
     static var _members = [String: OpaquePointer]()
     
@@ -32,6 +33,7 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         _cardIdsWithMegaWindfury = MonoHelper.getField(_class, "cardIdsWithMegaWindfury")
         
         _tryGetPremiumIdFromNormal = MonoHelper.getMethod(MinionFactoryProxy._class, "TryGetPremiumIdFromNormal", 1)
+        _hasImplementationFor = MonoHelper.getMethod(MinionFactoryProxy._class, "HasImplementationFor", 1)
 
         _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithMegaWindfury))
     }
@@ -57,6 +59,11 @@ class MinionFactoryProxy: MonoHandle, MonoClassInitializer {
         ptrs.deallocate()
         params.deallocate()
         return res
+    }
+    
+    func hasImplementationFor(cardId: String) -> Bool {
+        let res = MonoHelper.invokeString(obj: self, method: MinionFactoryProxy._hasImplementationFor, str: cardId)
+        return (mono_object_unbox(res)?.bindMemory(to: UInt8.self, capacity: 1).pointee ?? 0) != 0
     }
     
     static func getStringArrayField(field: OpaquePointer!) -> [String] {

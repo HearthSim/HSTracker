@@ -1193,7 +1193,28 @@ class BobsBuddyInvoker {
             }
             
             // SupportedCards.VerifyCardIsSupported currently only works with TECH_LEVEL > 0.
-            // TODO: as this is implemented in BB and would require a call via Mono            
+            if entity.isMinion {
+                // Results other than "Supported" mean HSTracker knows the card, but BobsBuddy
+                // has not yet been updated for it.
+                let latestCardId = entity.info.latestCardId
+                let result = SupportedCardsProxy.verifyCardIsSupported(cardId: latestCardId)
+
+                // Unknown cards have two issues: 1) If they have effects they have not been implemented yet,
+                // and 2) even if they don't have effects, we would be unable to summon instances of the card
+                // with the correct stats during combat.
+                if result == .unknownCard {
+                    errorState = .unknownCards
+                    throw "Board has unknown cards. Exiting."
+                }
+
+                // For the most part we only care about text changes to cards if we previously had an implementation
+                // for a card. While there can in theory be edge cases where a card is changed in a way where the
+                // old text did not need an implementation, but the new text does, this seems very unlikely.
+                if result == .textChanged && simulator.minionFactory.hasImplementationFor(cardId: latestCardId) {
+                    errorState = .unknownCards
+                    throw "Board has cards with changed text. Exiting."
+                }
+            }
         }
         
         guard let playerGameHero else {
