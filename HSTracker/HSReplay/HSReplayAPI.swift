@@ -975,10 +975,13 @@ class HSReplayAPI {
     // "&minion_types={type}" in a loop) - instead of relying on either
     // library's own array-parameter serialization, which isn't guaranteed to
     // produce the same wire format.
-    private static func compGuidesQuery(gameLanguage: String, minionTypes: [Int]) -> String {
+    private static func compGuidesQuery(gameLanguage: String, minionTypes: [Int], deityDbfId: Int?) -> String {
         var query = "?game_language=\(gameLanguage)"
         for type in minionTypes {
             query += "&minion_types=\(type)"
+        }
+        if let deityDbfId {
+            query += "&deity_dbf_id=\(deityDbfId)"
         }
         return query
     }
@@ -992,9 +995,9 @@ class HSReplayAPI {
         return guides
     }
 
-    static func getTier7CompGuides(gameLanguage: String, minionTypes: [Int]) async -> BattlegroundsTier7CompGuidesData? {
+    static func getTier7CompGuides(gameLanguage: String, minionTypes: [Int], deityDbfId: Int?) async -> BattlegroundsTier7CompGuidesData? {
         return await withCheckedContinuation { continuation in
-            let url = "\(HSReplay.tier7CompGuidesUrl)\(compGuidesQuery(gameLanguage: gameLanguage, minionTypes: minionTypes))"
+            let url = "\(HSReplay.tier7CompGuidesUrl)\(compGuidesQuery(gameLanguage: gameLanguage, minionTypes: minionTypes, deityDbfId: deityDbfId))"
             startAuthorizedRequest(url, method: .GET, parameters: [:], completionHandler: { result in
                 switch result {
                 case .success(let response):
@@ -1010,11 +1013,11 @@ class HSReplayAPI {
         }
     }
 
-    static func getTier7CompGuides(token: String?, gameLanguage: String, minionTypes: [Int]) async -> BattlegroundsTier7CompGuidesData? {
+    static func getTier7CompGuides(token: String?, gameLanguage: String, minionTypes: [Int], deityDbfId: Int?) async -> BattlegroundsTier7CompGuidesData? {
         guard let token = token else {
             return nil
         }
-        let url = "\(HSReplay.tier7CompGuidesUrl)\(compGuidesQuery(gameLanguage: gameLanguage, minionTypes: minionTypes))"
+        let url = "\(HSReplay.tier7CompGuidesUrl)\(compGuidesQuery(gameLanguage: gameLanguage, minionTypes: minionTypes, deityDbfId: deityDbfId))"
         let http = Http(url: url)
         guard let data = await http.getAsync(headers: ["X-Trial-Token": token]) else {
             return nil

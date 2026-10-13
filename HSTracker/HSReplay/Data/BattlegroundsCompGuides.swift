@@ -16,6 +16,7 @@ struct BattlegroundsCompGuide: Decodable {
     var name: String
     var tier: Int
     var tier_rank: Int
+    var adjusted_tier: Int?
     var difficulty: Int
     var primary_tribe: Int
     var representative_card: String

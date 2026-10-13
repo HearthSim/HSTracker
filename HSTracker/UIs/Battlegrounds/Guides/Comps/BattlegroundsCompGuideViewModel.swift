@@ -29,8 +29,13 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     let coreCards: [GuideMinion]
     let addonCards: [GuideMinion]
     let representativeCard: Card?
+    // The tier the comp is listed under: the match-adjusted one when the
+    // server sent it, otherwise the base tier.
     let tier: Int
     let tierColors: [Color]
+    let baseTier: Int
+    let baseTierColors: [Color]
+    var isTierAdjusted: Bool { tier != baseTier }
     let difficulty: Int
     let difficultyColor: Color
     let primaryTribe: Int
@@ -51,6 +56,16 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     // three of them render it now: the comp list row, the comp detail header,
     // and the Tavern Pinning key-piece tooltip.
     var tierText: String { Self.tierText(tier) }
+    var baseTierText: String { Self.tierText(baseTier) }
+
+    // The base tier badge sits where {0} is in the localized string.
+    static var tierAdjustedFromParts: (prefix: String, suffix: String) {
+        let parts = String.localizedString("Battlegrounds_CompGuide_TierAdjustedFrom", comment: "")
+            .components(separatedBy: "{0}")
+        let prefix = parts[0].trimmingCharacters(in: .whitespaces)
+        let suffix = parts.count > 1 ? parts[1...].joined(separator: "{0}").trimmingCharacters(in: .whitespaces) : ""
+        return (prefix, suffix)
+    }
 
     // The list's tier group headers label a bare tier number rather than a
     // comp, hence the static form.
@@ -165,8 +180,10 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
         coreCards = minions(compGuide.core_cards)
         addonCards = minions(compGuide.addon_cards)
         representativeCard = Cards.by(cardId: compGuide.representative_card)
-        tier = compGuide.tier
-        tierColors = Self.tierColors(compGuide.tier)
+        tier = compGuide.adjusted_tier ?? compGuide.tier
+        tierColors = Self.tierColors(tier)
+        baseTier = compGuide.tier
+        baseTierColors = Self.tierColors(compGuide.tier)
         difficulty = compGuide.difficulty
         difficultyColor = Self.difficultyColor(compGuide.difficulty)
         primaryTribe = compGuide.primary_tribe

@@ -244,9 +244,10 @@ private struct CompGuideRow: View {
                     // available before the chevron.
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer(minLength: 0)
-                Text("\u{203A}")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundColor(.white.opacity(0.5))
+                CompButtonArrow()
+                    .fill(Color.white)
+                    .frame(width: 9, height: 9)
+                    .padding(.trailing, 4)
             }
             .padding(.horizontal, 10)
             .frame(height: 48)
@@ -267,5 +268,38 @@ private struct CompGuideRow: View {
         .onHover { hovering in
             isHovering = hovering
         }
+    }
+}
+
+// CompButton.xaml's arrow: a left-pointing arrow path, stretched to fill its
+// 9x9 box and mirrored to point right.
+private struct CompButtonArrow: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 5.06055, y: 8.49219))
+        path.addLine(to: CGPoint(x: 5.18359, y: 8.36914))
+        path.addCurve(to: CGPoint(x: 5.18359, y: 8.07031), control1: CGPoint(x: 5.27148, y: 8.28125), control2: CGPoint(x: 5.27148, y: 8.1582))
+        path.addLine(to: CGPoint(x: 2.05469, y: 4.92383))
+        path.addLine(to: CGPoint(x: 8.66406, y: 4.92383))
+        path.addCurve(to: CGPoint(x: 8.875, y: 4.71289), control1: CGPoint(x: 8.76953, y: 4.92383), control2: CGPoint(x: 8.875, y: 4.83594))
+        path.addLine(to: CGPoint(x: 8.875, y: 4.53711))
+        path.addCurve(to: CGPoint(x: 8.66406, y: 4.32617), control1: CGPoint(x: 8.875, y: 4.43164), control2: CGPoint(x: 8.76953, y: 4.32617))
+        path.addLine(to: CGPoint(x: 2.05469, y: 4.32617))
+        path.addLine(to: CGPoint(x: 5.18359, y: 1.19727))
+        path.addCurve(to: CGPoint(x: 5.18359, y: 0.898438), control1: CGPoint(x: 5.27148, y: 1.10938), control2: CGPoint(x: 5.27148, y: 0.986328))
+        path.addLine(to: CGPoint(x: 5.06055, y: 0.775391))
+        path.addCurve(to: CGPoint(x: 4.76172, y: 0.775391), control1: CGPoint(x: 4.97266, y: 0.6875), control2: CGPoint(x: 4.84961, y: 0.6875))
+        path.addLine(to: CGPoint(x: 1.05273, y: 4.48438))
+        path.addCurve(to: CGPoint(x: 1.05273, y: 4.7832), control1: CGPoint(x: 0.964844, y: 4.57227), control2: CGPoint(x: 0.964844, y: 4.69531))
+        path.addLine(to: CGPoint(x: 4.76172, y: 8.49219))
+        path.addCurve(to: CGPoint(x: 5.06055, y: 8.49219), control1: CGPoint(x: 4.84961, y: 8.58008), control2: CGPoint(x: 4.97266, y: 8.58008))
+        path.closeSubpath()
+
+        // Stretch="Fill", then ScaleX="-1" about the centre.
+        let bounds = path.boundingRect
+        let transform = CGAffineTransform(translationX: rect.maxX, y: rect.minY)
+            .scaledBy(x: -rect.width / bounds.width, y: rect.height / bounds.height)
+            .translatedBy(x: -bounds.minX, y: -bounds.minY)
+        return path.applying(transform)
     }
 }

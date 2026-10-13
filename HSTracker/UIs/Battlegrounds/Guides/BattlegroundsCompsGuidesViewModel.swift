@@ -137,7 +137,7 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
             if HSReplayAPI.accountData?.is_tier7 ?? false {
                 // there is no minion pool before a match, so ask for the
                 // unfiltered list
-                await setPremiumCompGuides(token: nil, minionTypes: [])
+                await setPremiumCompGuides(token: nil, minionTypes: [], deityDbfId: nil)
             } else {
                 await setFreeCompGuides()
             }
@@ -162,18 +162,22 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
         }
 
         if let access = await Tier7Trial.getAccess() {
-            await setPremiumCompGuides(token: access.trialToken, minionTypes: races.compactMap { Race.allCases.firstIndex(of: $0) })
+            await setPremiumCompGuides(
+                token: access.trialToken,
+                minionTypes: races.compactMap { Race.allCases.firstIndex(of: $0) },
+                deityDbfId: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: AppDelegate.instance().coreManager.game.gameEntity)
+            )
         } else {
             await setFreeCompGuides()
         }
     }
 
-    private func setPremiumCompGuides(token: String?, minionTypes: [Int]) async {
+    private func setPremiumCompGuides(token: String?, minionTypes: [Int], deityDbfId: Int?) async {
         let gameLanguage = "\(Settings.hearthstoneLanguage ?? .enUS)"
 
         let data = token != nil
-            ? await HSReplayAPI.getTier7CompGuides(token: token, gameLanguage: gameLanguage, minionTypes: minionTypes)
-            : await HSReplayAPI.getTier7CompGuides(gameLanguage: gameLanguage, minionTypes: minionTypes)
+            ? await HSReplayAPI.getTier7CompGuides(token: token, gameLanguage: gameLanguage, minionTypes: minionTypes, deityDbfId: deityDbfId)
+            : await HSReplayAPI.getTier7CompGuides(gameLanguage: gameLanguage, minionTypes: minionTypes, deityDbfId: deityDbfId)
 
         guard let data else {
             await setError()
@@ -184,9 +188,20 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
             // updateState prefers compsByTier, so the free list has to go
             // before it is set
             self.comps = nil
-            self.compsByTier = data.by_tier.mapValues { guides in
-                guides.sorted(by: { $0.tier_rank < $1.tier_rank })
-                    .map { BattlegroundsCompGuideViewModel($0, isPreLobby: self.isPreLobby) }
+            let compsByAdjustedTier = Dictionary(grouping: data.by_tier.values.joined()) { comp in
+                comp.adjusted_tier ?? comp.tier
+            }
+            self.compsByTier = compsByAdjustedTier.mapValues { guides in
+                // demoted comps go to the top of their adjusted tier, promoted
+                // ones to the bottom
+                guides.sorted { a, b in
+                    let tier = a.adjusted_tier ?? a.tier
+                    let signA = (a.tier - tier).signum(), signB = (b.tier - tier).signum()
+                    if signA != signB { return signA < signB }
+                    if a.tier != b.tier { return a.tier < b.tier }
+                    return a.tier_rank < b.tier_rank
+                }
+                .map { BattlegroundsCompGuideViewModel($0, isPreLobby: self.isPreLobby) }
             }
             self.hasError = false
             self.updateState()
