@@ -272,7 +272,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "禁用"
+            "value" : "已禁用"
           }
         }
       }
@@ -500,7 +500,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示鲍勃助手"
+            "value" : "显示鲍勃之友"
           }
         },
         "zh-Hant" : {
@@ -788,7 +788,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示 MMR"
+            "value" : "显示等级积分"
           }
         }
       }
@@ -896,7 +896,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在战斗中显示鲍勃助手"
+            "value" : "在战斗中显示鲍勃之友"
           }
         },
         "zh-Hant" : {
@@ -1034,7 +1034,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在商店中显示鲍勃助手"
+            "value" : "在商店中显示鲍勃之友"
           }
         },
         "zh-Hant" : {
@@ -1214,7 +1214,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在菜单中显示 Tier7（等级积分和统计）"
+            "value" : "在菜单中显示Tier7（等级积分和统计）"
           }
         }
       }
