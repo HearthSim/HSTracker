@@ -397,6 +397,8 @@ class Game: NSObject, PowerEventHandler {
                 tracker.setGraveyard(self.opponent.graveyard)
                 tracker.playerClassId = self.opponent.playerClassId
 
+                tracker.winRateMessage = self.opponentWinRateMessage()
+
                 // The stack is a child of the overlay canvas now, so there is no
                 // window left to frame: the percentages HDT places it with are
                 // read back off the settings here, and the panel measures itself
@@ -411,6 +413,60 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
     
+    private func resetOpponentWinRateCache() {
+        opponentWinRateObserver?.invalidate()
+        opponentWinRateObserver = nil
+        opponentWinRateRecords.removeAll()
+        opponentWinRateDeckId = nil
+    }
+
+    private func opponentWinRateMessage() -> String {
+        guard Settings.showWinRateAgainst,
+              let deckId = currentDeck?.id else {
+            resetOpponentWinRateCache()
+            return ""
+        }
+
+        if opponentWinRateDeckId != deckId {
+            resetOpponentWinRateCache()
+            opponentWinRateDeckId = deckId
+        }
+
+        guard let opponentClass = opponent.originalClass,
+              Cards.classes.contains(opponentClass) else { return "" }
+
+        let record: StatsDeckRecord
+        if let cached = opponentWinRateRecords[opponentClass] {
+            record = cached
+        } else {
+            guard let realm = try? Realm(),
+                  let deck = realm.object(ofType: Deck.self, forPrimaryKey: deckId) else { return "" }
+            if opponentWinRateObserver == nil {
+                opponentWinRateObserver = deck.gameStats.observe(keyPaths: ["_opponentHero", "_result"]) { [weak self] change in
+                    guard let self, self.opponentWinRateDeckId == deckId else { return }
+                    switch change {
+                    case .initial, .update:
+                        self.opponentWinRateRecords.removeAll()
+                        self.updateOpponentTracker()
+                    case .error(let error):
+                        self.resetOpponentWinRateCache()
+                        logger.error("Cannot observe opponent win-rate statistics: \(error)")
+                    }
+                }
+            }
+            record = StatsHelper.getDeckRecord(deck: deck, againstClass: opponentClass, mode: .all)
+            opponentWinRateRecords[opponentClass] = record
+        }
+
+        let total = record.wins + record.losses
+        let percent = total > 0
+            ? String(Int(round(Double(record.wins) * 100.0 / Double(total))))
+            : "-"
+        let className = String.localizedString(opponentClass.rawValue, comment: "")
+        let matchup = String(format: String.localizedString("Vs %@", comment: ""), className)
+        return "\(matchup): \(record.wins)-\(record.losses) (\(percent)%)"
+    }
+
     @objc func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self, let tracker = self.windowManager.rootOverlay?.viewModel.playerTracker else {
@@ -1275,6 +1331,10 @@ class Game: NSObject, PowerEventHandler {
     var gameEnded = true
     internal private(set) var currentDeck: PlayingDeck?
 
+    private var opponentWinRateDeckId: String?
+    private var opponentWinRateRecords = [CardClass: StatsDeckRecord]()
+    private var opponentWinRateObserver: NotificationToken?
+
     var currentEntityHasCardId = false
     var playerUsedHeroPower = false
     private var hasCoin = false
@@ -1615,6 +1675,7 @@ class Game: NSObject, PowerEventHandler {
                                            Settings.opponent_deck_height, Settings.overlay_opponent_scaling,
                                            Settings.opponent_opacity, Settings.overlay_center_opponent_stack,
                                            Settings.deck_panel_order_opponent,
+                                           Settings.show_win_rate_against,
                                            // HDT hooks RelatedCardVisibilitySettings.Changed up to
                                            // Core.UpdateOpponentCards; here the setting's own
                                            // notification does the same job.
@@ -1646,6 +1707,9 @@ class Game: NSObject, PowerEventHandler {
 		
 		for option in allTrackerUpdateEvents {
             let observer = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main) { _ in
+                if option == Events.reload_decks {
+                    self.resetOpponentWinRateCache()
+                }
                 self.updateAllTrackers()
             }
             self.observers.append(observer)
