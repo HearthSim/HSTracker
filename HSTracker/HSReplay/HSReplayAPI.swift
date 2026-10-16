@@ -90,8 +90,10 @@ class HSReplayAPI {
                 case .failure(let error):
                     logger.info("HSReplay: OAuth failed \(error)")
                     DispatchQueue.main.async {
-                        if showLoginFailedMessage(error) {
-                            oAuthAuthorize(handle: handle)
+                        showLoginFailedMessage(error) { tryAgain in
+                            if tryAgain {
+                                oAuthAuthorize(handle: handle)
+                            }
                         }
                     }
                 }
@@ -101,10 +103,10 @@ class HSReplayAPI {
 
     // HDT's ShowLoginFailedMessage. There is no callback listener to fail here -
     // the browser hands the code back through the hstracker:// URL scheme - so
-    // only its "cancelled" and "server" descriptions apply. Returns true when the
-    // user asks to try again.
+    // only its "cancelled" and "server" descriptions apply. Calls `completion`
+    // with true when the user asks to try again.
     @MainActor
-    private static func showLoginFailedMessage(_ error: OAuthSwiftError) -> Bool {
+    private static func showLoginFailedMessage(_ error: OAuthSwiftError, completion: @escaping (Bool) -> Void) {
         let description: String
         switch error {
         case .cancelled, .accessDenied:
@@ -118,9 +120,20 @@ class HSReplayAPI {
         alert.informativeText = String.localizedString(description, comment: "")
         alert.addButton(withTitle: String.localizedString("MessageDialogs_LoginFailed_Button_TryAgain", comment: ""))
         alert.addButton(withTitle: String.localizedString("MessageDialogs_LoginFailed_Button_Close", comment: ""))
-        // the browser has focus after the login redirect
-        NSApp.activate(ignoringOtherApps: true)
-        return alert.runModal() == .alertFirstButtonReturn
+        // A sheet on the settings window the login was started from, rather than
+        // runModal(), which stalls the main queue until it is dismissed
+        // (Sentry HSTRACKER-MH). Showing the pane also brings the app back in
+        // front of the browser, which has focus after the login redirect, and
+        // reopens the window if it was closed in the meantime.
+        let preferences = AppDelegate.instance().preferences
+        preferences.show(preferencePane: .hsreplay)
+        guard let window = preferences.window else {
+            alert.showNonModal { completion($0 == .alertFirstButtonReturn) }
+            return
+        }
+        alert.beginSheetModal(for: window) { response in
+            completion(response == .alertFirstButtonReturn)
+        }
     }
     
     static func updateOAuthCredential() {

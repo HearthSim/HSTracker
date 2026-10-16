@@ -42,6 +42,10 @@ final class CoreManager: NSObject {
     /// Bumped by stopTracking() so a retry chain scheduled before the game
     /// closed does not start a reader afterwards.
     private var trackingGeneration = 0
+
+    /// The Hearthstone process the Rosetta warning was last shown for, so a
+    /// later startTracking() for the same game does not show it again.
+    private var rosettaWarningPid: pid_t?
     
     // watchers
     let game: Game
@@ -281,12 +285,17 @@ final class CoreManager: NSObject {
 #if arch(arm64)
         if #available(macOS 11.0, *) {
             if let app = CoreManager.hearthstoneApp, app.executableArchitecture == NSBundleExecutableArchitectureX86_64 {
-                let alert = NSAlert()
                 logger.error("Hearthstone is running in 'X86-64' architecture")
-                alert.messageText = "Nonoptimal version of Hearthstone"
-                alert.informativeText = "HSTracker currently supports the native 'Apple Silicon' version of 'Hearthstone'.\n\nTo fix this, open your 'Applications' folder, right-click 'Hearthstone', and select 'Get Info'. Uncheck the box for 'Open using Rosetta', then restart the game."
-                alert.alertStyle = .critical
-                alert.runModal()
+                // once per game launch, and without runModal(), which would
+                // stall the main queue until it is dismissed
+                if rosettaWarningPid != app.processIdentifier {
+                    rosettaWarningPid = app.processIdentifier
+                    let alert = NSAlert()
+                    alert.messageText = "Nonoptimal version of Hearthstone"
+                    alert.informativeText = "HSTracker currently supports the native 'Apple Silicon' version of 'Hearthstone'.\n\nTo fix this, open your 'Applications' folder, right-click 'Hearthstone', and select 'Get Info'. Uncheck the box for 'Open using Rosetta', then restart the game."
+                    alert.alertStyle = .critical
+                    alert.showNonModal()
+                }
                 trackingStartPending = false
                 return
             }
