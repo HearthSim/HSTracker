@@ -30,7 +30,8 @@ struct AnomalyGuideBadgeTriggerView: View {
            AppDelegate.instance().coreManager.game.isMulliganDone(),
            let anomalyCard = anomalyGuides.hoveredAnomalyCard {
             let scale = geometrySize.height / 1080
-            let left = SizeHelper.getScaledXPos(0.90, width: geometrySize.width, ratio: SizeHelper.screenRatio)
+            let left = SizeHelper.getScaledXPos(0.90, width: geometrySize.width,
+                                                ratio: SizeHelper.screenRatio(for: geometrySize))
             let top = geometrySize.height * 0.33
             let height = geometrySize.height * 0.1
             let guide = anomalyGuides.guide(dbfId: anomalyCard.dbfId)

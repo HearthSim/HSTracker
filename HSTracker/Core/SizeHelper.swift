@@ -146,6 +146,10 @@ struct SizeHelper {
         var frame: NSRect {
             return NSRect(x: left, y: top, width: width, height: height)
         }
+
+        var windowFrame: NSRect {
+            return _frame
+        }
         
         var scaleX: CGFloat {
             return width / SizeHelper.BaseWidth
@@ -207,17 +211,18 @@ struct SizeHelper {
     }
     
     static var screenRatio: CGFloat {
-        return (4.0 / 3.0) / (hearthstoneWindow.width / hearthstoneWindow.height)
+        return screenRatio(for: hearthstoneWindow.frame.size)
+    }
+
+    static func screenRatio(for size: CGSize) -> CGFloat {
+        return (4.0 / 3.0) / (size.width / size.height)
     }
     
     static func overHearthstoneFrame() -> NSRect {
-        // hearthstoneWindow.frame is already the window's absolute screen rect -
-        // no relativeFrame() translation needed (that's for small widget rects
-        // authored in the Base-reference coordinate system, not the HS window's
-        // own frame; running it through relativeFrame() here double-applies the
-        // scale to the origin, drifting further off the further the window sits
-        // from (0,0) on screen).
-        return hearthstoneWindow.frame
+        // The root overlay covers the entire Hearthstone window. The legacy
+        // frame property subtracts a title-bar height without moving its bottom
+        // edge, which shifts the overlay down in windowed mode.
+        return hearthstoneWindow.windowFrame
     }
     
     static var trackerWidth: CGFloat {

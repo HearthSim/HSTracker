@@ -36,7 +36,8 @@ struct AnomalyGuideMulliganTriggerView: View {
     var body: some View {
         if let anomalyCard = Self.mulliganAnomalyCard() {
             let scale = geometrySize.height / 1080
-            let left = SizeHelper.getScaledXPos(0.635, width: geometrySize.width, ratio: SizeHelper.screenRatio)
+            let left = SizeHelper.getScaledXPos(0.635, width: geometrySize.width,
+                                                ratio: SizeHelper.screenRatio(for: geometrySize))
             let top = geometrySize.height * 0.0825
             let height = geometrySize.height * 0.123
             let width = geometrySize.height * 0.1188
