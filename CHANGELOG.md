@@ -1,3 +1,9 @@
+# 3.7.1
+## New
+- Simplified Chinese translations (thanks @j20120307)
+## Arena
+- Fixed Arenasmith's redraft discard suggestions not showing on the Underground Arena deck editing screen.
+
 # 3.7.0
 **Updated for Hearthstone 37.0.0**
 ## New

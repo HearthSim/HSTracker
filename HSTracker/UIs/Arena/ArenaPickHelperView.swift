@@ -473,8 +473,10 @@ private struct ArenaTileImageView: View {
 extension ArenaPickHelperViewModel {
     /// The overlay is only up while the player is on a draft screen with the
     /// feature enabled - HDT's `UpdateArenaPickHelperVisibility` plus the panel's
-    /// own `ShowStats`.
+    /// own `ShowStats`. HDT only gates the options on `ShowStats`, not the deck
+    /// rail, so the deck-edit screen - which clears `cardStats` - still has to
+    /// show the rail for its redraft discard hints.
     var isVisible: Bool {
-        Settings.enableArenasmithOverlay && showStats
+        Settings.enableArenasmithOverlay && (showStats || isEditingDeck)
     }
 }
