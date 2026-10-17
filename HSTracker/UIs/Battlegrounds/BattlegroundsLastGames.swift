@@ -73,18 +73,17 @@ class BattlegroundsLastGames: Codable {
         }
     }
                                         
-    private static var _instance: BattlegroundsLastGames?
-    
-    static var instance: BattlegroundsLastGames {
-        if let inst = _instance {
-            return inst
-        }
-        let inst = BattlegroundsLastGames.load()
-        _instance = inst
-        return inst
+    // static let is initialized lazily and exactly once, even when first touched from several threads
+    static let instance = BattlegroundsLastGames.load()
+
+    // games is appended to and saved from the log reader thread while the session panel reads and prunes it on
+    // the main thread, so every access goes through this lock
+    private let lock = NSLock()
+    private var games = [GameItem]()
+
+    private enum CodingKeys: String, CodingKey {
+        case games
     }
-    
-    var games = [GameItem]()
     
     private static let cacheFilePath = Paths.HSTracker.appendingPathComponent("BgsLastGames.json")
     
@@ -119,6 +118,8 @@ class BattlegroundsLastGames: Codable {
         guard let playerId = getPlayerId() else {
             return [GameItem]()
         }
+        lock.lock()
+        defer { lock.unlock() }
         return games.filter { g in (g.player == nil || g.player == playerId) && (g.duos == duos || (g.duos == nil && !duos)) }
     }
     
@@ -127,15 +128,20 @@ class BattlegroundsLastGames: Codable {
             logger.info("Unable to save the game. User account can not found...")
             return
         }
-        removeGame(startTime: startTime, save: false)
-        games.append(GameItem(startTime: startTime, endTime: endTime, hero: hero, rating: rating, ratingAfter: ratingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, player: playerId, duos: duos))
+        let game = GameItem(startTime: startTime, endTime: endTime, hero: hero, rating: rating, ratingAfter: ratingAfter, placement: placement, finalBoard: finalBoard, friendlyGame: friendlyGame, player: playerId, duos: duos)
+        lock.lock()
+        games.removeAll { x in x.startTime == startTime }
+        games.append(game)
+        lock.unlock()
         if save {
             self.save()
         }
     }
     
     func removeGame(startTime: Date, save: Bool = false) {
+        lock.lock()
         games.removeAll { x in x.startTime == startTime }
+        lock.unlock()
         if save {
             self.save()
         }
@@ -145,7 +151,9 @@ class BattlegroundsLastGames: Codable {
         do {
             let enc = JSONEncoder()
             enc.dateEncodingStrategy = .iso8601
-            let json = try enc.encode(BattlegroundsLastGames.instance)
+            lock.lock()
+            defer { lock.unlock() }
+            let json = try enc.encode(self)
             try json.write(to: BattlegroundsLastGames.cacheFilePath)
         } catch {
             logger.error("Error while saving BattlegroundsLastGames data: \(error)")
@@ -153,7 +161,9 @@ class BattlegroundsLastGames: Codable {
     }
     
     func reset() {
+        lock.lock()
         games.removeAll()
+        lock.unlock()
         save()
     }
 
