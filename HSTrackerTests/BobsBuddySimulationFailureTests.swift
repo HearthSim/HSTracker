@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Sentry
 @testable import HSTracker
 
 /// Every BobsBuddy failure that is not an unsupported interaction used to reach Sentry as the
@@ -130,5 +131,96 @@ File name: 'System.Runtime.Intrinsics, Version=8.0.0.0'
                        BobsBuddySimulationFailure(text: nullReference).signature)
         XCTAssertNotEqual(BobsBuddySimulationFailure(text: nullReference).signature,
                           BobsBuddySimulationFailure(text: missingAssembly).signature)
+    }
+
+    // MARK: - The stacktrace
+
+    /// The frames stop at the end-of-inner marker, so the Task.Wait wrapper does not end up in
+    /// the stacktrace.
+    func testFramesAreTheInnermostExceptionsFrames() {
+        let frames = BobsBuddySimulationFailure(text: nullReference).frames
+        XCTAssertEqual(frames.count, 5)
+        XCTAssertFalse(frames.contains { $0.function == "Wait" })
+        XCTAssertEqual(frames.first?.function, "TryGetRandom")
+        XCTAssertEqual(frames.first?.module, "BobsBuddy.Utils.SafeRandom")
+        XCTAssertEqual(frames.first?.inApp, true)
+    }
+
+    /// The copies an AggregateException appends after its frames are not part of the stacktrace.
+    func testFramesStopBeforeInnerExceptionCopies() {
+        let frames = BobsBuddySimulationFailure(text: missingAssembly).frames
+        XCTAssertEqual(frames.count, 4)
+        XCTAssertEqual(frames.first?.module, "System.Linq.Enumerable")
+        XCTAssertEqual(frames.first?.function, "Max")
+        XCTAssertEqual(frames.first?.inApp, false)
+        XCTAssertEqual(frames.last?.function, "RunSimulator")
+    }
+
+    func testParsesDotNetCoreSourceLocation() {
+        let text = """
+ ---> System.NullReferenceException: Object reference not set to an instance of an object
+   at BobsBuddy.Simulation.Simulator.Run() in /src/Sim.cs:line 42
+"""
+        let frame = BobsBuddySimulationFailure(text: text).frames.first
+        XCTAssertEqual(frame?.fileName, "/src/Sim.cs")
+        XCTAssertEqual(frame?.lineNumber, 42)
+    }
+
+    func testParsesMonoSourceLocation() {
+        let text = """
+ ---> System.NullReferenceException: Object reference not set to an instance of an object
+   at BobsBuddy.Simulation.Simulator.Run() [0x0001c] in /src/Sim.cs:42
+"""
+        let frame = BobsBuddySimulationFailure(text: text).frames.first
+        XCTAssertEqual(frame?.fileName, "/src/Sim.cs")
+        XCTAssertEqual(frame?.lineNumber, 42)
+    }
+
+    /// Mono prints `<hash>` in place of a path when it has no real file, and the line is 0.
+    func testIgnoresPlaceholderSourceLocation() {
+        let text = """
+ ---> System.NullReferenceException: Object reference not set to an instance of an object
+   at BobsBuddy.Simulation.Simulator.Run() [0x0001c] in <8f2a3c>:0
+"""
+        let frame = BobsBuddySimulationFailure(text: text).frames.first
+        XCTAssertNil(frame?.fileName)
+        XCTAssertNil(frame?.lineNumber)
+    }
+
+    func testMakeEventCarriesTheStacktraceOutermostFirst() {
+        let event = BobsBuddySimulationFailure(text: nullReference).makeEvent()
+        let stacktrace = event.exceptions?.first?.stacktrace
+        XCTAssertEqual(stacktrace?.frames.last?.function, "TryGetRandom")
+        XCTAssertEqual(stacktrace?.frames.first?.function, "PerformAttack")
+        XCTAssertEqual(stacktrace?.frames.last?.platform, "csharp")
+    }
+
+    func testMakeEventKeepsTheFingerprint() {
+        let failure = BobsBuddySimulationFailure(text: nullReference)
+        let event = failure.makeEvent()
+        XCTAssertEqual(event.fingerprint, ["bobsbuddy", "System.NullReferenceException", "BobsBuddy.Minions.Dragon.BronzeTimewalker.OnRally"])
+        XCTAssertEqual(event.exceptions?.first?.mechanism?.type, "bobsbuddy")
+    }
+
+    func testMakeEventWithoutFramesHasNoStacktrace() {
+        let event = BobsBuddySimulationFailure(text: "something went wrong").makeEvent()
+        XCTAssertNil(event.exceptions?.first?.stacktrace)
+    }
+
+    // MARK: - Native threads
+
+    func testStripNativeThreadsDropsThreadsForBobsBuddyEvents() {
+        let event = BobsBuddySimulationFailure(text: nullReference).makeEvent()
+        event.threads = [SentryThread(threadId: NSNumber(value: 1))]
+        XCTAssertNil(BobsBuddySimulationFailure.stripNativeThreads(from: event).threads)
+    }
+
+    func testStripNativeThreadsKeepsThreadsOfOtherEvents() {
+        let exception = Exception(value: "boom", type: "NSException")
+        exception.mechanism = Mechanism(type: "cocoa")
+        let event = Event()
+        event.exceptions = [exception]
+        event.threads = [SentryThread(threadId: NSNumber(value: 1))]
+        XCTAssertNotNil(BobsBuddySimulationFailure.stripNativeThreads(from: event).threads)
     }
 }

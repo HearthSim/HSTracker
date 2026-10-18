@@ -48,28 +48,69 @@ struct BobsBuddySimulationFailure {
     let exceptionType: String
     /// The BobsBuddy frame it was thrown from, e.g. `BobsBuddy.Minions.Dragon.BronzeTimewalker.OnRally`
     let failureFrame: String?
+    /// The stacktrace of the innermost exception of the primary chain, in the order .NET prints
+    /// it: innermost call first
+    let frames: [DotNetFrame]
+
+    /// One `at ...` line of a .NET stacktrace
+    struct DotNetFrame {
+        /// The method, e.g. `OnRally`
+        let function: String
+        /// The type it is declared on, e.g. `BobsBuddy.Minions.Dragon.BronzeTimewalker`
+        let module: String?
+        /// The source file, only when the runtime had a real path for it
+        let fileName: String?
+        /// The line in `fileName`, only when it is a real line
+        let lineNumber: Int?
+        /// Whether the method is one of ours rather than the .NET runtime or a library
+        let inApp: Bool
+    }
+
+    /// `in /src/Sim.cs:line 42` (.NET Core) or `[0x0001c] in /src/Sim.cs:42` (Mono). The path
+    /// is captured as is, so `<8f2a...>` placeholders are left for the caller to reject.
+    private static let sourceLocation = Regex("(?:^|\\s)in (.+?):(?:line )?([0-9]+)$")
 
     init(text: String) {
         self.text = text
 
         var type: String?
         var frames = [String]()
+        var innerFrames = [DotNetFrame]()
+        var reachedInnerBoundary = false
 
         for line in text.split(separator: "\n", omittingEmptySubsequences: false) {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
             if trimmed.hasPrefix("at ") {
-                frames.append(BobsBuddySimulationFailure.normalize(String(trimmed.dropFirst(3))))
+                let frame = String(trimmed.dropFirst(3))
+                frames.append(BobsBuddySimulationFailure.normalize(frame))
+                if !reachedInnerBoundary {
+                    innerFrames.append(BobsBuddySimulationFailure.parseFrame(frame))
+                }
+                continue
+            }
+            // The stacktrace of the primary chain ends at the end-of-inner marker, and the
+            // `(Inner Exception #N)` copies an AggregateException appends come after it.
+            if trimmed.hasPrefix("--- End of inner exception stack trace ---") || trimmed.contains("(Inner Exception #") {
+                reachedInnerBoundary = true
                 continue
             }
             // .NET prints the outermost exception first and each inner one below it, so the last
             // header before the first frame is the innermost exception of the primary chain. The
             // `(Inner Exception #N)` headers an AggregateException appends come after the frames.
-            if frames.isEmpty, let parsed = BobsBuddySimulationFailure.exceptionType(in: trimmed) {
-                type = parsed
+            if let parsed = BobsBuddySimulationFailure.exceptionType(in: trimmed) {
+                if frames.isEmpty {
+                    type = parsed
+                }
+                // Frames printed above a later header belong to an outer exception, so only the
+                // ones below the last header are the innermost exception's.
+                if !reachedInnerBoundary {
+                    innerFrames = []
+                }
             }
         }
 
         exceptionType = type ?? "Unknown"
+        self.frames = innerFrames
 
         let ours = frames.filter { $0.hasPrefix("BobsBuddy.") }
         // Utils frames are shared helpers, so the frame below one of them names the actual card
@@ -109,14 +150,7 @@ struct BobsBuddySimulationFailure {
             return
         }
 
-        let exception = Exception(value: failureFrame ?? "Unknown frame", type: exceptionType)
-        exception.mechanism = Mechanism(type: "bobsbuddy")
-
-        let event = Event()
-        event.level = .error
-        event.exceptions = [exception]
-        event.fingerprint = ["bobsbuddy", exceptionType, failureFrame ?? "unknown"]
-
+        let event = makeEvent()
         let exceptionText = text
         let inputString = input?.unitestCopyableVersion() ?? ""
         SentrySDK.capture(event: event, block: { scope in
@@ -127,6 +161,69 @@ struct BobsBuddySimulationFailure {
                 scope.addAttachment(Attachment(data: inputString.data(using: .utf8) ?? Data(), filename: "input.cs", contentType: "application/text"))
             }
         })
+    }
+
+    /// The Sentry event for this failure. The .NET frames are attached as the exception's
+    /// stacktrace, because otherwise Sentry only shows the Swift threads, which say nothing
+    /// about the simulator.
+    func makeEvent() -> Event {
+        let exception = Exception(value: failureFrame ?? "Unknown frame", type: exceptionType)
+        exception.mechanism = Mechanism(type: "bobsbuddy")
+        if !frames.isEmpty {
+            // .NET prints the innermost call first, and Sentry wants the outermost call first
+            let sentryFrames = frames.reversed().map { frame -> Frame in
+                let sentryFrame = Frame()
+                sentryFrame.platform = "csharp"
+                sentryFrame.function = frame.function
+                sentryFrame.module = frame.module
+                sentryFrame.fileName = frame.fileName
+                sentryFrame.lineNumber = frame.lineNumber.map { NSNumber(value: $0) }
+                sentryFrame.inApp = NSNumber(value: frame.inApp)
+                return sentryFrame
+            }
+            exception.stacktrace = SentryStacktrace(frames: sentryFrames, registers: [:])
+        }
+
+        let event = Event()
+        event.level = .error
+        event.exceptions = [exception]
+        event.fingerprint = ["bobsbuddy", exceptionType, failureFrame ?? "unknown"]
+        return event
+    }
+
+    /// For events whose first exception is a BobsBuddy failure, drops the threads and debug
+    /// meta. The SDK attaches the current Swift threads to any event that has exceptions, which
+    /// buries the .NET stacktrace under them. This has to run in `beforeSend`: an empty threads
+    /// array does not stop the SDK from adding its own.
+    static func stripNativeThreads(from event: Event) -> Event {
+        guard event.exceptions?.first?.mechanism?.type == "bobsbuddy" else {
+            return event
+        }
+        event.threads = nil
+        event.debugMeta = nil
+        return event
+    }
+
+    private static func parseFrame(_ frame: String) -> DotNetFrame {
+        let symbolEnd = frame.firstIndex(of: "(") ?? frame.endIndex
+        let symbol = normalize(String(frame[frame.startIndex ..< symbolEnd]).trimmingCharacters(in: .whitespaces))
+
+        // The source location follows the parameter list
+        var fileName: String?
+        var lineNumber: Int?
+        let location = frame.firstIndex(of: ")").map { String(frame[frame.index(after: $0)...]) } ?? ""
+        let matches = sourceLocation.matches(location)
+        if matches.count == 2, let line = Int(matches[1].value), line > 0, !matches[0].value.hasPrefix("<") {
+            fileName = matches[0].value
+            lineNumber = line
+        }
+
+        let lastDot = symbol.lastIndex(of: ".")
+        return DotNetFrame(function: lastDot.map { String(symbol[symbol.index(after: $0)...]) } ?? symbol,
+                           module: lastDot.map { String(symbol[..<$0]) },
+                           fileName: fileName,
+                           lineNumber: lineNumber,
+                           inApp: symbol.hasPrefix("BobsBuddy."))
     }
 
     private static func exceptionType(in line: String) -> String? {

@@ -372,7 +372,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
                    mode.rawValue as String == RunLoop.Mode.modalPanel.rawValue {
                     return nil
                 }
-                return event
+                // BobsBuddy failures carry the .NET stacktrace on their exception; the SDK
+                // also attaches the current Swift threads to every event with an exception,
+                // which Sentry would show instead. Only beforeSend runs late enough to
+                // remove them.
+                return BobsBuddySimulationFailure.stripNativeThreads(from: event)
             }
 
             // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
