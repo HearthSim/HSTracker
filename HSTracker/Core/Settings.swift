@@ -438,7 +438,7 @@ final class Settings {
     static var showBattlegroundsTavernMarkers: Bool
     @UserDefault(key: Settings.auto_enable_tavern_markers_recommended, defaultValue: false)
     static var autoEnableTavernMarkersRecommended: Bool
-    @UserDefault(key: Settings.tavern_markers_panel_expanded, defaultValue: true)
+    @UserDefault(key: Settings.tavern_markers_panel_expanded, defaultValue: false)
     static var tavernMarkersPanelExpanded: Bool
     @UserDefault(key: Settings.dismissed_tavern_marker_quick_guide, defaultValue: false)
     static var dismissedTavernMarkerQuickGuide: Bool
@@ -978,7 +978,9 @@ extension Settings {
     static let arenasmith_prelobby_trials_collapsed = "arenasmith_prelobby_trials_collapsed"
     static let show_battlegrounds_tavern_markers = "show_battlegrounds_tavern_markers"
     static let auto_enable_tavern_markers_recommended = "auto_enable_tavern_markers_recommended"
-    static let tavern_markers_panel_expanded = "tavern_markers_panel_expanded"
+    // Renamed from "tavern_markers_panel_expanded", which used to be saved on every
+    // toggle; the old value is dropped at startup (HDT resets it for configs < 1.59.4).
+    static let tavern_markers_panel_expanded = "tavern_markers_panel_start_expanded"
     static let dismissed_tavern_marker_quick_guide = "dismissed_tavern_marker_quick_guide"
     static let dismissed_comp_guides_marker_quick_guide = "dismissed_comp_guides_marker_quick_guide"
     static let dismissed_auto_enable_popup = "dismissed_auto_enable_popup"

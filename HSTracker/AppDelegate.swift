@@ -480,6 +480,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
             self.operationQueue.addOperations(operations, waitUntilFinished: true)
                         // remove any old feed URL to fix users not getting notified of updates
             UserDefaults.standard.removeObject(forKey: "SUFeedURL")
+            // the Tavern Pinning panel expansion used to be saved on every toggle
+            UserDefaults.standard.removeObject(forKey: "tavern_markers_panel_expanded")
             
             DispatchQueue.main.async {
                 self.completeSetup()

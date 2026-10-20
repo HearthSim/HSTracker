@@ -48,6 +48,10 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
     // until the Inspiration milestone, but the gating already matches.
     var exampleBoardsButtonEnabled: Bool { Self.isTier7Enabled }
 
+    // HDT's PinAllCompCardsAvailable: pinning individual minions is free, but
+    // pinning a whole comp stays a Tier7 feature.
+    var pinAllCompCardsAvailable: Bool { Self.isTier7Enabled }
+
     // HDT's ExampleBoardsButtonVisibility: the example boards are filtered by
     // the current minion pool, which only exists during a match.
     var exampleBoardsButtonVisible: Bool { !isPreLobby }
@@ -111,19 +115,30 @@ struct BattlegroundsCompGuideViewModel: Identifiable {
         var seen: Set<String> = []
 
         func add(dbfId: Int) {
-            guard available?.contains(dbfId) ?? true else { return }
             guard let card = Cards.by(dbfId: dbfId, collectible: false), !card.id.isEmpty else { return }
             guard seen.insert(card.id).inserted else { return }
             ids.append(card.id)
         }
 
-        compGuide.core_cards.forEach { add(dbfId: $0) }
-        compGuide.addon_cards.forEach { add(dbfId: $0) }
+        // Premium guides come with a list filtered by the server, free ones
+        // have to be collected from the guide.
+        if let minionsToPin = compGuide.minions_to_pin {
+            minionsToPin.forEach { add(dbfId: $0) }
+            return ids
+        }
+
+        func addIfAvailable(dbfId: Int) {
+            guard available?.contains(dbfId) ?? true else { return }
+            add(dbfId: dbfId)
+        }
+
+        compGuide.core_cards.forEach { addIfAvailable(dbfId: $0) }
+        compGuide.addon_cards.forEach { addIfAvailable(dbfId: $0) }
         for lines in [whenToCommitLines, commonEnablerLines, Self.howToPlayLines(howToPlay)] {
             for line in lines {
                 for segment in line {
                     if case .card(_, let dbfId) = segment, let dbfId {
-                        add(dbfId: dbfId)
+                        addIfAvailable(dbfId: dbfId)
                     }
                 }
             }

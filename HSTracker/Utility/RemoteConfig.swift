@@ -66,6 +66,8 @@ struct Mercenary: Codable {
 struct CardShortName: Codable {
     var dbf_id: Int
     var short_name: String
+    // a null value means the localized card name should be used instead of short_name
+    var localized: [String: String?]?
 }
 
 struct Tier7Data: Codable {

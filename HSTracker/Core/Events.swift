@@ -24,6 +24,7 @@ class Events {
     // its inspiration indicators on the moment a trial starts rather than at the
     // next match.
     static let tier7_trial_activated = "tier7_trial_activated"
+    static let tier7_trial_status_updated = "tier7_trial_status_updated"
 
     // HDT's HSReplayNetOAuth.Authenticated, AccountDataUpdated and LoggedOut events.
     static let hsreplay_authenticated = "hsreplay_authenticated"

@@ -134,19 +134,19 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
         panelHeight = height
     }
 
-    // HDT's IsOnTrial: true for anyone who does not own Tier7 outright, which
-    // is what puts the "Tier7 Feature" tag in the panel header. Note this is
-    // *not* the gate on the feature itself - see updateVisibility.
-    @Published private(set) var isOnTrial = true
-
-    // IsExpanded, persisted through ConfigWrapper.TavernMarkersPanelExpanded.
-    @Published var isExpanded = Settings.tavernMarkersPanelExpanded {
+    // HDT's IsTier7Enabled. Pinning minions and minion types is free; only the
+    // "key pieces" recommendation needs Tier7 (or an active trial).
+    @Published private(set) var isTier7Enabled = false {
         didSet {
-            if Settings.tavernMarkersPanelExpanded != isExpanded {
-                Settings.tavernMarkersPanelExpanded = isExpanded
+            if isTier7Enabled != oldValue {
+                updatePinnedFlags()
             }
         }
     }
+
+    // IsExpanded. Settings.tavernMarkersPanelExpanded is only the starting
+    // state - toggling the panel no longer saves it.
+    @Published var isExpanded = Settings.tavernMarkersPanelExpanded
 
     // The lobby's minion types, mirrored from the same source the minion
     // browser reads (see updateLobby). Setting it prunes any selected race the
@@ -169,7 +169,7 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
     private var isDuos = false
 
     init() {
-        updateTrialState()
+        updateIsTier7Enabled()
     }
 
     // MARK: - Pinning
@@ -442,7 +442,7 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
             shopCards[index].isTribePinned = pinnedRace != nil
             shopCards[index].tribeIconRace = pinnedRace ?? .invalid
 
-            if enableRecommended && recommendedCardIds.contains(cardId) {
+            if enableRecommended && isTier7Enabled && recommendedCardIds.contains(cardId) {
                 shopCards[index].isRecommendedPinned = true
                 shopCards[index].recommendedComps = recommendedCardGuides[cardId] ?? []
             } else {
@@ -455,8 +455,8 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
     // MARK: - Lifecycle
 
     // Mirrors HDT's ShouldShowBgsMinionPinning(), evaluated from the overlay
-    // update tick as OverlayWindow.Update does. Unlike the minion browser this
-    // *is* a hard Tier7 gate - free users get no panel at all.
+    // update tick as OverlayWindow.Update does. Free users get the panel too;
+    // isTier7Enabled only gates the key piece recommendation.
     //
     // The "still in a Battlegrounds match" term is not part of HDT's own
     // predicate, because HDT never re-evaluates it on a tick: it sets the
@@ -473,7 +473,6 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
     func updateVisibility() {
         guard let game = AppDelegate.instance().coreManager?.game else { return }
 
-        let userHasTier7 = (HSReplayAPI.accountData?.is_tier7 ?? false) || Tier7Trial.token != nil
         let shouldShow = game.isBattlegroundsMatch()
             && !game.gameEnded
             // The pins are placed from the minion browser, so with the browser
@@ -482,9 +481,8 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
             && Settings.showBattlegroundsTavernMarkers
             && game.isBattlegroundsHeroPickingDone
             && game.setupDone
-            && userHasTier7
 
-        updateTrialState()
+        updateIsTier7Enabled()
 
         guard shouldShow != isShown else { return }
         isShown = shouldShow
@@ -494,10 +492,11 @@ final class BattlegroundsMinionPinningViewModel: ObservableObject {
         }
     }
 
-    private func updateTrialState() {
-        let onTrial = !(HSReplayAPI.accountData?.is_tier7 ?? false)
-        if onTrial != isOnTrial {
-            isOnTrial = onTrial
+    // UpdateIsTier7Enabled.
+    func updateIsTier7Enabled() {
+        let enabled = (HSReplayAPI.accountData?.is_tier7 ?? false) || Tier7Trial.token != nil
+        if enabled != isTier7Enabled {
+            isTier7Enabled = enabled
         }
     }
 

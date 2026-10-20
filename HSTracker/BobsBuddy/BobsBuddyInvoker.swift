@@ -779,6 +779,13 @@ class BobsBuddyInvoker {
         minion.scriptDataNum3 = Int32(entity[.tag_script_data_num_3])
         minion.scriptDataNum4 = Int32(entity[.tag_script_data_num_4])
 
+        // Opponent Timewarped Embalmers are revealing TAG_SCRIPT_DATA_NUM_1 incorrectly even when charges
+        // are already spent; TRIGGER_VISUAL=0 at combat snapshot appears to signal none are left
+        if !player, let embalmerClass = TimewarpedEmbalmerProxy._class, MonoHelper.isInstance(obj: minion, klass: embalmerClass),
+           entity.tags.containsKey(.trigger_visual), entity[.trigger_visual] == 0 {
+            minion.scriptDataNum1 = 0
+        }
+
         // Eclipsion Illidari: SCORE_VALUE_2 is the number of "Immune while Attacking" grants left this turn
         if let eclipsionClass = EclipsionIllidariProxy._class, MonoHelper.isInstance(obj: minion, klass: eclipsionClass),
            entity.tags.containsKey(.score_value_2) {
@@ -1058,29 +1065,23 @@ class BobsBuddyInvoker {
 
             for gift in gifts {
                 switch gift.cardId {
-                case CardIds.NonCollectible.Neutral.JawsOfDeath:
-                    // Do not attach if START_OF_COMBAT tag was cleared
+                case CardIds.NonCollectible.Neutral.JawsOfDeath,
+                     CardIds.NonCollectible.Neutral.Resistance,
+                     CardIds.NonCollectible.Neutral.Hostility:
+                    // Do not continue if START_OF_COMBAT tag was cleared
                     if host[GameTag.start_of_combat] == 0 {
-                        break
+                        return
                     }
-                    let enchantment = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.JawsOfDeath, controlledByPlayer: minion.controlledByPlayer)
+                    let socEnchantment = sim.enchantmentFactory.create(cardId: gift.cardId, controlledByPlayer: minion.controlledByPlayer)
+                    if socEnchantment.get() != nil {
+                        minion.attachEnchantment(enchantment: socEnchantment)
+                    }
+                case CardIds.NonCollectible.Neutral.OffensiveSacrifice,
+                     CardIds.NonCollectible.Neutral.DefensiveSacrifice,
+                     CardIds.NonCollectible.Neutral.Invulnerability:
+                    let enchantment = sim.enchantmentFactory.create(cardId: gift.cardId, controlledByPlayer: minion.controlledByPlayer)
                     if enchantment.get() != nil {
                         minion.attachEnchantment(enchantment: enchantment)
-                    }
-                case CardIds.NonCollectible.Neutral.OffensiveSacrifice:
-                    let offensiveSacrifice = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.OffensiveSacrifice, controlledByPlayer: minion.controlledByPlayer)
-                    if offensiveSacrifice.get() != nil {
-                        minion.attachEnchantment(enchantment: offensiveSacrifice)
-                    }
-                case CardIds.NonCollectible.Neutral.DefensiveSacrifice:
-                    let defensiveSacrifice = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.DefensiveSacrifice, controlledByPlayer: minion.controlledByPlayer)
-                    if defensiveSacrifice.get() != nil {
-                        minion.attachEnchantment(enchantment: defensiveSacrifice)
-                    }
-                case CardIds.NonCollectible.Neutral.Invulnerability:
-                    let invulnerability = sim.enchantmentFactory.create(cardId: CardIds.NonCollectible.Neutral.Invulnerability, controlledByPlayer: minion.controlledByPlayer)
-                    if invulnerability.get() != nil {
-                        minion.attachEnchantment(enchantment: invulnerability)
                     }
                 default:
                     break
@@ -2301,7 +2302,14 @@ class BobsBuddyInvoker {
                 return
             }
 
-            if MonoList<MonoHandle>(minion.enchantments).contains(where: { e in MonoHelper.isInstance(obj: e, klass: TimewarpedNelliesShipEnchantmentProxy._class!) }) {
+            if let existing = MonoList<MonoHandle>(minion.enchantments).first(where: { e in MonoHelper.isInstance(obj: e, klass: TimewarpedNelliesShipEnchantmentProxy._class!) }) {
+                // A golden ship summons two Pirates; the first call can arrive after the first summon.
+                let existingEnchantment = EnchantmentProxy(obj: existing.get())
+                if !minion.golden || existingEnchantment.scriptDataNum2 != 0 || cardDbfids.count < 2 {
+                    return
+                }
+                existingEnchantment.scriptDataNum2 = Int32(cardDbfids[1])
+                tryRerun()
                 return
             }
 

@@ -169,7 +169,25 @@ class Tier7Trial {
         if _status?.hours_til_next_reset ?? 0 < 2 {
             _status = nil
         }
+        if _status != nil {
+            return
+        }
         _status = await HSReplayAPI.getPlayerTrialStatus(name: "tier7-overlay", hi: hi, lo: lo)
+        // HDT's Tier7Trial.OnStatusUpdated.
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.tier7_trial_status_updated), object: nil)
+    }
+
+    // Refetch right away so the next match can start a trial even when queued
+    // straight from the menu.
+    static func refresh() async {
+        clear()
+        if HSReplayAPI.accountData?.is_tier7 ?? false {
+            return
+        }
+        guard let acc = MirrorHelper.getAccountId() else {
+            return
+        }
+        await update(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
     }
 
     // In-memory only, matching HDT's own Clear() - the persisted per-game

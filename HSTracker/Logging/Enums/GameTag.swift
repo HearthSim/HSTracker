@@ -558,7 +558,11 @@ enum GameTag: Int, CaseIterable, Codable {
     cthun_ability1_used = 4527,
     cthun_ability2_used = 4760,
     cthun_ability3_used = 4769,
-    cthun_ability4_used = 4770
+    cthun_ability4_used = 4770,
+    // An assembled card's halves: the dbf ids of the cards its trigger and its
+    // effect were taken from. 1 or less is no card (no half, or one still on offer).
+    craftable_first_half_dbid = 4572,
+    craftable_second_half_dbid = 4573
 
     static var lookup = [String: GameTag]()
     

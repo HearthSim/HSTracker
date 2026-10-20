@@ -56,13 +56,15 @@ class BattlegroundsGameRowViewModel: ObservableObject, Identifiable, Equatable {
         }
         heroCard = card
 
-        if Self.preferTranslatedCardName {
-            // Some languages have short card names, so we'd rather use the language from the game than our English-only short version.
-            heroName = card?.name ?? "-"
+        let heroShortNameMap = RemoteConfig.data?.battlegrounds_short_names?.first(where: { x in x.dbf_id == card?.dbfId })
+        let shortName: String?
+        if let localizedShortName = heroShortNameMap?.localized?[(Settings.hearthstoneLanguage ?? .enUS).rawValue] {
+            shortName = localizedShortName
         } else {
-            let heroShortNameMap = RemoteConfig.data?.battlegrounds_short_names?.first(where: { x in x.dbf_id == card?.dbfId })
-            heroName = heroShortNameMap?.short_name ?? card?.name ?? "-"
+            // Some languages have short card names, so we'd rather use the language from the game than our English-only short version.
+            shortName = Self.preferTranslatedCardName ? nil : heroShortNameMap?.short_name
         }
+        heroName = shortName ?? card?.name ?? "-"
 
         mmrDelta = gameItem.seasonReset ? gameItem.ratingAfter : gameItem.ratingAfter - gameItem.rating
         let signal = mmrDelta >= 0 ? "+" : ""

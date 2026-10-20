@@ -85,6 +85,21 @@ class Database {
 
     // list of cards that are incorrectly tagged as BG
     static let battlegroundsExclusions: Set = [ "CORE_LOE_077" ]
+
+    // Multi-class Tavern Brawl heroes have no CLASS tag, only MULTIPLE_CLASSES
+    static let multiClassBrawlHeroes: [String: CardClass] = [
+        "TB_MultiClass_Hero_Lich_King": .deathknight,
+        "TB_MultiClass_Hero_Illidan": .demonhunter,
+        "TB_MultiClass_Hero_Garrosh": .warrior,
+        "TB_MultiClass_Hero_Thrall": .shaman,
+        "TB_MultiClass_Hero_Valeera": .rogue,
+        "TB_MultiClass_Hero_Uther": .paladin,
+        "TB_MultiClass_Hero_Rexxar": .hunter,
+        "TB_MultiClass_Hero_Malfurion": .druid,
+        "TB_MultiClass_Hero_Guldan": .warlock,
+        "TB_MultiClass_Hero_Jaina": .mage,
+        "TB_MultiClass_Hero_Anduin": .priest
+    ]
     
     static var battlegroundRaces = [Race]()
 
@@ -316,6 +331,9 @@ class Database {
         }
         guard let card = currentCard else {
             return
+        }
+        if card.playerClass == .neutral, let heroClass = Database.multiClassBrawlHeroes[card.id] {
+            card.playerClass = heroClass
         }
         if let set = card.set {
             card.isStandard = !CardSet.wildSets.contains(set) && !CardSet.classicSets.contains(set)

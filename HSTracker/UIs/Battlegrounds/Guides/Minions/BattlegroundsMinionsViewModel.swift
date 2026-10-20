@@ -163,6 +163,8 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             if let keyword = activeKeyword, !keywords.contains(keyword) {
                 activeKeyword = nil
             }
+            // The pool decides whether Greedy Conniver can unlock tier 7.
+            updateTavernTier7Visibility()
         }
     }
     private var isDuos = false
@@ -196,9 +198,15 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     private var hasTier7Trinket = false
     private var hasTier7QuestReward = false
 
+    // HDT's HasTier7Minion: Greedy Conniver can push the tavern to tier 7.
+    private var hasTier7Minion: Bool {
+        db.getCardsByRaces(availableRaces ?? Array(db.races), isDuos)
+            .contains { $0.id == CardIds.NonCollectible.Neutral.GreedyConniver }
+    }
+
     // HDT's ShowTavernTier7.
     private var showTier7: Bool {
-        Settings.alwaysShowTier7 || hasTier7HeroPower || hasTier7Trinket || hasTier7QuestReward
+        Settings.alwaysShowTier7 || hasTier7HeroPower || hasTier7Trinket || hasTier7QuestReward || hasTier7Minion
     }
 
     init() {
@@ -233,6 +241,11 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
     // lasts the rest of the app session - slightly more permissive than HDT's
     // per-game check, but this is exactly how the Comp guides and the quest
     // picker already read the entitlement.
+    // HDT's ShowInspirationButtons: a trial from the previous match must not
+    // carry over into the pre-lobby. (The pin buttons need no such guard here,
+    // they already follow the pinning panel, which only shows during a match.)
+    private var showInspirationButtons: Bool { isInspirationEnabled && !isPreLobby }
+
     private func updateInspirationEnabled() {
         let game = AppDelegate.instance().coreManager.game
         let userHasTier7 = (HSReplayAPI.accountData?.is_tier7 ?? false) || Tier7Trial.token != nil
@@ -562,7 +575,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 groupedByMinionType: false,
                 groupedByKeyword: false,
                 cards: cards.sorted { $0.name < $1.name },
-                isInspirationEnabled: isInspirationEnabled
+                isInspirationEnabled: showInspirationButtons
             ))
         }
         if Settings.showTavernSpells {
@@ -572,7 +585,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 result.append(MinionGroup(tier: tier, minionType: .spells, keyword: nil,
                                           groupedByMinionType: false, groupedByKeyword: false,
                                           cards: spells,
-                                          isInspirationEnabled: isInspirationEnabled))
+                                          isInspirationEnabled: showInspirationButtons))
             }
         }
         return result.sorted { a, b in
@@ -606,14 +619,14 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             result.append(MinionGroup(tier: tier, minionType: minionType, keyword: nil,
                                       groupedByMinionType: true, groupedByKeyword: false,
                                       cards: cards,
-                                      isInspirationEnabled: isInspirationEnabled))
+                                      isInspirationEnabled: showInspirationButtons))
         }
 
         if minionType == .race(.all), let darkParadox = unknownDarkParadox {
             result.insert(MinionGroup(tier: 0, minionType: minionType, keyword: nil,
                                       groupedByMinionType: true, groupedByKeyword: false,
                                       cards: [darkParadox],
-                                      isInspirationEnabled: isInspirationEnabled), at: 0)
+                                      isInspirationEnabled: showInspirationButtons), at: 0)
         }
         return result
     }
@@ -641,7 +654,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
             result.append(MinionGroup(tier: tier, minionType: nil, keyword: keyword,
                                       groupedByMinionType: false, groupedByKeyword: true,
                                       cards: cards,
-                                      isInspirationEnabled: isInspirationEnabled))
+                                      isInspirationEnabled: showInspirationButtons))
         }
         // Gated on showTavernSpells for the same reason the tier view is: a user
         // who turned tavern spells off shouldn't get them back via a keyword.
@@ -654,7 +667,7 @@ final class BattlegroundsMinionsViewModel: ObservableObject {
                 result.append(MinionGroup(tier: 0, minionType: .spells, keyword: keyword,
                                           groupedByMinionType: false, groupedByKeyword: true,
                                           cards: spells,
-                                          isInspirationEnabled: isInspirationEnabled))
+                                          isInspirationEnabled: showInspirationButtons))
             }
         }
         return result

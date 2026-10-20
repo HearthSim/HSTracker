@@ -322,8 +322,10 @@ class Watchers {
         // same call (Sentry HSTRACKER-304).
         DispatchQueue.main.async {
             if game.isTraditionalHearthstoneMatch {
+                // Assembled cards highlight the synergies of their effect half.
+                let highlightCardId = RelatedCardsManager.getEffectCardId(game.discoverOfferedEntity(args), args.cardId)
                 game.windowManager.rootOverlay?.viewModel.playerTrackerHover
-                    .highlightPlayerDeckCards(highlightSourceCardId: args.cardId)
+                    .highlightPlayerDeckCards(highlightSourceCardId: highlightCardId)
             }
         }
     }

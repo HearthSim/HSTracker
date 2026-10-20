@@ -20,7 +20,7 @@ class BattlegroundsNotificationsViewModel: ObservableObject {
     private var heroIds: [Int]?
     private var duos = false
     private var anomalyDbfId: Int?
-    private var parameters: [String: String]?
+    private(set) var parameters: [String: String]?
 
     private var boardCards: [MirrorBoardCard]?
 
@@ -41,6 +41,14 @@ class BattlegroundsNotificationsViewModel: ObservableObject {
         }
     }
 
+    // Rerolls change the offered heroes while the panel stays open.
+    func updateHeroPick(heroIds: [Int], parameters: [String: String]?) {
+        onMain {
+            self.heroIds = heroIds
+            self.parameters = parameters
+        }
+    }
+
     func hideHeroPick() {
         onMain {
             withAnimation(.easeInOut(duration: Self.slideDuration)) {
@@ -53,7 +61,6 @@ class BattlegroundsNotificationsViewModel: ObservableObject {
         if let heroIds {
             Helper.openBattlegroundsHeroPicker(heroIds: heroIds, duos: duos, anomalyDbfId: anomalyDbfId, parameters: parameters)
         }
-        AppDelegate.instance().coreManager.game.hideBattlegroundsHeroPanel()
     }
 
     // MARK: - Timewarp

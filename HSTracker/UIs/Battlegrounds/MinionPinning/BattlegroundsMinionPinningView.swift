@@ -67,9 +67,13 @@ struct BattlegroundsMinionPinningView: View {
                             .reportInteractiveRegion(when: true)
                             .padding(.bottom, Self.panelBottomInset)
                     }
-                    recommendButton
-                        .reportInteractiveRegion(when: true)
-                        .padding(.trailing, Self.recommendButtonInset)
+                    // Recommending key pieces stays a Tier7 feature; pinning
+                    // individual minions and minion types is free.
+                    if viewModel.isTier7Enabled {
+                        recommendButton
+                            .reportInteractiveRegion(when: true)
+                            .padding(.trailing, Self.recommendButtonInset)
+                    }
                     expandButton
                         .reportInteractiveRegion(when: true)
                         .padding(.trailing, Self.expandButtonInset)
@@ -138,17 +142,12 @@ struct BattlegroundsMinionPinningView: View {
     }
 
     // Border Background="#1C2022" with a #4A5256 bottom edge and
-    // Padding="8,0,0,0"; the title's own Margin is "6,6,0,6".
+    // Padding="8,0,0,0"; the title's own Margin is "0,6,0,6".
     private var header: some View {
         HStack(spacing: 0) {
-            Image("tier7-logo")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 14, height: 14)
             Text(String.localizedString("Tavern Pinning", comment: ""))
                 .chunkFive(size: 11)
                 .outlinedText()
-                .padding(.leading, 6)
                 .padding(.vertical, 6)
             Spacer(minLength: 0)
             headerTrailing
@@ -159,10 +158,7 @@ struct BattlegroundsMinionPinningView: View {
         .cornerRadius(3, corners: [.topLeft])
     }
 
-    // The tag and the button pair share one slot: HDT shows the "Tier7 Feature"
-    // tag only while the cursor is away (CogBtnVisibility == Hidden) and the
-    // user is not a Tier7 subscriber, and swaps in the help/settings buttons on
-    // hover.
+    // The help/settings buttons only show while the cursor is on the panel.
     @ViewBuilder
     private var headerTrailing: some View {
         if viewModel.isCogVisible {
@@ -174,13 +170,6 @@ struct BattlegroundsMinionPinningView: View {
                     AppDelegate.instance().openPreferences(pane: .battlegrounds)
                 }) { settingsGlyph }
             }
-        } else if viewModel.isOnTrial {
-            Text(String.localizedString("Tier7 Feature", comment: ""))
-                .font(.system(size: 10, weight: .semibold))
-                .foregroundColor(Color(hex: "#FFB00D"))
-                .padding(.horizontal, 4)
-                .padding(.vertical, 2)
-                .padding(4)
         }
     }
 
@@ -257,11 +246,6 @@ struct BattlegroundsMinionPinningView: View {
                 .padding(.top, 4)
                 .padding(.bottom, 8)
 
-            bulletText("● Comp Guides")
-            exampleImage("comp-pin-example", height: 108)
-                .padding(.top, 4)
-                .padding(.bottom, 8)
-
             bulletText("● Or pin entire minion types below")
 
             gotItButton { viewModel.dismissGuide() }
@@ -297,7 +281,7 @@ struct BattlegroundsMinionPinningView: View {
     // hidden Stretch="Uniform" Image, so the border tracks the art's natural
     // width at the given height. Every one of these heights was picked to make
     // that width fill the row: 121 x 1.794 = 217, 123 x 1.771 = 218,
-    // 108 x 2.013 = 217, and 181 x 0.918 = 166 in the 200pt popup.
+    // and 181 x 0.918 = 166 in the 200pt popup.
     //
     // Here the border stretches to the full row instead and the art letterboxes
     // inside it. That lands closer to HDT than it sounds: WPF's

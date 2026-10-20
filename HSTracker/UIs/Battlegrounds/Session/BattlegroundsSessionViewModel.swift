@@ -23,7 +23,7 @@ class BattlegroundsSessionViewModel: ObservableObject {
     private var accountObservers = [NSObjectProtocol]()
 
     init() {
-        for event in [Events.hsreplay_account_data_updated, Events.hsreplay_logged_out] {
+        for event in [Events.hsreplay_account_data_updated, Events.hsreplay_logged_out, Events.tier7_trial_status_updated] {
             accountObservers.append(NotificationCenter.default.addObserver(forName: Notification.Name(rawValue: event), object: nil, queue: nil) { [weak self] _ in
                 Task {
                     await self?.updateCompositionStatsVisibility()
@@ -370,16 +370,17 @@ class BattlegroundsSessionViewModel: ObservableObject {
     func updateCompositionStatsVisibility() async {
         let userOwnsTier7 = HSReplayAPI.accountData?.is_tier7 ?? false
 
-        if let acc = MirrorHelper.getAccountId() {
-            if !userOwnsTier7 {
-                await Tier7Trial.update(hi: acc.hi.int64Value, lo: acc.lo.int64Value)
-            }
-        }
         let visible: Bool
         if isDuos || !Settings.showBattlegroundsTier7SessionCompStats {
             visible = false
+        } else if AppDelegate.instance().coreManager.game.isInMenu {
+            // Leftovers from the last match (its stats, its trial) say nothing
+            // about whether the next one can show comp stats.
+            visible = userOwnsTier7 || Tier7Trial.remainingTrials ?? 0 > 0
         } else {
-            visible = userOwnsTier7 || Tier7Trial.remainingTrials ?? 0 > 0 || compositionStats != nil
+            let gameHandle = AppDelegate.instance().coreManager.game.serverInfo?.gameHandle as? Int
+            visible = userOwnsTier7 || Tier7Trial.remainingTrials ?? 0 > 0
+                || gameHandle.map(Tier7Trial.isTrialForCurrentGameActive) ?? false || compositionStats != nil
         }
         await MainActor.run {
             availableCompStatsSectionVisible = visible

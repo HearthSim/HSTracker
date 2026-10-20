@@ -2206,7 +2206,18 @@ class Game: NSObject, PowerEventHandler {
         DispatchQueue.main.async {
             self.updateMulliganGuidePreLobby()
         }
+
+        if refreshTier7TrialInMenu {
+            refreshTier7TrialInMenu = false
+            Task.detached {
+                await Tier7Trial.refresh()
+            }
+        }
     }
+
+    // Set when a Battlegrounds match ends; HDT refreshes the Tier7 trial from
+    // HandleInMenu when the last game was Battlegrounds.
+    private var refreshTier7TrialInMenu = false
 	
 	private func generateEndgameStatistics() -> InternalGameStats? {
 		let result = InternalGameStats()
@@ -2412,10 +2423,10 @@ class Game: NSObject, PowerEventHandler {
             windowManager.rootOverlay?.viewModel.battlegroundsQuestPicking.reset()
             windowManager.rootOverlay?.viewModel.battlegroundsTrinketPicking.reset()
             windowManager.rootOverlay?.viewModel.battlegroundsHeroPowerPicking.reset()
-            // GameEventHandler's IsBattlegroundsMatch branch clears the trial
-            // once the match it was activated for is over, so the next game
-            // has to spend a trial of its own rather than riding this token.
-            Tier7Trial.clear()
+            // The trial is cleared and its status refetched once back in the
+            // menu (see inMenu), so the next game has to spend a trial of its
+            // own rather than riding this token.
+            refreshTier7TrialInMenu = true
             // These mutate @Published properties on ObservableObjects
             // (unlike the legacy KVO-based ViewModel.reset() calls
             // above), which Combine requires happen on the main thread.
@@ -3320,7 +3331,8 @@ class Game: NSObject, PowerEventHandler {
         let heroes = player.playerEntities.filter { x in x.isHero && (x.has(tag: .bacon_hero_can_be_drafted) || x.has(tag: .bacon_skin)) && !x.has(tag: .bacon_locked_mulligan_hero) }
 
         // refresh the offered heroes
-        snapshotBattlegroundsOfferedHeroes(heroes)
+        let offeredHeroIds = snapshotBattlegroundsOfferedHeroes(heroes)
+        updateBattlegroundsHeroPanel(offeredHeroIds, windowManager.rootOverlay?.viewModel.battlegroundsNotifications.parameters)
 
         battlegroundsHeroPickingLatch += 1
         let latchOut = battlegroundsHeroPickingLatch
@@ -3344,14 +3356,19 @@ class Game: NSObject, PowerEventHandler {
         }
 
         // the stats are no longer relevant
-        if gameEntity?[.step] ?? 0 > Step.begin_mulligan.rawValue || isInMenu || windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.heroStats == nil {
+        if gameEntity?[.step] ?? 0 > Step.begin_mulligan.rawValue || isInMenu {
             return
         }
 
         if let stats = battlegroundsHeroPickStats, let heroIds = battlegroundsHeroPickState.offeredHeroDbfIds {
+            updateBattlegroundsHeroPanel(heroIds, stats.toast.parameters)
+
+            if windowManager.rootOverlay?.viewModel.battlegroundsHeroPicking.heroStats == nil {
+                return
+            }
+
             DispatchQueue.main.async { [self] in
                 self.showBattlegroundsHeroPickingStats(heroIds.compactMap({ dbfId in stats.data.first { x in x.hero_dbf_id == dbfId }}), stats.toast.parameters, stats.toast.min_mmr, stats.toast.anomaly_adjusted ?? false)
-                self.showBattlegroundsHeroPanel(heroIds, self.isBattlegroundsDuosMatch(), stats.toast.parameters)
             }
         }
     }
@@ -5159,6 +5176,11 @@ class Game: NSObject, PowerEventHandler {
             .showHeroPick(heroIds: heroIds, duos: duos, anomalyDbfId: anomalyDbfId, parameters: parameters)
     }
     
+    func updateBattlegroundsHeroPanel(_ heroIds: [Int], _ parameters: [String: String]?) {
+        windowManager.rootOverlay?.viewModel.battlegroundsNotifications
+            .updateHeroPick(heroIds: heroIds, parameters: parameters)
+    }
+
     func hideBattlegroundsHeroPanel() {
         windowManager.rootOverlay?.viewModel.battlegroundsNotifications.hideHeroPick()
     }
@@ -5272,17 +5294,19 @@ class Game: NSObject, PowerEventHandler {
         if let hoveredCard {
             // player hand
             if hoveredCard.isHand && isTraditionalHearthstoneMatch {
-                let relatedCards = getRelatedCards(player: player, cardId: hoveredCard.cardId, inHand: true, handPosition: hoveredCard.zonePosition)
+                let hoveredEntity = player.hand.first { $0.zonePosition == hoveredCard.zonePosition }
+                // Assembled cards take their related cards from their effect half.
+                let effectCardId = RelatedCardsManager.getEffectCardId(hoveredEntity, hoveredCard.cardId)
+                let relatedCards = getRelatedCards(player: player, cardId: effectCardId, inHand: true, handPosition: hoveredCard.zonePosition)
                 // HDT's SetRelatedCardsTrigger(BigCardState): OutfinderInHand gates the hand hover.
                 if relatedCards.count > 0 && Settings.showPlayerRelatedCards &&
-                    !relatedCardsManager.isOutfinderSuppressed(cardId: hoveredCard.cardId, surfaceEnabled: Settings.outfinderInHand) {
+                    !relatedCardsManager.isOutfinderSuppressed(cardId: effectCardId, surfaceEnabled: Settings.outfinderInHand) {
                     let nonNullableRelatedCards = relatedCards.compactMap { x in x }
                     
                     let tooltipGridCards = windowManager.tooltipGridCards
                     tooltipGridCards.setTitle(String.localizedString("Related_Cards", comment: ""))
                     tooltipGridCards.setCardIdsFromCards(nonNullableRelatedCards, 470)
-                    let hoveredEntity = player.hand.first { $0.zonePosition == hoveredCard.zonePosition }
-                    let (statistics, summary, hasLargePool) = relatedCardsManager.getPoolStatistics(cardId: hoveredCard.cardId, relatedCards: relatedCards, player: player, hoveredEntity: hoveredEntity)
+                    let (statistics, summary, hasLargePool) = relatedCardsManager.getPoolStatistics(cardId: effectCardId, relatedCards: relatedCards, player: player, hoveredEntity: hoveredEntity)
                     tooltipGridCards.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
 
                     let frame = SizeHelper.hearthstoneWindow.frame
@@ -5309,7 +5333,7 @@ class Game: NSObject, PowerEventHandler {
                     let tooltipFrame = NSRect(x: Int(x), y: Int(y), width: tooltipGridCards.gridWidth, height: tooltipGridCards.gridHeight)
                     tooltipGridCards.show(frame: tooltipFrame)
                     RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
-                        card: hasLargePool ? Cards.by(cardId: hoveredCard.cardId) : nil,
+                        card: hasLargePool ? Cards.by(cardId: effectCardId) : nil,
                         pool: hasLargePool ? nonNullableRelatedCards : [],
                         anchorFrame: tooltipFrame)
                 } else {
@@ -5437,9 +5461,14 @@ class Game: NSObject, PowerEventHandler {
             self.windowManager.rootOverlay?.viewModel.setCardOpacityMask(state)
             if self.isTraditionalHearthstoneMatch {
                 let isFriendlyCard = state.side == PlayerSide.friendly.rawValue
+                // Assembled cards highlight the synergies of their effect half.
+                let handEntity = isFriendlyCard && state.isHand
+                    ? self.player.hand.first { $0.zonePosition == state.zonePosition }
+                    : nil
+                let highlightCardId = isFriendlyCard ? RelatedCardsManager.getEffectCardId(handEntity, state.cardId) : nil
 
                 self.windowManager.rootOverlay?.viewModel.playerTrackerHover
-                    .highlightPlayerDeckCards(highlightSourceCardId: isFriendlyCard ? state.cardId : nil)
+                    .highlightPlayerDeckCards(highlightSourceCardId: highlightCardId)
             }
             self.updateTooltips()
             // Mirrors HDT's SetAnomalyGuidesTrigger(string cardId), called
@@ -5451,6 +5480,14 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    // The entity behind the hovered Discover option, if the watcher read one.
+    func discoverOfferedEntity(_ state: DiscoverStateArgs) -> Entity? {
+        guard let entityId = state.entityId, entityId > 0 else {
+            return nil
+        }
+        return entities[entityId]
+    }
+
     func setRelatedCardsTrigger(_ state: DiscoverStateArgs) {
         // Note: To debug behavior here and/or implement new triggers set a translucent
         // Background (e.g. #40FF0000) on the RelatedCardsTrigger Grid in Overlay.xaml.
@@ -5481,13 +5518,16 @@ class Game: NSObject, PowerEventHandler {
 
         // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
 
+        // Assembled cards take their related cards from their effect half.
+        let effectCardId = RelatedCardsManager.getEffectCardId(discoverOfferedEntity(state), state.cardId)
+
         // HDT's SetRelatedCardsTrigger(DiscoverState) gates this one on OutfinderInDeck.
         guard Settings.showPlayerRelatedCards,
-              !relatedCardsManager.isOutfinderSuppressed(cardId: state.cardId, surfaceEnabled: Settings.outfinderInDeck) else {
+              !relatedCardsManager.isOutfinderSuppressed(cardId: effectCardId, surfaceEnabled: Settings.outfinderInDeck) else {
             reset()
             return
         }
-        let relatedCards = getRelatedCards(player: player, cardId: state.cardId)
+        let relatedCards = getRelatedCards(player: player, cardId: effectCardId)
         guard relatedCards.count > 0 else {
             reset()
             return
@@ -5537,7 +5577,7 @@ class Game: NSObject, PowerEventHandler {
             // MaxCardGridHeight="470" on the GridCardImages inside this tooltip, same as every
             // other path that shows it.
             vm.setCardIdsFromCards(relatedCards.compactMap({ $0 }), 470)
-            let (statistics, summary, hasLargePool) = self.relatedCardsManager.getPoolStatistics(cardId: state.cardId, relatedCards: relatedCards, player: self.player)
+            let (statistics, summary, hasLargePool) = self.relatedCardsManager.getPoolStatistics(cardId: effectCardId, relatedCards: relatedCards, player: self.player)
             vm.setPoolStatistics(statistics, relatedCardsSummary: summary, hasLargePool: hasLargePool)
             // SetRelatedCardsTrigger(DiscoverState) opens with vm.Scale = Height / 1080.
             vm.setScale(frame.height / 1080)
@@ -5602,7 +5642,7 @@ class Game: NSObject, PowerEventHandler {
                                       width: tooltipWidth, height: tooltipHeight)
             vm.show(frame: tooltipFrame)
             RelatedCardsRightClickMonitor.shared.setHoveredLargePool(
-                card: hasLargePool ? Cards.by(cardId: state.cardId) : nil,
+                card: hasLargePool ? Cards.by(cardId: effectCardId) : nil,
                 pool: hasLargePool ? relatedCards.compactMap({ $0 }) : [],
                 anchorFrame: tooltipFrame)
         }

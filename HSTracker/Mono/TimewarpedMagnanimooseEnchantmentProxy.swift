@@ -36,3 +36,15 @@ class TimewarpedNelliesShipEnchantmentProxy: MonoClassInitializer {
         }
     }
 }
+
+class TimewarpedEmbalmerProxy: MonoClassInitializer {
+    static var _class: OpaquePointer?
+    
+    static var _members = [String: OpaquePointer]()
+    
+    static func initialize() {
+        if TimewarpedEmbalmerProxy._class == nil {
+            TimewarpedEmbalmerProxy._class = MonoHelper.loadClass(ns: "BobsBuddy.Minions.Undead", name: "TimewarpedEmbalmer")
+        }
+    }
+}

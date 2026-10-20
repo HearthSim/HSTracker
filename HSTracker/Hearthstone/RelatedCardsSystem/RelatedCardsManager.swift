@@ -65,6 +65,25 @@ class RelatedCardsManager {
         }
     }
     
+    /// The card id whose related cards, pool and highlights apply to `entity`.
+    ///
+    /// An assembled card is built from two halves: a trigger (CRAFTABLE_FIRST_HALF_DBID) and an
+    /// effect (CRAFTABLE_SECOND_HALF_DBID), each the dbf id of the card the half was taken from.
+    /// The effect half decides what the card generates or synergizes with, so it is resolved
+    /// against that card rather than the assembled card's own id. Values of 1 or less are not
+    /// cards: no half, or a half still on offer.
+    static func getEffectCardId(_ entity: Entity?, _ cardId: String) -> String {
+        // Hover entities are looked up by zone position, which is not always reliable.
+        guard let entity, entity.cardId == cardId else {
+            return cardId
+        }
+        let effectDbfId = entity[.craftable_second_half_dbid]
+        if effectDbfId <= 1 {
+            return cardId
+        }
+        return Cards.by(dbfId: effectDbfId, collectible: false)?.id ?? cardId
+    }
+
     public func getCardWithHighlight(_ cardId: String) -> ICardWithHighlight? {
         return highlightCards[cardId]
     }

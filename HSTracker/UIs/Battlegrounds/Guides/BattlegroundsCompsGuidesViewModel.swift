@@ -137,7 +137,10 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
             if HSReplayAPI.accountData?.is_tier7 ?? false {
                 // there is no minion pool before a match, so ask for the
                 // unfiltered list
-                await setPremiumCompGuides(token: nil, minionTypes: [], deityDbfId: nil)
+                await setPremiumCompGuides(token: nil, parameters: BattlegroundsCompGuidesParams(
+                    minion_types: [],
+                    game_language: "\(Settings.hearthstoneLanguage ?? .enUS)"
+                ))
             } else {
                 await setFreeCompGuides()
             }
@@ -162,22 +165,23 @@ final class BattlegroundsCompsGuidesViewModel: ObservableObject {
         }
 
         if let access = await Tier7Trial.getAccess() {
-            await setPremiumCompGuides(
-                token: access.trialToken,
-                minionTypes: races.compactMap { Race.allCases.firstIndex(of: $0) },
-                deityDbfId: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: AppDelegate.instance().coreManager.game.gameEntity)
-            )
+            let game = AppDelegate.instance().coreManager.game
+            await setPremiumCompGuides(token: access.trialToken, parameters: BattlegroundsCompGuidesParams(
+                minion_types: races.compactMap { Race.allCases.firstIndex(of: $0) },
+                anomaly_dbf_id: BattlegroundsUtils.getBattlegroundsAnomalyDbfId(game: game.gameEntity),
+                deity_dbf_id: BattlegroundsUtils.getBattlegroundsDeityDbfId(game: game.gameEntity),
+                game_language: "\(Settings.hearthstoneLanguage ?? .enUS)",
+                game_type: BnetGameType.getGameType(mode: game.currentGameMode, format: game.currentFormat).rawValue
+            ))
         } else {
             await setFreeCompGuides()
         }
     }
 
-    private func setPremiumCompGuides(token: String?, minionTypes: [Int], deityDbfId: Int?) async {
-        let gameLanguage = "\(Settings.hearthstoneLanguage ?? .enUS)"
-
+    private func setPremiumCompGuides(token: String?, parameters: BattlegroundsCompGuidesParams) async {
         let data = token != nil
-            ? await HSReplayAPI.getTier7CompGuides(token: token, gameLanguage: gameLanguage, minionTypes: minionTypes, deityDbfId: deityDbfId)
-            : await HSReplayAPI.getTier7CompGuides(gameLanguage: gameLanguage, minionTypes: minionTypes, deityDbfId: deityDbfId)
+            ? await HSReplayAPI.getTier7CompGuides(token: token, parameters: parameters)
+            : await HSReplayAPI.getTier7CompGuides(parameters: parameters)
 
         guard let data else {
             await setError()

@@ -124,7 +124,8 @@ struct CompGuideDetailView: View {
 
     // BtnPinAllCompCards: a 30x30 PinIconButtonStyle button carrying a 22pt
     // pin.png, Margin="0,0,6,0", wrapped in the same BgsMinionPinningVisibility
-    // gate the browser's per-row button uses. #23272a idle, #43474a hovered,
+    // gate the browser's per-row button uses, plus PinAllCompCardsAvailable
+    // (pinning a whole comp is Tier7 only). #23272a idle, #43474a hovered,
     // and #141617 once every card in the guide is pinned.
     //
     // PinButtonIn / PinButtonUnpinned / PinButtonPinned: opacity 0->1 with a
@@ -139,7 +140,7 @@ struct CompGuideDetailView: View {
 
     @ViewBuilder
     private var pinAllButton: some View {
-        if pinning.isShown {
+        if pinning.isShown && comp.pinAllCompCardsAvailable {
             Button {
                 comp.togglePinAllCompCards(pinning)
             } label: {
