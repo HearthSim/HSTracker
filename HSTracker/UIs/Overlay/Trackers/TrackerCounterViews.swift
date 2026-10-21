@@ -75,15 +75,16 @@ struct TrackerFrameText: View {
     /// The authored box's height, which those coordinates are against.
     let boxHeight: CGFloat
     var alignment: TextAlignment = .leading
-
-    static let fontSize: CGFloat = 18
+    var fontSize: CGFloat = 18
+    var centersVertically = false
 
     var body: some View {
         Text(verbatim: text)
-            .font(CardTileTheme.font(CardTileTheme.numbersFontName, size: Self.fontSize))
+            .font(CardTileTheme.font(CardTileTheme.numbersFontName, size: fontSize))
             .lineLimit(1)
             .minimumScaleFactor(0.3)
-            .frame(width: rect.width, alignment: alignment == .center ? .center : .leading)
+            .frame(width: rect.width, height: centersVertically ? rect.height : nil,
+                   alignment: alignment == .center ? .center : .leading)
             .outlinedText(.white, width: CardTileTheme.outlineWidth)
             .fixedSize()
             // TextFrame draws with NSAttributedString.draw(in:), which lays the
@@ -163,6 +164,21 @@ struct TrackerRecordView: View {
                              rect: CGRect(x: 10, y: 1, width: 217 - 20, height: 25),
                              boxHeight: 40, alignment: .center)
         }
+    }
+}
+
+/// HDT's opponent-class record, drawn without a frame directly below the hero bar.
+struct TrackerWinRateView: View {
+    let message: String
+    let height: CGFloat
+
+    var body: some View {
+        TrackerFrameText(text: message,
+                         rect: CGRect(x: 10, y: -1, width: 217 - 20, height: 25),
+                         boxHeight: 25, alignment: .center, fontSize: 15, centersVertically: true)
+            .frame(width: 217, height: 25, alignment: .topLeading)
+            .scaleEffect(height / 25, anchor: .topLeading)
+            .frame(width: 217 * height / 25, height: height, alignment: .topLeading)
     }
 }
 
