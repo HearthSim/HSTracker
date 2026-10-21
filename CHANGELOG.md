@@ -3,6 +3,7 @@
 - Simplified Chinese translations (thanks @j20120307)
 ## Hearthstone
 - Assembled cards now show the related cards and deck highlights of their effect half.
+- Hovering a half or the target on the Assemble screen now shows its related cards and highlights the deck.
 - Fixed multi-class Tavern Brawl heroes not being recognized as their class.
 ## Battlegrounds
 - Tavern Pinning is now free for individual minions and minion types. Recommending key pieces and pinning a whole comp remain Tier7 features.
@@ -12,7 +13,9 @@
 - The hero panel now stays open when clicked and updates when you reroll heroes.
 - Tier7 trial status is now refreshed when returning to the menu, so a trial can start in a match queued straight from the menu.
 - Hero names in the session's latest games can now use per-language short names.
+- The Quest Picking overlay now matches the style of the other Tier7 picking overlays and no longer shows first place compositions.
 - Fixed the minion browser's Inspiration buttons showing in the pre-lobby.
+- Fixed the Quest Picking overlay not appearing for Sire Denathrius.
 - Fixed Tier7 Comp Guides sometimes listing compositions whose minion types are not in the lobby.
 ## Bob's Buddy
 - Fixed combat odds when Resistance or Hostility is on a magnetized minion.

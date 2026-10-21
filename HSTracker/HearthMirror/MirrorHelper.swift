@@ -684,6 +684,14 @@ struct MirrorHelper {
         return result
     }
     
+    static func getAssembleState() -> MirrorAssembleState? {
+        var result: MirrorAssembleState?
+        MirrorHelper.withMirrorAccess {
+            result = mirror?.getAssembleState()
+        }
+        return result
+    }
+
     static func getSpecialShopChoiceState() -> MirrorSpecialShopChoicesState? {
         var result: MirrorSpecialShopChoicesState?
         MirrorHelper.withMirrorAccess {

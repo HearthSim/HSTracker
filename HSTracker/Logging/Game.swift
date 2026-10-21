@@ -4506,6 +4506,12 @@ class Game: NSObject, PowerEventHandler {
         onMainOverlay { $0.setFriendListOpacityMask(visible) }
     }
 
+    // HDT's Watchers.OnAssembleStateChange -> OverlayWindow.SetAssembleOpacityMask. The Assemble
+    // screen covers the board, so the overlay steps aside while it is up.
+    func setAssembleOpacityMask(_ isShowing: Bool) {
+        onMainOverlay { $0.setAssembleOpacityMask(isShowing) }
+    }
+
     // HDT's Watchers.OnUiChange -> OverlayWindow.SetGameMenuOpacityMask. The
     // escape menu is drawn centred over the board, under the overlay.
     func setGameMenuOpacityMask(_ visible: Bool) {
@@ -5495,89 +5501,63 @@ class Game: NSObject, PowerEventHandler {
         return entities[entityId]
     }
 
-    func setRelatedCardsTrigger(_ state: DiscoverStateArgs) {
-        // Note: To debug behavior here and/or implement new triggers set a translucent
-        // Background (e.g. #40FF0000) on the RelatedCardsTrigger Grid in Overlay.xaml.
+    // HDT's Watchers.GetAssembleEffectCardId: the card whose related cards the hovered Assemble
+    // half brings, or the half picked for the preview, else the target's own.
+    func assembleEffectCardId(_ state: AssembleStateArgs) -> String? {
+        let target = entities[state.targetEntityId]
 
-        // This runs on the DiscoverStateWatcher queue. windowManager.tooltipGridCards
+        var choice: Entity?
+        if state.hoveredHalf > 0 {
+            let choices = state.choiceEntityIds.compactMap { entities[$0] }
+            choice = RelatedCardsManager.getAssembleChoice(choices, state.hoveredChoiceIndex, state.hoveredHalf)
+        } else if state.selectedChoiceEntityId > 0 {
+            choice = entities[state.selectedChoiceEntityId]
+        }
+
+        if let choice {
+            return RelatedCardsManager.getAssembleChoiceEffectCardId(choice, target)
+        }
+        guard let target else {
+            return nil
+        }
+        return RelatedCardsManager.getEffectCardId(target, target.cardId)
+    }
+
+    /// The related cards of `effectCardId` for a card offered in a choice (Discover, Assemble).
+    /// Nil when there is nothing to show.
+    private func choiceRelatedCards(effectCardId: String) -> [Card?]? {
+        // HDT's SetRelatedCardsTrigger(DiscoverState) gates this one on OutfinderInDeck.
+        guard !relatedCardsManager.isOutfinderSuppressed(cardId: effectCardId, surfaceEnabled: Settings.outfinderInDeck) else {
+            return nil
+        }
+        let relatedCards = getRelatedCards(player: player, cardId: effectCardId)
+        return relatedCards.count > 0 ? relatedCards : nil
+    }
+
+    // HDT's SetRelatedCardsTrigger(DiscoverState) and SetRelatedCardsTrigger(AssembleState)
+    // hang the tooltip off the same RelatedCardsTrigger grid, so both share its reset and placement.
+    private func resetRelatedCardsTrigger() {
+        // HDT opens with vm.Reset() + SetHoveredLargePool(null, null), so every bail-out takes
+        // the previous option's tooltip down with it.
+        DispatchQueue.main.async {
+            let vm = self.windowManager.tooltipGridCards
+            if vm.cards.count > 0 {
+                vm.hide()
+            }
+            RelatedCardsRightClickMonitor.shared.clearHoveredLargePool()
+        }
+    }
+
+    /// Shows `relatedCards` beside the RelatedCardsTrigger rectangle (window-relative points).
+    private func showRelatedCardsTooltip(_ relatedCards: [Card?], effectCardId: String, frame: NSRect,
+                                         left: CGFloat, top: CGFloat, width: CGFloat, height: CGFloat,
+                                         placement: CardTooltipPlacement) {
+        var tooltipPlacement = placement
+
+        // This runs on the watcher queue. windowManager.tooltipGridCards
         // resolves to RelatedCardsTooltipPanel.shared, whose lazy init instantiates an
         // NSPanel, so every access to the panel - reads included - has to be on the main
         // thread.
-        //
-        // HDT opens with vm.Reset() + SetHoveredLargePool(null, null) and only then decides
-        // whether anything replaces them, so every bail-out takes the previous Discover option's
-        // tooltip down with it - moving from an option that has a pool to one that doesn't must
-        // not leave the old grid on screen.
-        func reset() {
-            DispatchQueue.main.async {
-                let vm = self.windowManager.tooltipGridCards
-                if vm.cards.count > 0 {
-                    vm.hide()
-                }
-                RelatedCardsRightClickMonitor.shared.clearHoveredLargePool()
-            }
-        }
-
-        if state.cardId == "" {
-            reset()
-            return
-        }
-
-        // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
-
-        // Assembled cards take their related cards from their effect half.
-        let effectCardId = RelatedCardsManager.getEffectCardId(discoverOfferedEntity(state), state.cardId)
-
-        // HDT's SetRelatedCardsTrigger(DiscoverState) gates this one on OutfinderInDeck.
-        guard Settings.showPlayerRelatedCards,
-              !relatedCardsManager.isOutfinderSuppressed(cardId: effectCardId, surfaceEnabled: Settings.outfinderInDeck) else {
-            reset()
-            return
-        }
-        let relatedCards = getRelatedCards(player: player, cardId: effectCardId)
-        guard relatedCards.count > 0 else {
-            reset()
-            return
-        }
-
-        let frame = SizeHelper.hearthstoneWindow.frame
-
-        // The trigger rectangle: HDT's RelatedCardsTrigger Grid, laid out over the hovered
-        // Discover option, is what the tooltip is placed against - it is not the tooltip's own
-        // frame. top is measured from the top of the Hearthstone window, as Canvas.Top is.
-        let top = frame.height * 0.2
-        let height = frame.height * 0.53
-        let width = frame.height * 0.3
-        var left = 0.0
-        // vm.Reset() leaves TooltipPlacement at PlacementMode.Top - HDT's own name for this enum -
-        // which is what an unrecognized zone size falls back to.
-        var tooltipPlacement = CardTooltipPlacement.top
-
-        switch state.zoneSize {
-        case 4:
-            left = (0.116 + Double(state.zonePosition) * 0.2) * frame.width
-            tooltipPlacement = state.zonePosition < 2 ? .right : .left
-        case 3:
-            let centerPosition = 1
-            let offsetXScale = 0.2
-
-            let relativePosition = state.zonePosition - centerPosition
-            let offsetX = 0.5 - 0.088 + Double(relativePosition) * offsetXScale
-            left = offsetX * frame.width
-            tooltipPlacement = .right
-        case 2:
-            left = state.zonePosition == 0 ? 0.318 * frame.width : 0.518 * frame.width
-            tooltipPlacement = state.zonePosition == 0 ? .left : .right
-        case 1:
-            left = (0.5 - 0.088) * frame.width
-            tooltipPlacement = .left
-        default:
-            // HDT's switch leaves the trigger at its post-Reset zero size, which can never be
-            // hovered, so no tooltip is shown at all.
-            reset()
-            return
-        }
-
         DispatchQueue.main.async {
             let vm = self.windowManager.tooltipGridCards
             vm.setTitle(String.localizedString("Related_Cards", comment: ""))
@@ -5654,7 +5634,127 @@ class Game: NSObject, PowerEventHandler {
                 anchorFrame: tooltipFrame)
         }
     }
-    
+
+    func setRelatedCardsTrigger(_ state: DiscoverStateArgs) {
+        // Note: To debug behavior here and/or implement new triggers set a translucent
+        // Background (e.g. #40FF0000) on the RelatedCardsTrigger Grid in Overlay.xaml.
+
+        // Not ideal. Maybe we re-position the tooltip on size change and canvas.top/left change?
+
+        if state.cardId == "" {
+            resetRelatedCardsTrigger()
+            return
+        }
+
+        // Assembled cards take their related cards from their effect half.
+        let effectCardId = RelatedCardsManager.getEffectCardId(discoverOfferedEntity(state), state.cardId)
+
+        guard Settings.showPlayerRelatedCards else {
+            resetRelatedCardsTrigger()
+            return
+        }
+        guard let relatedCards = choiceRelatedCards(effectCardId: effectCardId) else {
+            resetRelatedCardsTrigger()
+            return
+        }
+
+        let frame = SizeHelper.hearthstoneWindow.frame
+
+        // The trigger rectangle: HDT's RelatedCardsTrigger Grid, laid out over the hovered
+        // Discover option, is what the tooltip is placed against - it is not the tooltip's own
+        // frame. top is measured from the top of the Hearthstone window, as Canvas.Top is.
+        let top = frame.height * 0.2
+        let height = frame.height * 0.53
+        let width = frame.height * 0.3
+        var left: CGFloat = 0
+        // vm.Reset() leaves TooltipPlacement at PlacementMode.Top - HDT's own name for this enum -
+        // which is what an unrecognized zone size falls back to.
+        var tooltipPlacement = CardTooltipPlacement.top
+
+        switch state.zoneSize {
+        case 4:
+            left = (0.116 + CGFloat(state.zonePosition) * 0.2) * frame.width
+            tooltipPlacement = state.zonePosition < 2 ? .right : .left
+        case 3:
+            let centerPosition = 1
+            let offsetXScale = 0.2
+
+            let relativePosition = state.zonePosition - centerPosition
+            let offsetX = 0.5 - 0.088 + Double(relativePosition) * offsetXScale
+            left = CGFloat(offsetX) * frame.width
+            tooltipPlacement = .right
+        case 2:
+            left = state.zonePosition == 0 ? 0.318 * frame.width : 0.518 * frame.width
+            tooltipPlacement = state.zonePosition == 0 ? .left : .right
+        case 1:
+            left = (0.5 - 0.088) * frame.width
+            tooltipPlacement = .left
+        default:
+            // HDT's switch leaves the trigger at its post-Reset zero size, which can never be
+            // hovered, so no tooltip is shown at all.
+            resetRelatedCardsTrigger()
+            return
+        }
+
+        showRelatedCardsTooltip(relatedCards, effectCardId: effectCardId, frame: frame,
+                                left: left, top: top, width: width, height: height,
+                                placement: tooltipPlacement)
+    }
+
+    // Assemble screen layout as fractions of the 4:3 play area (x) and of the height (y), measured
+    // at 1920x1080. Each offered card stacks its trigger half over its effect half.
+    private static let assembleChoiceLefts: [CGFloat] = [0.096, 0.659]
+    private static let assembleHalfWidth: CGFloat = 0.262
+    private static let assembleHalfHeight: CGFloat = 0.104
+    private static let assembleTriggerHalfTop: CGFloat = 0.394
+    private static let assembleEffectHalfTop: CGFloat = 0.503
+    private static let assembleTargetLeft: CGFloat = 0.313
+    private static let assembleTargetTop: CGFloat = 0.19
+    private static let assembleTargetWidth: CGFloat = 0.44
+    private static let assembleTargetHeight: CGFloat = 0.496
+
+    func setRelatedCardsTrigger(_ state: AssembleStateArgs, effectCardId: String?) {
+        guard state.isShowing, let effectCardId, !effectCardId.isEmpty else {
+            resetRelatedCardsTrigger()
+            return
+        }
+        guard Settings.showPlayerRelatedCards else {
+            resetRelatedCardsTrigger()
+            return
+        }
+        guard let relatedCards = choiceRelatedCards(effectCardId: effectCardId) else {
+            resetRelatedCardsTrigger()
+            return
+        }
+
+        let frame = SizeHelper.hearthstoneWindow.frame
+
+        let left: CGFloat
+        let top: CGFloat
+        let width: CGFloat
+        let height: CGFloat
+        let tooltipPlacement: CardTooltipPlacement
+        let choiceIndex = state.hoveredChoiceIndex
+        if state.hoveredHalf > 0 && choiceIndex >= 0 && choiceIndex < Game.assembleChoiceLefts.count {
+            left = SizeHelper.getScaledXPos(Game.assembleChoiceLefts[choiceIndex], width: frame.width, ratio: SizeHelper.screenRatio)
+            top = frame.height * (state.hoveredHalf == 1 ? Game.assembleTriggerHalfTop : Game.assembleEffectHalfTop)
+            width = frame.height * Game.assembleHalfWidth
+            height = frame.height * Game.assembleHalfHeight
+            // Away from the center preview.
+            tooltipPlacement = choiceIndex == 0 ? .left : .right
+        } else {
+            left = SizeHelper.getScaledXPos(Game.assembleTargetLeft, width: frame.width, ratio: SizeHelper.screenRatio)
+            top = frame.height * Game.assembleTargetTop
+            width = frame.height * Game.assembleTargetWidth
+            height = frame.height * Game.assembleTargetHeight
+            tooltipPlacement = .right
+        }
+
+        showRelatedCardsTooltip(relatedCards, effectCardId: effectCardId, frame: frame,
+                                left: left, top: top, width: width, height: height,
+                                placement: tooltipPlacement)
+    }
+
     func handlePlayerMaxHealthChange(_ value: Int) {
         player.maxHealth = value
         updatePlayerResourcesWidget()

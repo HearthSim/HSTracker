@@ -319,6 +319,29 @@ extension RootOverlayViewModel {
         }
     }
 
+    // HDT's OverlayWindow.SetAssembleOpacityMask. Called on every hover change, so only rebuild
+    // when the screen shows or hides.
+    func setAssembleOpacityMask(_ isShowing: Bool) {
+        guard isAssembleOpacityMaskShowing != isShowing else {
+            return
+        }
+        isAssembleOpacityMaskShowing = isShowing
+
+        opacityMask.removeMaskedRegion("AssembleScreen")
+        if !isShowing {
+            return
+        }
+
+        let regionDrawer = makeRegionDrawer()
+        let rects = regionDrawer.drawAssembleScreenRegions()
+
+        opacityMask.batchUpdate {
+            for rect in rects {
+                opacityMask.addMaskedRegion("AssembleScreen", rect)
+            }
+        }
+    }
+
     func setTrinketPickingOpacityMask(zoneSize: Int) {
         opacityMask.removeMaskedRegion("DiscoverCard")
 

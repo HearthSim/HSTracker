@@ -65,6 +65,8 @@ class RootOverlayViewModel: ObservableObject {
     // choices, the friends list) is not covered by the overlay. See
     // RootOverlayViewModel+OpacityMask for the methods that fill it.
     let opacityMask = OverlayOpacityMask()
+    // Whether the Assemble screen's mask is up, so hover changes only rebuild it on show and hide.
+    var isAssembleOpacityMaskShowing = false
 
     // HDT's two CountersOverlay controls, IsPlayer="true"/"false".
     let playerCounters = CountersOverlayViewModel(isPlayer: true)

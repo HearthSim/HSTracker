@@ -508,4 +508,20 @@ class RegionDrawer {
 
         return [block]
     }
+
+    func drawAssembleScreenRegions() -> [CGRect] {
+        return [
+            drawScaledRegion(left: 0.257, top: 0.079, width: 0.588, height: 0.12), // banner
+            drawScaledRegion(left: 0.082, top: 0.257, width: 0.287, height: 0.386), // left choice
+            drawScaledRegion(left: 0.656, top: 0.257, width: 0.287, height: 0.386), // right choice
+            drawScaledRegion(left: 0.306, top: 0.196, width: 0.456, height: 0.577), // target and Assemble button
+            drawScaledRegion(left: 0.087, top: 0.69, width: 0.157, height: 0.079) // Hide button
+        ]
+    }
+
+    // left is a fraction of the 4:3 play area, width and height are fractions of the height.
+    private func drawScaledRegion(left: Double, top: Double, width regionWidth: Double, height regionHeight: Double) -> CGRect {
+        let posX = SizeHelper.getScaledXPos(left, width: width, ratio: screenRatio) / width
+        return CGRect(x: posX, y: top, width: regionWidth * height / width, height: regionHeight)
+    }
 }

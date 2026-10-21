@@ -114,7 +114,18 @@ class BattlegroundsQuestPickingViewModel: ObservableObject {
             logger.error(error)
         }
         
-        let choices = MirrorHelper.getCardChoices()
+        // choices are only reported once revealed, which can lag behind the quest tags (e.g. for Sire Denathrius)
+        var choices = MirrorHelper.getCardChoices()
+        var retries = 0
+        while choices == nil && _entities.count > 0 && retries < 50 {
+            retries += 1
+            do {
+                try await Task.sleep(nanoseconds: 100_000_000)
+            } catch {
+                logger.error(error)
+            }
+            choices = MirrorHelper.getCardChoices()
+        }
         guard let choices else {
             self.message.error()
             return

@@ -402,7 +402,6 @@
 		4724641813CEDE7CF04BEF7F /* BattlegroundsQuestGuides.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72180A22958837B4A37D87C0 /* BattlegroundsQuestGuides.swift */; };
 		47F4773AAB22EAE58DC1B7FA /* TrackerCardHoverHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69668FB06B897373A124FED /* TrackerCardHoverHandler.swift */; };
 		480F124A16C342BC0FABD117 /* NefersetWeaponsmith.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B4879D1F841A5C5B881C07 /* NefersetWeaponsmith.swift */; };
-		48322B90DCAA4448B36B9F1C /* BattlegroundsCompositionPopularityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75211172CFA463FA1833F50 /* BattlegroundsCompositionPopularityView.swift */; };
 		490B4D29E27587E59D52E1DD /* TrackerPanelLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EBCC58146CAD58B971A677 /* TrackerPanelLayoutTests.swift */; };
 		49343FDE7AA0367B0160D8C2 /* WandThief.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C3A83B70B12BF750F562 /* WandThief.swift */; };
 		497E54F9A862A0502E3E53F2 /* StolenSteel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00C645B34B9238100C9B1F8 /* StolenSteel.swift */; };
@@ -762,7 +761,6 @@
 		B804FC3D29462EA800F74CD9 /* NSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3C29462EA800F74CD9 /* NSButton.swift */; };
 		B804FC3F2946882D00F74CD9 /* StatsHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */; };
 		B804FC4129468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC4029468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift */; };
-		B804FC442946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */; };
 		B80528DDB31E09B551E1A67F /* LarvaCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8182859597D017D0BFE8015 /* LarvaCard.swift */; };
 		B805C28C2E4D73A300ECF220 /* RestInPeace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B805C28B2E4D73A300ECF220 /* RestInPeace.swift */; };
 		B8074B0228C83A96006E0133 /* RewardTrackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8074B0128C83A96006E0133 /* RewardTrackType.swift */; };
@@ -916,7 +914,6 @@
 		B83A703E2E00A3BF00B85BBE /* JsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A703D2E00A3BF00B85BBE /* JsonManager.swift */; };
 		B83A70422E03009200B85BBE /* DeckImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83A70402E03009200B85BBE /* DeckImporter.swift */; };
 		B83CF360294A7C42003C9062 /* BattlegroundsSingleQuestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */; };
-		B83CF375294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83CF374294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift */; };
 		B840A93951C2DF6F3CF0CEB2 /* UldirQuarantine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85144E8494E2D06001B68CA /* UldirQuarantine.swift */; };
 		B8449A042781C7360094E5B3 /* ReplicatingMenace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */; };
 		B8449A062781CB6F0094E5B3 /* GenericDeathrattles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8449A052781CB6F0094E5B3 /* GenericDeathrattles.swift */; };
@@ -1174,6 +1171,7 @@
 		B883397D2E7106DD007D9754 /* PossessedAnimancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B883397C2E7106DD007D9754 /* PossessedAnimancer.swift */; };
 		B884B73F2FD8CC2F00D67EED /* ForgeOfSouls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B884B73E2FD8CC2F00D67EED /* ForgeOfSouls.swift */; };
 		B8889C1B2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */; };
+		2C1B496EC295DFFE998D517D /* AssembleStateWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9C34F5A9EF8D148A254F28 /* AssembleStateWatcher.swift */; };
 		B8889C1D2DA067D90053DD57 /* CardTooltipPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1C2DA067D90053DD57 /* CardTooltipPlacement.swift */; };
 		B8889C1F2DA4AAEB0053DD57 /* ImbueCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */; };
 		B889F6092CEC1CFB001506F4 /* Atomics in Frameworks */ = {isa = PBXBuildFile; productRef = B889F6082CEC1CFB001506F4 /* Atomics */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -2754,7 +2752,6 @@
 		B804FC3C29462EA800F74CD9 /* NSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSButton.swift; sourceTree = "<group>"; };
 		B804FC3E2946882D00F74CD9 /* StatsHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsHeaderViewModel.swift; sourceTree = "<group>"; };
 		B804FC4029468BEA00F74CD9 /* BattlegroundsSingleQuestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleQuestViewModel.swift; sourceTree = "<group>"; };
-		B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionPopularityViewModel.swift; sourceTree = "<group>"; };
 		B8059022211108C342BF4401 /* SpawnOfYshaarj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpawnOfYshaarj.swift; sourceTree = "<group>"; };
 		B805C28B2E4D73A300ECF220 /* RestInPeace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestInPeace.swift; sourceTree = "<group>"; };
 		B8074B0128C83A96006E0133 /* RewardTrackType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardTrackType.swift; sourceTree = "<group>"; };
@@ -2909,7 +2906,6 @@
 		B83A703D2E00A3BF00B85BBE /* JsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonManager.swift; sourceTree = "<group>"; };
 		B83A70402E03009200B85BBE /* DeckImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckImporter.swift; sourceTree = "<group>"; };
 		B83CF35F294A7C42003C9062 /* BattlegroundsSingleQuestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsSingleQuestView.swift; sourceTree = "<group>"; };
-		B83CF374294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionPopularityRowViewModel.swift; sourceTree = "<group>"; };
 		B83ED1ED59D93B24B92A8E5C /* DarkDeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkDeacon.swift; sourceTree = "<group>"; };
 		B84259AF815954931D2E76D3 /* CuriousGrimlynx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuriousGrimlynx.swift; sourceTree = "<group>"; };
 		B8449A032781C7360094E5B3 /* ReplicatingMenace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplicatingMenace.swift; sourceTree = "<group>"; };
@@ -3184,6 +3180,7 @@
 		B886073AD4E3C08E713F0286 /* ForebodingFreeze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForebodingFreeze.swift; sourceTree = "<group>"; };
 		B88644182128FEE2B4D4098D /* MarchToWar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarchToWar.swift; sourceTree = "<group>"; };
 		B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverStateWatcher.swift; sourceTree = "<group>"; };
+		5B9C34F5A9EF8D148A254F28 /* AssembleStateWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssembleStateWatcher.swift; sourceTree = "<group>"; };
 		B8889C1C2DA067D90053DD57 /* CardTooltipPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTooltipPlacement.swift; sourceTree = "<group>"; };
 		B8889C1E2DA4AAEB0053DD57 /* ImbueCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImbueCounter.swift; sourceTree = "<group>"; };
 		B888BBC8171A7256D8C69F42 /* AscentOfYoggSaron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AscentOfYoggSaron.swift; sourceTree = "<group>"; };
@@ -3816,7 +3813,6 @@
 		D6D218F71F60A46A4C3BAAA2 /* RaidNegotiator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaidNegotiator.swift; sourceTree = "<group>"; };
 		D73DCD22AD3A1EB821558691 /* ShallowGravedigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShallowGravedigger.swift; sourceTree = "<group>"; };
 		D74BD08816E92E43AFEE3FFE /* GodfreyTheBetrayerEnchantment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GodfreyTheBetrayerEnchantment.swift; sourceTree = "<group>"; };
-		D75211172CFA463FA1833F50 /* BattlegroundsCompositionPopularityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsCompositionPopularityView.swift; sourceTree = "<group>"; };
 		D770A27218CD8123AFC580A9 /* TheScourge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheScourge.swift; sourceTree = "<group>"; };
 		D91F585B48002202AE4DD3D4 /* DangerousVariant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DangerousVariant.swift; sourceTree = "<group>"; };
 		D9DB9352F96AF01EB64DD095 /* Howdyfin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Howdyfin.swift; sourceTree = "<group>"; };
@@ -4670,7 +4666,6 @@
 				BB5E551B0000000000000060 /* BattlegroundsQuestTileView.swift */,
 				EE1A2B3C4D5E6F708192A3C1 /* BattlegroundsTurnCounterView.swift */,
 				68C5D72EA88741B49A9E1666 /* BobsBuddy */,
-				B804FC422946BAB200F74CD9 /* Composition */,
 				1CA71231B18F27326893EF28 /* Guides */,
 				EE000000000000000000100B /* Inspiration */,
 				09B60E1496FE43B582266C60 /* Notifications */,
@@ -4785,16 +4780,6 @@
 				114EF0E0BA12DD9A5936DF21 /* AnomalyGuideBadgeTriggerView.swift */,
 			);
 			path = Anomalies;
-			sourceTree = "<group>";
-		};
-		B804FC422946BAB200F74CD9 /* Composition */ = {
-			isa = PBXGroup;
-			children = (
-				B83CF374294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift */,
-				B804FC432946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift */,
-				D75211172CFA463FA1833F50 /* BattlegroundsCompositionPopularityView.swift */,
-			);
-			path = Composition;
 			sourceTree = "<group>";
 		};
 		B8196F122CC850A8007C0371 /* CounterSystem */ = {
@@ -5593,6 +5578,7 @@
 				B85462362CE019FE0083BB31 /* ChoicesWatcher.swift */,
 				B854623E2CE01ECF0083BB31 /* DeckPickerWatcher.swift */,
 				B8889C1A2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift */,
+				5B9C34F5A9EF8D148A254F28 /* AssembleStateWatcher.swift */,
 				B85462442CE023D20083BB31 /* DungeonRunWatcher.swift */,
 				B85462402CE01FCD0083BB31 /* ExperienceWatcher.swift */,
 				B85462422CE021FF0083BB31 /* PVPDungeonRunWatcher.swift */,
@@ -7345,8 +7331,6 @@
 				B8B790192C9750EC00DD33EC /* CrusaderAura.swift in Sources */,
 				B820293F2CD2D01300C19A8C /* StrandedSpacemanEnchantment.swift in Sources */,
 				B8D22EAD301BC61600E44909 /* AutoAssemblerEnchantment.swift in Sources */,
-				B804FC442946BACF00F74CD9 /* BattlegroundsCompositionPopularityViewModel.swift in Sources */,
-				48322B90DCAA4448B36B9F1C /* BattlegroundsCompositionPopularityView.swift in Sources */,
 				43F2040E1E93C2E600E0BC4A /* Paladin.swift in Sources */,
 				B844D3682A0C33AB001704E0 /* BloodGemProxy.swift in Sources */,
 				43F204111E93C2E600E0BC4A /* Shaman.swift in Sources */,
@@ -7810,6 +7794,7 @@
 				B87765CB2BB717CD003BE49D /* TrackedCard.swift in Sources */,
 				B852D81D2DDDF59D00884B26 /* CardsPlayedThisTurnCounter.swift in Sources */,
 				B8889C1B2D9DC6ED0053DD57 /* DiscoverStateWatcher.swift in Sources */,
+				2C1B496EC295DFFE998D517D /* AssembleStateWatcher.swift in Sources */,
 				B86D8A262D96005500AB65A5 /* RotheartDryad.swift in Sources */,
 				B83A703E2E00A3BF00B85BBE /* JsonManager.swift in Sources */,
 				B80B69062E3C3DE000197FA5 /* ArchmageAntonidasCore.swift in Sources */,
@@ -8268,7 +8253,6 @@
 				B846CC9C2E1C213400552F9C /* Infestation.swift in Sources */,
 				B8B78FDA2C9632D500DD33EC /* CarrionStudiesEnchantment.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
-				B83CF375294E5048003C9062 /* BattlegroundsCompositionPopularityRowViewModel.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				B89865822D91B07200BA5649 /* UnderTheSea.swift in Sources */,
@@ -9483,7 +9467,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.7.1;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -9546,7 +9530,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.7.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ld_classic",

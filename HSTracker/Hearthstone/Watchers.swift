@@ -19,6 +19,7 @@ class Watchers {
     static let choicesWatcher = ChoicesWatcher()
     static let deckPickerWatcher = DeckPickerWatcher()
     static let discoverStateWatcher = DiscoverStateWatcher()
+    static let assembleStateWatcher = AssembleStateWatcher()
     static let mulliganTooltipWatcher = MulliganTooltipWatcher()
     static let dungeonRunDeckWatcher = DungeonRunDeckWatcher()
     static let experienceWatcher = ExperienceWatcher()
@@ -53,6 +54,7 @@ class Watchers {
         }
         deckPickerWatcher.change = onDeckPickerChange
         discoverStateWatcher.change = onDiscoverStateChange
+        assembleStateWatcher.change = onAssembleStateChange
         mulliganTooltipWatcher.change = onMulliganTooltipChange
         dungeonRunDeckWatcher.dungeonRunMatchStarted = { newrun, set in
             CoreManager.dungeonRunMatchStarted(newRun: newrun, set: set, isPVPDR: false)
@@ -90,6 +92,7 @@ class Watchers {
         specialShopChoicesStateWatcher.stop()
         deckPickerWatcher.stop()
         discoverStateWatcher.stop()
+        assembleStateWatcher.stop()
         mulliganTooltipWatcher.stop()
         dungeonRunDeckWatcher.stop()
         experienceWatcher.stop()
@@ -330,6 +333,24 @@ class Watchers {
         }
     }
     
+    // HDT's Watchers.OnAssembleStateChange: the related cards of the hovered half, the
+    // opacity mask over the Assemble screen, and the synergy highlight for an intent.
+    private static func onAssembleStateChange(_ sender: AssembleStateWatcher, _ args: AssembleStateArgs) {
+        let game = AppDelegate.instance().coreManager.game
+        let effectCardId = args.isShowing ? game.assembleEffectCardId(args) : nil
+        game.setRelatedCardsTrigger(args, effectCardId: effectCardId)
+        game.setAssembleOpacityMask(args.isShowing)
+        // Same threading as onDiscoverStateChange: the highlight touches the tracker window.
+        DispatchQueue.main.async {
+            if game.isTraditionalHearthstoneMatch {
+                // Highlight only for an intent: a hovered half, or the half picked for the preview.
+                let highlightCardId = args.hoveredHalf > 0 || args.selectedChoiceEntityId > 0 ? effectCardId : nil
+                game.windowManager.rootOverlay?.viewModel.playerTrackerHover
+                    .highlightPlayerDeckCards(highlightSourceCardId: highlightCardId)
+            }
+        }
+    }
+
     private static func onBattlegroundsLobbyInfoChange(_ sender: BattlegroundsLobbyInfoWatcher, _ args: BattlegroundsLobbyInfoArgs) {
         AppDelegate.instance().coreManager.game.battlegroundsLobbyInfo = args.lobbyInfo
     }

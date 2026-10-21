@@ -14,9 +14,7 @@ private extension Color {
 }
 
 // Port of HDT's BattlegroundsSingleQuestView.xaml: one offered quest reward -
-// its average placement, tier and pick rate along the top, and the warband
-// compositions that most often win with it far below, over the reward's own
-// card.
+// its average placement, tier and pick rate along the top.
 struct BattlegroundsSingleQuestView: View {
     let viewModel: BattlegroundsSingleQuestViewModel
 
@@ -31,15 +29,9 @@ struct BattlegroundsSingleQuestView: View {
     private static let capHeight: CGFloat = 19
 
     var body: some View {
-        // The root StackPanel: the header, then the compositions pushed down by
-        // their own Margin="0 667 0 0".
+        // The root StackPanel: the header.
         VStack(spacing: 0) {
             header
-            // The gap the compositions box's own Margin="0 667 0 0" opens up is
-            // where the offered reward card itself sits.
-            Color.clear
-                .frame(height: 667)
-            BattlegroundsCompositionPopularityView(viewModel: viewModel.compVM)
             Spacer(minLength: 0)
         }
         .frame(width: Self.size.width, height: Self.size.height, alignment: .top)
@@ -49,8 +41,7 @@ struct BattlegroundsSingleQuestView: View {
         HStack(spacing: 0) {
             statBox(title: String.localizedString("BattlegroundsHeroPicking_Header_AvgPlacement", comment: ""),
                     value: BattlegroundsStatsText.avgPlacement(viewModel.avgPlacement),
-                    valueColor: Color(hex: viewModel.avgPlacementColor),
-                    cornerRadius: 4)
+                    valueColor: Color(hex: viewModel.avgPlacementColor))
                 .frame(width: Self.sideColumnWidth)
                 .bgsTopTooltip(
                     title: String.localizedString("BattlegroundsHeroPicking_Header_AvgPlacementTooltip_Title", comment: ""),
@@ -58,14 +49,11 @@ struct BattlegroundsSingleQuestView: View {
                 .background(interactiveRegion)
 
             tierBox
-                .frame(width: Self.tierColumnWidth)
+                .frame(width: Self.tierColumnWidth, height: Self.headerHeight, alignment: .top)
 
-            // The pick rate Border's CornerRadius is 1 rather than the 4 on the
-            // average placement's - as in the XAML.
             statBox(title: String.localizedString("BattlegroundsHeroPicking_Header_PickRate", comment: ""),
                     value: BattlegroundsStatsText.pickRate(viewModel.pickRate),
-                    valueColor: .white,
-                    cornerRadius: 1)
+                    valueColor: .white)
                 .frame(width: Self.sideColumnWidth)
                 .bgsTopTooltip(
                     title: String.localizedString("BattlegroundsHeroPicking_Header_PickRateTooltip_Title", comment: ""),
@@ -78,7 +66,7 @@ struct BattlegroundsSingleQuestView: View {
     // Background="{StaticResource Tier7Black}" BorderBrush="{StaticResource
     // Tier7Purple}" BorderThickness="1", holding a DockPanel of the purple cap
     // and the value under it.
-    private func statBox(title: String, value: String, valueColor: Color, cornerRadius: CGFloat) -> some View {
+    private func statBox(title: String, value: String, valueColor: Color) -> some View {
         VStack(spacing: 0) {
             Text(title)
                 .font(.system(size: 12))
@@ -104,29 +92,31 @@ struct BattlegroundsSingleQuestView: View {
                 .padding(EdgeInsets(top: 2, leading: 4, bottom: 0, trailing: 4))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .background(RoundedRectangle(cornerRadius: cornerRadius).fill(Color.tier7Black))
-        .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(Color.tier7Purple, lineWidth: 1))
+        .background(RoundedRectangle(cornerRadius: 4).fill(Color.tier7Black))
+        .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.tier7Purple, lineWidth: 1))
     }
 
-    // The tier Border is filled and bordered with the same TierGradient, with a
-    // second #2E000000 Border drawn over it for a subtle inner edge.
+    // Grid Height="53" Width="53" VerticalAlignment="Top": a TierGradient fill
+    // with a #2E000000 Border drawn over it.
     private var tierBox: some View {
         VStack(spacing: 0) {
             Text(String.localizedString("BattlegroundsHeroPicking_Header_Tier", comment: ""))
                 .font(.system(size: 10))
                 .foregroundColor(.white)
-                .fixedSize()
+                .lineLimit(1)
+                .truncationMode(.tail)
+                // Margin="0 4 0 0".
+                .padding(.top, 4)
             Text(verbatim: viewModel.tierChar)
-                .chunkFive(size: 28)
+                .font(.system(size: 28, weight: .bold))
                 .foregroundColor(.white)
                 .fixedSize()
-                .padding(EdgeInsets(top: 2, leading: 4, bottom: 0, trailing: 4))
+                // Margin="0 -5 0 0".
+                .padding(.top, -5)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(width: 53, height: 53)
         .background(RoundedRectangle(cornerRadius: 4).fill(viewModel.tierLinearGradient))
         .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.black.opacity(0x2E / 255.0), lineWidth: 1))
-        // Margin="4 0" on both Borders.
-        .padding(.horizontal, 4)
     }
 
     private var interactiveRegion: some View {
