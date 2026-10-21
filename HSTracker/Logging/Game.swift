@@ -1071,6 +1071,12 @@ class Game: NSObject, PowerEventHandler {
     // cleared out from under a match that is about to take the panel over via
     // updateBattlegroundsOverlay()'s hand-off - only a genuine leave (back to the
     // main menu, say) clears it here.
+    //
+    // The transition only keeps an open pre-lobby up, it never opens one - as
+    // HDT's `BgsGuidesPreLobbyVisible || SceneHandler.Scene == Mode.BACON`.
+    // Once the match has taken the panel over, a call landing mid-transition
+    // would otherwise re-enter the pre-lobby and swap the match's Tier7 comp
+    // guides for the unfiltered lobby list.
     @MainActor
     func updateBattlegroundsGuidesPreLobbyVisibility() {
         guard let guidesTabs = windowManager.rootOverlay?.viewModel.battlegroundsGuidesTabs else {
@@ -1079,7 +1085,8 @@ class Game: NSObject, PowerEventHandler {
 
         guidesTabs.isInQueue = queueEvents.isInQueue
 
-        let show = isRunning && isBaconSceneOrTransitioningToFromMatch && Settings.showBattlegroundsBrowser && Settings.showBattlegroundsGuidesPreLobby
+        let inScene = guidesTabs.isPreLobby ? isBaconSceneOrTransitioningToFromMatch : SceneHandler.scene == .bacon
+        let show = isRunning && inScene && Settings.showBattlegroundsBrowser && Settings.showBattlegroundsGuidesPreLobby
         if show {
             if !guidesTabs.isPreLobby {
                 let mode = windowManager.rootOverlay?.viewModel.tier7PreLobby.battlegroundsGameMode

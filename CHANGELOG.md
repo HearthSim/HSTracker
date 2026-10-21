@@ -13,6 +13,7 @@
 - Tier7 trial status is now refreshed when returning to the menu, so a trial can start in a match queued straight from the menu.
 - Hero names in the session's latest games can now use per-language short names.
 - Fixed the minion browser's Inspiration buttons showing in the pre-lobby.
+- Fixed Tier7 Comp Guides sometimes listing compositions whose minion types are not in the lobby.
 ## Bob's Buddy
 - Fixed combat odds when Resistance or Hostility is on a magnetized minion.
 - Fixed combat odds for the opponent's Timewarped Embalmer with no charges left.
