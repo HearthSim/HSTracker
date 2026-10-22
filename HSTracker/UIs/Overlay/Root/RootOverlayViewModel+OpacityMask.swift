@@ -17,11 +17,11 @@ import Foundation
 // watcher-side callers hop first.
 extension RootOverlayViewModel {
     // HDT builds one of these per call from the overlay window's own size and
-    // screen ratio; RootOverlay covers the same Hearthstone client area, so it
-    // is measured the same way.
+    // screen ratio; use the same full window frame as RootOverlay.
     private func makeRegionDrawer() -> RegionDrawer {
-        let frame = SizeHelper.hearthstoneWindow.frame
-        return RegionDrawer(height: frame.height, width: frame.width, screenRatio: SizeHelper.screenRatio)
+        let frame = SizeHelper.overHearthstoneFrame()
+        let screenRatio = SizeHelper.screenRatio(for: frame.size)
+        return RegionDrawer(height: frame.height, width: frame.width, screenRatio: screenRatio)
     }
 
     func setFriendListOpacityMask(_ visible: Bool) {
